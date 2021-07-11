@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BL\DictionaryBack.BL\DictionaryBack.BL.csproj" />
+    <ProjectReference Include="..\DAL\DictionaryBack.DAL\DictionaryBack.DAL.csproj" />
+    <ProjectReference Include="..\Domain\DictionaryBack.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
