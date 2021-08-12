@@ -20,14 +20,14 @@ namespace DictionaryBack.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TableRow> Get()
+        public IEnumerable<Word> Get()
         {
             return _readService.All();
         }
 
         [HttpGet]
         [Route("getPage")]
-        public IEnumerable<TableRow> GetPage(int skip = 0, int take = 20)
+        public IEnumerable<Word> GetPage(int skip = 0, int take = 20)
         {
             return _readService.Take(skip, take);
         }

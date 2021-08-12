@@ -5,8 +5,8 @@ namespace DictionaryBack.BL
 {
     public interface IDictionaryService
     {
-        IEnumerable<TableRow> All();
+        IEnumerable<Word> All();
 
-        IEnumerable<TableRow> Take(int skip, int take);
+        IEnumerable<Word> Take(int skip, int take);
     }
 }

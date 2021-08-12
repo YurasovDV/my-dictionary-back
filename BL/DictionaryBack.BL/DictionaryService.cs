@@ -6,21 +6,18 @@ namespace DictionaryBack.BL
 {
     public class DictionaryService : IDictionaryService
     {
-        private readonly IReadRepository _readRepository;
-
-        public DictionaryService(IReadRepository readRepository)
+        public DictionaryService()
         {
-            _readRepository = readRepository;
         }
 
-        public IEnumerable<TableRow> All()
+        public IEnumerable<Word> All()
         {
-            return _readRepository.All();
+            throw new Exception();
         }
 
-        public IEnumerable<TableRow> Take(int skip, int take)
+        public IEnumerable<Word> Take(int skip, int take)
         {
-            return _readRepository.Take(skip, take);
+            throw new Exception();
         }
     }
 }

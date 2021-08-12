@@ -14,8 +14,8 @@ namespace DictionaryBack
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                    .UseUrls("http://localhost:61598");
+                    webBuilder.UseStartup<Startup>();
+                    //.UseUrls("http://localhost:61598");
                 });
     }
 }

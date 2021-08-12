@@ -1,4 +1,5 @@
 ﻿using DictionaryBack.Domain;
+using DictionaryBack.Infrastructure;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,13 @@ using System.Text.Unicode;
 
 namespace DictionaryBack.DAL
 {
-    public class ReadRepositoryFile : IReadRepository
+    public class ReadRepositoryFile : IQueryRepository
     {
-        private AsyncLazy<TableRow[]> TableRowsLazy = new(
+        private AsyncLazy<Word[]> TableRowsLazy = new(
            async () => 
             {
-                using var stream = File.OpenRead(@"Static\serializeddict.json");
-                TableRow[] rows = await JsonSerializer.DeserializeAsync<TableRow[]>(stream, 
+                using var stream = File.OpenRead($"Static{Path.DirectorySeparatorChar}serializeddict.json");
+                Word[] rows = await JsonSerializer.DeserializeAsync<Word[]>(stream, 
                     new JsonSerializerOptions()
                     {
                         Encoder = JavaScriptEncoder.Create(UnicodeRanges.Cyrillic, UnicodeRanges.BasicLatin),
@@ -31,14 +32,16 @@ namespace DictionaryBack.DAL
             TableRowsLazy.Start();
         }
 
-        public IEnumerable<TableRow> All()
+        public IEnumerable<Word> All()
         {
             return TableRowsLazy.Task.Result;
         }
 
-        public IEnumerable<TableRow> Take(int skip, int take)
+        public IEnumerable<Word> Take(int skip, int take)
         {
             return TableRowsLazy.Task.Result.Skip(skip).Take(take).ToArray();
         }
+
+        public IQueryable<Word> Words => All().AsQueryable();
     }
 }

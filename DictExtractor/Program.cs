@@ -15,9 +15,9 @@ namespace DictionaryBack.DictExtractor
     {
         static async Task Main(string[] args)
         {
-           var rows = new List<TableRow>();
+           var rows = new List<Word>();
 
-            using (var rd = new StreamReader(@"SourceDict\vocabulary_print.html"))
+            using (var rd = new StreamReader($"SourceDict{Path.DirectorySeparatorChar}vocabulary_print.html"))
             {
                 var doc = new HtmlDocument();
                 doc.LoadHtml(await rd.ReadToEndAsync());
@@ -34,7 +34,7 @@ namespace DictionaryBack.DictExtractor
                         .Split(';', StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.Trim())
                         .ToArray();
-                    rows.Add(new TableRow(term, translations));
+                    rows.Add(new Word { Term = term, Translations = translations });
                 }
             }
             if (rows.Any())

@@ -4,6 +4,7 @@ using DictionaryBack.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,7 +35,7 @@ namespace DictionaryBack
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DictionaryBack", Version = "v1" });
             });
 
-            services.AddScoped<IReadRepository, ReadRepositoryFile>();
+            services.AddDbContext<DictionaryContext>(builder => builder.UseNpgsql(Configuration.GetConnectionString("WordsContext")));
 
             services.AddScoped<IDictionaryService, DictionaryService>();
         }
