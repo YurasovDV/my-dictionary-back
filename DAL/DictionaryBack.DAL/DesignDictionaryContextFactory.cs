@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace DictionaryBack.DAL
 {
-    internal class DesignDictionaryContextFactory : IDesignTimeDbContextFactory<DictionaryContext>
+    public class DesignDictionaryContextFactory : IDesignTimeDbContextFactory<DictionaryContext>
     {
         public DictionaryContext CreateDbContext(string[] args)
         {

@@ -13,11 +13,12 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.Property(w => w.Term).HasMaxLength(200);
 
-            builder.Property(w => w.Translations)
-                .HasConversion(
-                // PG has array type but it won't work with mssql
+            builder.Property(w => w.Translation)
+                .HasConversion<string>(
+                    // PG has array type but it won't work with mssql
                     translations => JsonSerializer.Serialize(translations, null),
-                    dbValue => JsonSerializer.Deserialize<string[]>(dbValue, null));
+                    dbValue => JsonSerializer.Deserialize<string[]>(dbValue, null))
+                .IsRequired();
         }
     }
 }

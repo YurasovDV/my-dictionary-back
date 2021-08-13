@@ -34,7 +34,7 @@ namespace DictionaryBack.DictExtractor
                         .Split(';', StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.Trim())
                         .ToArray();
-                    rows.Add(new Word { Term = term, Translations = translations });
+                    rows.Add(new Word { Term = term, Translation = translations });
                 }
             }
             if (rows.Any())

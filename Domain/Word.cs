@@ -5,6 +5,6 @@
     {
         public string Term { get; set; }
 
-        public string[] Translations { get; set; }
+        public string[] Translation { get; set; }
     }
 }
