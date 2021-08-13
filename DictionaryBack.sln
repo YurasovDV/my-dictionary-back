@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Extractor", "DictExtractor\DictionaryBack.Extractor.csproj", "{9F7FD7FD-ECDC-41AE-8895-2BE36397D594}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Domain", "Domain\DictionaryBack.Domain.csproj", "{1F7AD3AF-8CB2-415C-AA4D-AD537DC24F21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Domain", "DictionaryBack.Domain\DictionaryBack.Domain.csproj", "{1F7AD3AF-8CB2-415C-AA4D-AD537DC24F21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.API", "Back\DictionaryBack.API.csproj", "{6DEECEA0-4C3C-4FDE-A514-BEED6636F7CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.API", "DictionaryBack.API\DictionaryBack.API.csproj", "{6DEECEA0-4C3C-4FDE-A514-BEED6636F7CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.DAL", "DAL\DictionaryBack.DAL\DictionaryBack.DAL.csproj", "{C4D857A9-E8BB-4D13-BD48-9EFE9BB13971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.DAL", "DictionaryBack.DAL\DictionaryBack.DAL.csproj", "{C4D857A9-E8BB-4D13-BD48-9EFE9BB13971}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.BL", "BL\DictionaryBack.BL\DictionaryBack.BL.csproj", "{3CA3CAFB-507F-4696-B7AC-77BFCCC6748A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.BL", "DictionaryBack.BL\DictionaryBack.BL.csproj", "{3CA3CAFB-507F-4696-B7AC-77BFCCC6748A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A30D57C3-6757-48CA-9803-394C06B964A3}"
 EndProject
