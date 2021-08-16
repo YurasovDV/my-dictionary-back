@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DictionaryBack.Infrastructure
 {
-    interface ICommandHandler<T> where T : ICommand
+    public interface ICommandHandler<T> where T : ICommand
     {
     }
 }

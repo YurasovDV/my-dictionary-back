@@ -1,12 +1,10 @@
-using DictionaryBack.BL;
-using DictionaryBack.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using a = DictionaryBack.CompositionRoot;
 
 namespace DictionaryBack.API
 {
@@ -23,15 +21,17 @@ namespace DictionaryBack.API
         {
 
             services.AddControllers();
+            AddSwagger(services);
+
+            a.CompositionRoot.ConfigureServices(services, Configuration);
+        }
+
+        private static void AddSwagger(IServiceCollection services)
+        {
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DictionaryBack", Version = "v1" });
             });
-
-            services.AddDbContext<DictionaryContext>(builder => builder.UseNpgsql(Configuration.GetConnectionString("WordsContext")));
-            services.AddScoped<Seeder>();
-
-            services.AddScoped<IDictionaryService, DictionaryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

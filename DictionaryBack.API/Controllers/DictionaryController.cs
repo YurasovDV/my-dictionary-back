@@ -1,10 +1,10 @@
 ﻿using DictionaryBack.BL;
-using DictionaryBack.DAL;
+using DictionaryBack.BL.Query;
 using DictionaryBack.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace DictionaryBack.API.Controllers
 {
@@ -12,27 +12,28 @@ namespace DictionaryBack.API.Controllers
     [Route("[controller]")]
     public class DictionaryController : ControllerBase
     {
-        private readonly DictionaryContext _context;
+        private readonly IWordsByTopicQueryHandler _topicHandler;
+        private readonly IAllWordsQueryHandler _allWordsQueryHandler;
         private readonly ILogger<DictionaryController> _logger;
 
-        public DictionaryController(DictionaryContext context, ILogger<DictionaryController> logger)
+        public DictionaryController(IWordsByTopicQueryHandler topicHandler, IAllWordsQueryHandler allWordsQueryHandler, ILogger<DictionaryController> logger)
         {
-            _context = context;
+            _topicHandler = topicHandler;
+            _allWordsQueryHandler = allWordsQueryHandler;
             _logger = logger;
         }
 
         [HttpGet]
-        public IEnumerable<Word> Get()
+        public async Task<IEnumerable<Word>> Get()
         {
-            return _context.Words.ToList();
+            return await _allWordsQueryHandler.GetWordsAsync();
         }
 
         [HttpGet]
         [Route("getPage")]
-        public IEnumerable<Word> GetPage(int skip = 0, int take = 20)
+        public async Task<IEnumerable<Word>> GetPage(WordsByTopicRequest request)
         {
-            return _context.Words.Skip(skip).Take(take);
+            return await _topicHandler.GetWordsAsync(request);
         }
-
     }
 }

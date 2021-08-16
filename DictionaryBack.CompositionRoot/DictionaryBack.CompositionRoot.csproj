@@ -5,12 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DictionaryBack.BL\DictionaryBack.BL.csproj" />
     <ProjectReference Include="..\DictionaryBack.DAL\DictionaryBack.DAL.csproj" />
     <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Command\" />
+    <ProjectReference Include="..\DictionaryBack.Infrastructure\DictionaryBack.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,9 @@
 ﻿using DictionaryBack.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-using System.Threading.Tasks;
 
 namespace DictionaryBack.DAL
 {
