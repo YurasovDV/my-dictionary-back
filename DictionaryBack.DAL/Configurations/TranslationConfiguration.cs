@@ -10,9 +10,11 @@ namespace DictionaryBack.DAL.Configurations
         {
             builder.ToTable("translations");
 
-            builder.HasKey(w => new { w.TermId, w.Meaning });
+            builder.HasKey(w => new { w.Term, w.Meaning });
 
             builder.Property(w => w.Meaning).HasMaxLength(200).HasColumnName("meaning");
+
+            builder.Property(w => w.Term).HasColumnName("term");
 
             builder.Property(w => w.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
         }

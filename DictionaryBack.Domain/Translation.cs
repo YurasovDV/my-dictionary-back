@@ -6,6 +6,6 @@
 
         public bool IsDeleted { get; set; }
 
-        public string TermId { get; set; }
+        public string Term { get; set; }
     }
 }

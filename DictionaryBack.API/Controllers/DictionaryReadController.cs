@@ -47,11 +47,34 @@ namespace DictionaryBack.API.Controllers
         }
 
 
+
+
+
+
+
+
+
+
         [HttpPost]
         [Route("GetPage", Name = "GetPage")]
         public async Task<IEnumerable<WordDto>> GetPage([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetWordsAsync(request);
+        }
+
+
+        [HttpPost]
+        [Route("GetPageNoTracking", Name = "GetPageNoTracking")]
+        public async Task<IEnumerable<WordDto>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
+        {
+            return await _topicHandler.GetPageNoTracking(request);
+        }
+
+        [HttpPost]
+        [Route("GetPageDapper", Name = "GetPageDapper")]
+        public async Task<IEnumerable<WordDto>> GetPageDapper([FromBody] WordsByTopicRequest request)
+        {
+            return await _topicHandler.GetPageDapper(request);
         }
     }
 }

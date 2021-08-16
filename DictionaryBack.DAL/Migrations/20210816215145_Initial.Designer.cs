@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DictionaryBack.DAL.Migrations
 {
     [DbContext(typeof(DictionaryContext))]
-    [Migration("20210816211955_Initial")]
+    [Migration("20210816215145_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,8 +22,9 @@ namespace DictionaryBack.DAL.Migrations
 
             modelBuilder.Entity("DictionaryBack.Domain.Translation", b =>
                 {
-                    b.Property<string>("TermId")
-                        .HasColumnType("text");
+                    b.Property<string>("Term")
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("term");
 
                     b.Property<string>("Meaning")
                         .HasMaxLength(200)
@@ -36,12 +37,7 @@ namespace DictionaryBack.DAL.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
-                    b.Property<string>("WordTerm")
-                        .HasColumnType("character varying(200)");
-
-                    b.HasKey("TermId", "Meaning");
-
-                    b.HasIndex("WordTerm");
+                    b.HasKey("Term", "Meaning");
 
                     b.ToTable("translations");
                 });
@@ -74,7 +70,9 @@ namespace DictionaryBack.DAL.Migrations
                 {
                     b.HasOne("DictionaryBack.Domain.Word", null)
                         .WithMany("Translations")
-                        .HasForeignKey("WordTerm");
+                        .HasForeignKey("Term")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DictionaryBack.Domain.Word", b =>

@@ -42,7 +42,7 @@ namespace DictionaryBack.DictExtractor
                         .Select(t =>
                             new Translation()
                             {
-                                TermId = term,
+                                Term = term,
                                 Meaning = t
                             })
                         .ToArray()

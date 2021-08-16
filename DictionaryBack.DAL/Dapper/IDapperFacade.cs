@@ -7,5 +7,7 @@ namespace DictionaryBack.DAL.Dapper
     public interface IDapperFacade
     {
         Task<IEnumerable<Word>> GetAll();
+
+        Task<IEnumerable<Word>> GetPage(int take, int skip);
     }
 }

@@ -6,7 +6,10 @@ namespace DictionaryBack.DAL
 {
     public class DictionaryContext : DbContext
     {
-        public DictionaryContext(DbContextOptions options) : base(options) { }
+        public DictionaryContext(DbContextOptions options) : base(options) 
+        {
+            ChangeTracker.LazyLoadingEnabled = false;
+        }
 
         public DbSet<Word> Words { get; set; }
 

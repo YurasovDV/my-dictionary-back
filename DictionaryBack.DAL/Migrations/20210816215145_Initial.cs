@@ -24,25 +24,19 @@ namespace DictionaryBack.DAL.Migrations
                 columns: table => new
                 {
                     meaning = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    TermId = table.Column<string>(type: "text", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    WordTerm = table.Column<string>(type: "character varying(200)", nullable: true)
+                    term = table.Column<string>(type: "character varying(200)", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_translations", x => new { x.TermId, x.meaning });
+                    table.PrimaryKey("PK_translations", x => new { x.term, x.meaning });
                     table.ForeignKey(
-                        name: "FK_translations_words_WordTerm",
-                        column: x => x.WordTerm,
+                        name: "FK_translations_words_term",
+                        column: x => x.term,
                         principalTable: "words",
                         principalColumn: "term",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_translations_WordTerm",
-                table: "translations",
-                column: "WordTerm");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

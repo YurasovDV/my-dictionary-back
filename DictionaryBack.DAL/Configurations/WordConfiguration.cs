@@ -18,6 +18,8 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.Property(w => w.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
 
+            builder.HasMany(w => w.Translations).WithOne().HasForeignKey(t => t.Term);
+
             // big thank you dapper
 
             // builder.Property(w => w.Translations)

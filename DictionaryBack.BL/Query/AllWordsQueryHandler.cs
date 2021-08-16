@@ -39,7 +39,7 @@ namespace DictionaryBack.BL.Query
 
         public async Task<IEnumerable<WordDto>> GetWordsNoTrackingAsync()
         {
-            return await _dictionaryContext.Words.AsNoTracking().Select(w => Mapper.Map(w)).ToListAsync();
+            return await _dictionaryContext.Words.Include(w => w.Translations).AsNoTracking().Select(w => Mapper.Map(w)).ToListAsync();
         }
 
         public async Task<IEnumerable<WordDto>> GetWithDapper()

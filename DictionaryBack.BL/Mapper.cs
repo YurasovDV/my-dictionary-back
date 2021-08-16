@@ -41,7 +41,7 @@ namespace DictionaryBack.BL
 
         private static Translation[] Map(string term, string[] translations)
         {
-            return translations.Select(t => new Translation() { Meaning = t, TermId = term }).ToArray();
+            return translations.Select(t => new Translation() { Meaning = t, Term = term }).ToArray();
         }
     }
 }
