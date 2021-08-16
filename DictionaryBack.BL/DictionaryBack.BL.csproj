@@ -9,8 +9,4 @@
     <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Command\" />
-  </ItemGroup>
-
 </Project>

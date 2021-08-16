@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DictionaryBack.BL
+﻿namespace DictionaryBack.BL.Query.Models
 {
     public class WordsByTopicRequest
     {

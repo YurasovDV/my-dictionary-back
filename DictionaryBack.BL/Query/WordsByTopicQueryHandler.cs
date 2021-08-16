@@ -1,5 +1,5 @@
-﻿using DictionaryBack.DAL;
-using DictionaryBack.Domain;
+﻿using DictionaryBack.BL.Query.Models;
+using DictionaryBack.DAL;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,8 @@ namespace DictionaryBack.BL.Query
 {
     public interface IWordsByTopicQueryHandler
     {
-        Task<List<Word>> GetWordsAsync(WordsByTopicRequest request);
+        Task<List<WordDto>> GetWordsAsync(WordsByTopicRequest request);
     }
-
 
     public class WordsByTopicQueryHandler : IWordsByTopicQueryHandler
     {
@@ -22,9 +21,14 @@ namespace DictionaryBack.BL.Query
             _dictionaryContext = dictionaryContext;
         }
 
-        public async Task<List<Word>> GetWordsAsync(WordsByTopicRequest request)
+        public async Task<List<WordDto>> GetWordsAsync(WordsByTopicRequest request)
         {
-            var query = _dictionaryContext.Words.Where(w => w.Topic.Contains(request.Topic));
+            var query = _dictionaryContext.Words.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(request.Topic))
+            {
+                query = query.Where(w => w.Topic.Contains(request.Topic));
+            }
 
             if (request.Skip != null || request.Take != null)
             {
@@ -34,13 +38,13 @@ namespace DictionaryBack.BL.Query
                     query = query.Skip(request.Skip.Value);
                 }
 
-                if (request.Take != null)
+                if (request.Take != null && request.Take > 0)
                 {
                     query = query.Take(request.Take.Value);
                 }
             }
 
-            return await query.ToListAsync();
+            return await query.Select(w => Mapper.Map(w)).ToListAsync();
         }
     }
 }

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DictionaryBack.DAL.Migrations
 {
     [DbContext(typeof(DictionaryContext))]
-    [Migration("20210813131148_Initial")]
+    [Migration("20210816203154_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,15 +24,29 @@ namespace DictionaryBack.DAL.Migrations
                 {
                     b.Property<string>("Term")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("term");
 
-                    b.Property<string>("Translation")
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("Topic")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("user")
+                        .HasColumnName("topic");
+
+                    b.Property<string>("Translations")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("translations");
 
                     b.HasKey("Term");
 
-                    b.ToTable("Words");
+                    b.ToTable("words");
                 });
 #pragma warning restore 612, 618
         }

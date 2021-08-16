@@ -22,20 +22,29 @@ namespace DictionaryBack.DAL.Migrations
                 {
                     b.Property<string>("Term")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("term");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_deleted");
 
                     b.Property<string>("Topic")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasDefaultValue("user");
+                        .HasDefaultValue("user")
+                        .HasColumnName("topic");
 
-                    b.Property<string>("Translation")
+                    b.Property<string>("Translations")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("translations");
 
                     b.HasKey("Term");
 
-                    b.ToTable("Words");
+                    b.ToTable("words");
                 });
 #pragma warning restore 612, 618
         }

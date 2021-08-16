@@ -16,7 +16,6 @@ namespace DictionaryBack.DAL
             _context = context;
         }
 
-        // stream?
         public void MigrateAndSeed(string dictionaryJson)
         {
             _context.Database.Migrate();
@@ -35,5 +34,4 @@ namespace DictionaryBack.DAL
             }
         }
     }
-
 }

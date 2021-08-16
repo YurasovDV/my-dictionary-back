@@ -1,13 +1,11 @@
-﻿namespace DictionaryBack.Domain
+﻿namespace DictionaryBack.BL.Command.Models
 {
-    public class Word
+    public class WordEditModel
     {
         public string Term { get; set; }
 
         public string Topic { get; set; }
 
         public string[] Translations { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 }
