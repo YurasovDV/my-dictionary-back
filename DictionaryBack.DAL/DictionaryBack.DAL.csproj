@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DictionaryBack.Infrastructure\DictionaryBack.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Domain\DictionaryBack.Domain.csproj" />
+    <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
+    <ProjectReference Include="..\DictionaryBack.Infrastructure\DictionaryBack.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BL\DictionaryBack.BL\DictionaryBack.BL.csproj" />
-    <ProjectReference Include="..\DAL\DictionaryBack.DAL\DictionaryBack.DAL.csproj" />
-    <ProjectReference Include="..\Domain\DictionaryBack.Domain.csproj" />
+    <ProjectReference Include="..\DictionaryBack.BL\DictionaryBack.BL.csproj" />
+    <ProjectReference Include="..\DictionaryBack.DAL\DictionaryBack.DAL.csproj" />
+    <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
   </ItemGroup>
 
 </Project>

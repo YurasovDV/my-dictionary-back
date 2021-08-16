@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\DictionaryBack.Domain.csproj" />
+    <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
