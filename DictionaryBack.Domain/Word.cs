@@ -1,4 +1,6 @@
-﻿namespace DictionaryBack.Domain
+﻿using System.Collections.Generic;
+
+namespace DictionaryBack.Domain
 {
     public class Word
     {
@@ -6,7 +8,7 @@
 
         public string Topic { get; set; }
 
-        public string[] Translations { get; set; }
+        public ICollection<Translation> Translations { get; set; }
 
         public bool IsDeleted { get; set; }
     }

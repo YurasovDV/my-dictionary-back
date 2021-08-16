@@ -6,6 +6,6 @@
 
         public string Topic { get; set; }
 
-        public string[] Translation { get; set; }
+        public string[] Translations { get; set; }
     }
 }

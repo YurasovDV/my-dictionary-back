@@ -12,7 +12,13 @@ namespace DictionaryBack.CompositionRoot
     {
         public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContextPool<DictionaryContext>(builder => builder.UseNpgsql(configuration.GetConnectionString("WordsContext")));
+            services.AddDbContextPool<DictionaryContext>(builder => 
+                builder
+                .UseNpgsql(configuration.GetConnectionString("WordsContext"))
+                // TODO
+                .EnableSensitiveDataLogging()
+            );
+
             services.AddScoped<IDapperFacade, DapperPgFacade>();
             services.AddScoped<Seeder>();
 

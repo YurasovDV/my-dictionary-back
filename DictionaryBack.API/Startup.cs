@@ -40,7 +40,6 @@ namespace DictionaryBack.API
                 app.UseDeveloperExceptionPage();
             }
 
-
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DictionaryBack v1"));
 

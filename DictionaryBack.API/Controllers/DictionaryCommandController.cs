@@ -31,6 +31,7 @@ namespace DictionaryBack.API.Controllers
         }
 
         [HttpPost]
+        [Route("", Name = "AddWord")]
         [SwaggerResponse(200, type: typeof(OperationResult<WordDto>))]
         public async Task<OperationResult<WordDto>> AddWord([FromBody] WordCreationModel request)
         {
@@ -38,6 +39,7 @@ namespace DictionaryBack.API.Controllers
         }
 
         [HttpPut]
+        [Route("", Name = "EditWord")]
         [SwaggerResponse(200, type: typeof(OperationResult<WordDto>))]
         public async Task<OperationResult<WordDto>> EditWord([FromBody] WordEditModel request)
         {
@@ -45,6 +47,7 @@ namespace DictionaryBack.API.Controllers
         }
 
         [HttpDelete]
+        [Route("", Name = "DeleteWord")]
         [SwaggerResponse(200, type: typeof(BoolOperationResult))]
         public async Task<BoolOperationResult> DeleteWord(string term)
         {

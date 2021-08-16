@@ -28,6 +28,12 @@ namespace DictionaryBack.DAL
                         Encoder = JavaScriptEncoder.Create(UnicodeRanges.Cyrillic, UnicodeRanges.BasicLatin),
                     });
 
+                foreach (var row in rows)
+                {
+                    // TODO: fuck dapper
+                    row.Translations = new[] { row.Translations.First() };
+                }
+
                 _context.Words.AddRange(rows);
                 _context.SaveChanges();
 

@@ -15,7 +15,7 @@ namespace DictionaryBack.DictExtractor
     {
         static async Task Main(string[] args)
         {
-           var rows = new List<Word>();
+            var rows = new List<Word>();
 
             using (var rd = new StreamReader($"SourceDict{Path.DirectorySeparatorChar}vocabulary_print.html"))
             {
@@ -34,14 +34,27 @@ namespace DictionaryBack.DictExtractor
                         .Split(';', StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.Trim())
                         .ToArray();
-                    rows.Add(new Word { Term = term, Translations = translations });
+
+                    var word = new Word
+                    {
+                        Term = term,
+                        Translations = translations
+                        .Select(t =>
+                            new Translation()
+                            {
+                                TermId = term,
+                                Meaning = t
+                            })
+                        .ToArray()
+                    };
+                    rows.Add(word);
                 }
             }
             if (rows.Any())
             {
-                var serialized = JsonSerializer.Serialize(rows, 
-                    new JsonSerializerOptions() 
-                    { 
+                var serialized = JsonSerializer.Serialize(rows,
+                    new JsonSerializerOptions()
+                    {
                         WriteIndented = true,
                         Encoder = JavaScriptEncoder.Create(UnicodeRanges.Cyrillic, UnicodeRanges.BasicLatin),
                     });

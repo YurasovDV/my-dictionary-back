@@ -23,22 +23,24 @@ namespace DictionaryBack.API.Controllers
             _logger = logger;
         }
 
+        // debug version
         [HttpGet]
-        [Route("")]
+        [Route("", Name = "GetWordsAsync")]
         public async Task<IEnumerable<WordDto>> Get()
         {
             return await _allWordsQueryHandler.GetWordsAsync();
         }
 
+        // debug version
         [HttpGet]
-        [Route("GetNoTracking")]
+        [Route("GetNoTracking", Name = "GetNoTracking")]
         public async Task<IEnumerable<WordDto>> GetNoTracking()
         {
             return await _allWordsQueryHandler.GetWordsNoTrackingAsync();
         }
 
         [HttpGet]
-        [Route("GetWithDapper")]
+        [Route("GetWithDapper", Name = "GetWithDapper")]
         public async Task<IEnumerable<WordDto>> GetWithDapper()
         {
             return await _allWordsQueryHandler.GetWithDapper();
@@ -46,7 +48,7 @@ namespace DictionaryBack.API.Controllers
 
 
         [HttpPost]
-        [Route("getPage")]
+        [Route("GetPage", Name = "GetPage")]
         public async Task<IEnumerable<WordDto>> GetPage([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetWordsAsync(request);

@@ -10,7 +10,7 @@ namespace DictionaryBack.DAL.Dapper
 {
     public class DapperPgFacade : IDapperFacade
     {
-        private string _connString;
+        private readonly IConfiguration _configuration;
 
         private static class PostgresqlText
         { 
@@ -19,19 +19,15 @@ namespace DictionaryBack.DAL.Dapper
 
         public DapperPgFacade(IConfiguration configuration)
         {
-           _connString = configuration.GetConnectionString("WordsContext");
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<Word>> GetAll()
         {
-            using (var conn = new NpgsqlConnection(_connString))
-            {
-                await conn.OpenAsync();
-
-                var words = (await conn.QueryAsync<Word>(PostgresqlText.GetAll)).ToList();
-
-                return words;
-            }
+            using var conn = new NpgsqlConnection(_configuration.GetConnectionString("WordsContext"));
+            await conn.OpenAsync();
+            var words = (await conn.QueryAsync<Word>(PostgresqlText.GetAll)).ToList();
+            return words;
         }
     }
 }

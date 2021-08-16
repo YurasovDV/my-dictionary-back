@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DictionaryBack.DAL.Migrations
 {
     [DbContext(typeof(DictionaryContext))]
-    [Migration("20210816203154_Initial")]
+    [Migration("20210816211955_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,6 +19,32 @@ namespace DictionaryBack.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("DictionaryBack.Domain.Translation", b =>
+                {
+                    b.Property<string>("TermId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Meaning")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("meaning");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("WordTerm")
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("TermId", "Meaning");
+
+                    b.HasIndex("WordTerm");
+
+                    b.ToTable("translations");
+                });
 
             modelBuilder.Entity("DictionaryBack.Domain.Word", b =>
                 {
@@ -39,14 +65,21 @@ namespace DictionaryBack.DAL.Migrations
                         .HasDefaultValue("user")
                         .HasColumnName("topic");
 
-                    b.Property<string>("Translations")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("translations");
-
                     b.HasKey("Term");
 
                     b.ToTable("words");
+                });
+
+            modelBuilder.Entity("DictionaryBack.Domain.Translation", b =>
+                {
+                    b.HasOne("DictionaryBack.Domain.Word", null)
+                        .WithMany("Translations")
+                        .HasForeignKey("WordTerm");
+                });
+
+            modelBuilder.Entity("DictionaryBack.Domain.Word", b =>
+                {
+                    b.Navigation("Translations");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,6 @@
 ﻿using DictionaryBack.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Text.Json;
 
 namespace DictionaryBack.DAL.Configurations
 {
@@ -19,13 +18,15 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.Property(w => w.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
 
-            builder.Property(w => w.Translations)
-                .HasConversion(
-                    // PG has array type but it won't work with mssql
-                    translations => JsonSerializer.Serialize(translations, null),
-                    dbValue => JsonSerializer.Deserialize<string[]>(dbValue, null))
-                .IsRequired()
-                .HasColumnName("translations"); 
+            // big thank you dapper
+
+            // builder.Property(w => w.Translations)
+            //     .HasConversion(
+            //         // PG has array type but it won't work with mssql
+            //         translations => JsonSerializer.Serialize(translations, null),
+            //         dbValue => JsonSerializer.Deserialize<string[]>(dbValue, null))
+            //     .IsRequired()
+            //     .HasColumnName("translations");             
         }
     }
 }

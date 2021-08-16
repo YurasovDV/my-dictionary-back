@@ -18,6 +18,7 @@ namespace DictionaryBack.BL.Command
 
         public async Task<OperationResult<WordDto>> Edit(WordEditModel request)
         {
+            // i think i hate dapper
             try
             {
                 // can be rewritten for one database trip, if we receive original values from client
