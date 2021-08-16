@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using a = DictionaryBack.CompositionRoot;
 
 namespace DictionaryBack.API
 {
@@ -23,7 +22,7 @@ namespace DictionaryBack.API
             services.AddControllers();
             AddSwagger(services);
 
-            a.CompositionRoot.ConfigureServices(services, Configuration);
+            CompositionRoot.CompositionRoot.ConfigureServices(services, Configuration);
         }
 
         private static void AddSwagger(IServiceCollection services)
