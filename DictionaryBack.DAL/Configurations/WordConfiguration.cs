@@ -20,6 +20,8 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.HasMany(w => w.Translations).WithOne().HasForeignKey(t => t.Term);
 
+            builder.Navigation(w => w.Translations).AutoInclude();
+
             // big thank you dapper
 
             // builder.Property(w => w.Translations)

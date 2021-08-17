@@ -1,10 +1,7 @@
-﻿using DictionaryBack.BL.Command;
-using DictionaryBack.BL.Query.Models;
+﻿using DictionaryBack.BL.Query.Models;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
-using DictionaryBack.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +26,7 @@ namespace DictionaryBack.BL.Query
         public AllWordsQueryHandler(DictionaryContext dictionaryContext, IDapperFacade dapperFacade)
         {
             _dictionaryContext = dictionaryContext;
-            this._dapperFacade = dapperFacade;
+            _dapperFacade = dapperFacade;
         }
 
         public async Task<List<WordDto>> GetWordsAsync()
@@ -39,7 +36,7 @@ namespace DictionaryBack.BL.Query
 
         public async Task<IEnumerable<WordDto>> GetWordsNoTrackingAsync()
         {
-            return await _dictionaryContext.Words.Include(w => w.Translations).AsNoTracking().Select(w => Mapper.Map(w)).ToListAsync();
+            return await _dictionaryContext.Words.AsNoTracking().Select(w => Mapper.Map(w)).ToListAsync();
         }
 
         public async Task<IEnumerable<WordDto>> GetWithDapper()

@@ -57,7 +57,6 @@ namespace DictionaryBack.BL.Query
         public async Task<IEnumerable<WordDto>> GetPageNoTracking(WordsByTopicRequest request)
         {
             var query = _dictionaryContext.Words
-                .Include(w => w.Translations)
                 .AsNoTracking()
                 .AsQueryable();
 

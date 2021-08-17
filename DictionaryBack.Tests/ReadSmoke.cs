@@ -23,13 +23,16 @@ namespace DictionaryBack.Tests
             Topic = null
         };
 
-        [TestMethod]
-        public async Task ReadPage()
+        [DataTestMethod]
+        [DataRow("DictionaryRead/GetPage")] 
+        [DataRow("DictionaryRead/GetPageNoTracking")] 
+        [DataRow("DictionaryRead/GetPageDapper")] 
+        public async Task ReadPage(string url)
         {
             using var factory = new WebApplicationFactory<Startup>();
             using var client = factory.CreateClient();
             var request = JsonSerializer.Serialize(GetRequest());
-            var response = await client.PostAsync("DictionaryRead/GetPageNoTracking", new StringContent(request, Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json));
+            var response = await client.PostAsync(url, new StringContent(request, Encoding.UTF8, System.Net.Mime.MediaTypeNames.Application.Json));
 
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
