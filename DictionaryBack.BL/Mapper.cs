@@ -13,8 +13,8 @@ namespace DictionaryBack.BL
         {
             return new Word 
             { 
-                Term = model.Term, 
-                Topic = model.Topic, 
+                Term = model.Term,
+                Topic = Map(model.Topic),
                 Translations = Map(model.Term, model.Translations)
             };
         }
@@ -24,14 +24,14 @@ namespace DictionaryBack.BL
             return new Word
             {
                 Term = model.Term,
-                Topic = model.Topic,
+                Topic = Map(model.Topic),
                 Translations = Map(model.Term, model.Translations)
             };
         }
 
         public static WordDto Map(Word model)
         {
-            return new WordDto() { Term = model.Term, Topic = model.Topic, Translations = Map(model.Translations) };
+            return new WordDto() { Term = model.Term, Topic = model.Topic?.Name, Translations = Map(model.Translations) };
         }
 
         private static string[] Map(ICollection<Translation> translations)
@@ -42,6 +42,14 @@ namespace DictionaryBack.BL
         private static Translation[] Map(string term, string[] translations)
         {
             return translations.Select(t => new Translation() { Meaning = t, Term = term }).ToArray();
+        }
+
+        private static Topic Map(string topic)
+        {
+            return new Topic()
+            {
+                Name = topic,
+            };
         }
     }
 }

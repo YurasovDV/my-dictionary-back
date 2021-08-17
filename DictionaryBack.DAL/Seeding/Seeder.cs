@@ -1,6 +1,7 @@
 ﻿using DictionaryBack.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -31,14 +32,41 @@ namespace DictionaryBack.DAL
                         Encoder = JavaScriptEncoder.Create(UnicodeRanges.Cyrillic, UnicodeRanges.BasicLatin),
                     });
 
-                foreach (var row in rows)
+
+                var defaultTopic = new Topic()
                 {
-                    row.Translations = row.Translations.Distinct(new TranslationsComparer()).ToList();
+                    IsDeleted = false,
+                    Name = "Default",
+                };
+
+                var existing = _context.Topics.FirstOrDefault(t => t.Name == defaultTopic.Name);
+                if (existing == null)
+                {
+                    _context.Topics.Add(defaultTopic);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    defaultTopic = existing;
                 }
 
-                _context.Words.AddRange(rows);
-                _context.SaveChanges();
+                var comparer = new TranslationsComparer();
 
+                // entirely no reason to use Partitioner
+                var partitioner = Partitioner.Create(rows);
+                var partitions = partitioner.GetPartitions(rows.Count() / 200);
+
+                foreach (var partition in partitions)
+                {
+                    while (partition.MoveNext())
+                    {
+                        var word = partition.Current;
+                        word.Translations = word.Translations.Distinct(comparer).ToList();
+                        word.Topic = defaultTopic;
+                        _context.Words.Add(word);
+                    }
+                    _context.SaveChanges();
+                }
             }
         }
     }

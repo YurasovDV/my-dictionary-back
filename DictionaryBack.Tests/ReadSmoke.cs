@@ -76,6 +76,46 @@ namespace DictionaryBack.Tests
             }
         }
 
+        [DataTestMethod]
+        [DataRow("DictionaryRead/GetPage")]
+        [DataRow("DictionaryRead/GetPageNoTracking")]
+        [DataRow("DictionaryRead/GetPageDapper")]
+        public async Task ReadPageByTopicSearch(string url)
+        {
+            var request = Requests.GetRequestForFirst20WordsWith_Def_Topic();
+
+            List<WordDto> words = await ExecuteRequest(request, url);
+
+            Assert.AreEqual(20, words.Count);
+            Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
+            Assert.IsTrue(words.All(w => w.Topic.IndexOf("def", StringComparison.OrdinalIgnoreCase) != -1));
+            Assert.IsTrue(words.All(w => w.Translations.Length >= 1));
+            foreach (var word in words)
+            {
+                Assert.IsTrue(word.Translations.All(t => !string.IsNullOrEmpty(t)));
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("DictionaryRead/GetPage")]
+        [DataRow("DictionaryRead/GetPageNoTracking")]
+        [DataRow("DictionaryRead/GetPageDapper")]
+        public async Task ReadPageByTopicAndTextSearch(string url)
+        {
+            var request = Requests.GetRequestForFirst20WordsWith_For_Query_Def_Topic();
+
+            List<WordDto> words = await ExecuteRequest(request, url);
+
+            Assert.AreEqual(20, words.Count);
+            Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
+            Assert.IsTrue(words.All(w => w.Term.IndexOf("for", StringComparison.OrdinalIgnoreCase) != -1));
+            Assert.IsTrue(words.All(w => w.Translations.Length >= 1));
+            foreach (var word in words)
+            {
+                Assert.IsTrue(word.Translations.All(t => !string.IsNullOrEmpty(t)));
+            }
+        }
+
 
         private async Task <List<WordDto>> ExecuteRequest(WordsByTopicRequest request, string url)
         {

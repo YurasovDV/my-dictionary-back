@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DictionaryBack.Domain
 {
@@ -6,10 +7,16 @@ namespace DictionaryBack.Domain
     {
         public string Term { get; set; }
 
-        public string Topic { get; set; }
+        public Topic Topic { get; set; }
+
+        public int TopicId { get; set; }
 
         public ICollection<Translation> Translations { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public WordStatus Status { get; set; }
+
+        public DateTime? LastRepetition { get; set; }
     }
 }

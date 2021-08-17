@@ -15,20 +15,30 @@ namespace DictionaryBack.DAL.Dapper
 
         private static class PostgresqlText
         {
-            public static readonly string GetAll = @"SELECT w.term, w.is_deleted, w.topic, t.term, t.meaning, t.is_deleted
-                                                        FROM words AS w
-                                                        LEFT JOIN translations AS t ON w.term = t.term
-                                                        ORDER BY w.term, t.term, t.meaning";
+            public static readonly string GetAll = @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+      FROM (
+          SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
+          FROM words AS w
+          ORDER BY w.term
+      ) AS t
+      INNER JOIN topics AS t0 ON t.topic_id = t0.id
+      LEFT JOIN translations AS t1 ON t.term = t1.term
+      ORDER BY t.term, t0.id, t1.term, t1.meaning";
 
 
             /// <summary>
             /// only limit offset are applied
             /// </summary>
-            public static readonly string GetPageNoTextSearch = @"SELECT w.term, w.is_deleted, w.topic, t.term, t.meaning, t.is_deleted
-                                                        FROM words AS w
-                                                        LEFT JOIN translations AS t ON w.term = t.term
-                                                        ORDER BY w.term, t.term, t.meaning
-                                                        offset @Skip limit @Take";
+            public static readonly string GetPageNoTextSearch = @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+      FROM (
+          SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
+          FROM words AS w
+          ORDER BY w.term
+          offset @Skip limit @Take
+      ) AS t
+      INNER JOIN topics AS t0 ON t.topic_id = t0.id
+      LEFT JOIN translations AS t1 ON t.term = t1.term
+      ORDER BY t.term, t0.id, t1.term, t1.meaning";
 
             /// <summary>
             /// using only topic
@@ -108,7 +118,7 @@ namespace DictionaryBack.DAL.Dapper
             return words;
         }
 
-        private string SelectQuery(WordsByTopicRequest request)
+        private static string SelectQuery(WordsByTopicRequest request)
         {
             if (!string.IsNullOrEmpty(request.SearchTerm) && !string.IsNullOrEmpty(request.Topic)) 
             {

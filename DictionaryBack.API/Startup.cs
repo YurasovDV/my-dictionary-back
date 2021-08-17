@@ -10,10 +10,13 @@ namespace DictionaryBack.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
+
+        private readonly IWebHostEnvironment _env;
 
         public IConfiguration Configuration { get; }
 
@@ -28,7 +31,7 @@ namespace DictionaryBack.API
 
             AddSwagger(services);
 
-            CompositionRoot.CompositionRoot.ConfigureServices(services, Configuration);
+            CompositionRoot.CompositionRoot.ConfigureServices(services, Configuration, _env.IsDevelopment());
         }
 
         private static void AddSwagger(IServiceCollection services)

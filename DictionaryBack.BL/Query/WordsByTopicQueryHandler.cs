@@ -40,7 +40,7 @@ namespace DictionaryBack.BL.Query
 
             if (!string.IsNullOrWhiteSpace(request.Topic))
             {
-                query = query.Where(w => w.Topic.Contains(request.Topic));
+                query = query.Where(w => w.Topic.Name.Contains(request.Topic));
             }
 
             if (request.Skip != null || request.Take != null)
@@ -73,7 +73,7 @@ namespace DictionaryBack.BL.Query
 
             if (!string.IsNullOrWhiteSpace(request.Topic))
             {
-                query = query.Where(w => w.Topic.Contains(request.Topic));
+                query = query.Where(w => w.Topic.Name.Contains(request.Topic));
             }
 
             if (request.Skip != null || request.Take != null)

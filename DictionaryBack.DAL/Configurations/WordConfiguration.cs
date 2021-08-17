@@ -14,13 +14,21 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.Property(w => w.Term).HasMaxLength(200).HasColumnName("term");
 
-            builder.Property(w => w.Topic).HasDefaultValue("user").HasColumnName("topic");
-
             builder.Property(w => w.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
+
+            builder.Property(w => w.Status).HasColumnName("status").HasConversion<int>().HasDefaultValue(WordStatus.Added);
+
+            builder.Property(w => w.LastRepetition).IsRequired(false).HasColumnName("last_repetition");
+
+            builder.Property(w => w.TopicId).HasColumnName("topic_id");
 
             builder.HasMany(w => w.Translations).WithOne().HasForeignKey(t => t.Term);
 
+            builder.HasOne(w => w.Topic).WithMany().HasForeignKey(w => w.TopicId);
+
             builder.Navigation(w => w.Translations).AutoInclude();
+
+            builder.Navigation(w => w.Topic).AutoInclude();
 
             // big thank you dapper
 

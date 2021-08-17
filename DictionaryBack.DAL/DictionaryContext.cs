@@ -13,6 +13,8 @@ namespace DictionaryBack.DAL
 
         public DbSet<Word> Words { get; set; }
 
+        public DbSet<Topic> Topics { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

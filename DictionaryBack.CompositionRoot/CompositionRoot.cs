@@ -5,19 +5,32 @@ using DictionaryBack.DAL.Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace DictionaryBack.CompositionRoot
 {
     public static class CompositionRoot
     {
-        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopment)
         {
-            services.AddDbContextPool<DictionaryContext>(builder => 
-                builder
-                .UseNpgsql(configuration.GetConnectionString("WordsContext"))
-                // TODO
-                .EnableSensitiveDataLogging()
-            );
+            Action<DbContextOptionsBuilder> action;
+
+            if (isDevelopment)
+            {
+                action = builder =>
+                            builder
+                            .UseNpgsql(configuration.GetConnectionString("WordsContext"))
+                            .EnableSensitiveDataLogging()
+                            .LogTo(Console.WriteLine);
+            }
+            else
+            {
+                action = builder =>
+                            builder
+                            .UseNpgsql(configuration.GetConnectionString("WordsContext"));
+            }
+
+            services.AddDbContextPool<DictionaryContext>(action);
 
             services.AddScoped<IDapperFacade, DapperPgFacade>();
             services.AddScoped<Seeder>();
