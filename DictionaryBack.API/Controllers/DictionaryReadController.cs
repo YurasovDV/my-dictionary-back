@@ -52,7 +52,7 @@ namespace DictionaryBack.API.Controllers
         [Route("GetPage", Name = "GetPage")]
         public async Task<IEnumerable<WordDto>> GetPage([FromBody] WordsByTopicRequest request)
         {
-            return await _topicHandler.GetWordsAsync(request);
+            return await _topicHandler.GetPageTrackingAsync(request);
         }
 
 

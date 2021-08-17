@@ -35,7 +35,7 @@ namespace DictionaryBack.DAL.Migrations
 
                     b.Property<string>("Name")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("citext")
                         .HasColumnName("name");
 
                     b.HasKey("Id");
@@ -49,7 +49,7 @@ namespace DictionaryBack.DAL.Migrations
             modelBuilder.Entity("DictionaryBack.Domain.Translation", b =>
                 {
                     b.Property<string>("Term")
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("citext")
                         .HasColumnName("term");
 
                     b.Property<string>("Meaning")
@@ -71,8 +71,7 @@ namespace DictionaryBack.DAL.Migrations
             modelBuilder.Entity("DictionaryBack.Domain.Word", b =>
                 {
                     b.Property<string>("Term")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("citext")
                         .HasColumnName("term");
 
                     b.Property<bool>("IsDeleted")

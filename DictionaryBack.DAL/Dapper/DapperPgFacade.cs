@@ -15,62 +15,74 @@ namespace DictionaryBack.DAL.Dapper
 
         private static class PostgresqlText
         {
-            public static readonly string GetAll = @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
-      FROM (
-          SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
-          FROM words AS w
-          ORDER BY w.term
-      ) AS t
-      INNER JOIN topics AS t0 ON t.topic_id = t0.id
-      LEFT JOIN translations AS t1 ON t.term = t1.term
-      ORDER BY t.term, t0.id, t1.term, t1.meaning";
+            public static readonly string GetAll = 
+                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+                   FROM (
+                       SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
+                       FROM words AS w
+                       ORDER BY w.term
+                   ) AS t
+                   INNER JOIN topics AS t0 ON t.topic_id = t0.id
+                   LEFT JOIN translations AS t1 ON t.term = t1.term
+                   ORDER BY t.term, t0.id, t1.term, t1.meaning";
 
 
             /// <summary>
             /// only limit offset are applied
             /// </summary>
-            public static readonly string GetPageNoTextSearch = @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
-      FROM (
-          SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
-          FROM words AS w
-          ORDER BY w.term
-          offset @Skip limit @Take
-      ) AS t
-      INNER JOIN topics AS t0 ON t.topic_id = t0.id
-      LEFT JOIN translations AS t1 ON t.term = t1.term
-      ORDER BY t.term, t0.id, t1.term, t1.meaning";
-
-            /// <summary>
-            /// using only topic
-            /// </summary>
-            public static readonly string GetPageWithTopic = @"SELECT w.term, w.is_deleted, w.topic, t.term, t.meaning, t.is_deleted
-                                                        FROM words AS w
-                                                        LEFT JOIN translations AS t ON w.term = t.term
-                                                        WHERE w.topic LIKE @Topic
-                                                        ORDER BY w.term, t.term, t.meaning
-                                                        OFFSET @Skip LIMIT @Take";
-
-            /// <summary>
-            /// using both term and topic
-            /// </summary>
-            public static readonly string GetPageWithTopicAndQuery = @"SELECT w.term, w.is_deleted, w.topic, t.term, t.meaning, t.is_deleted
-                                                        FROM words AS w
-                                                        LEFT JOIN translations AS t ON w.term = t.term
-                                                        WHERE w.topic LIKE @Topic and w.term LIKE @SearchTerm
-                                                        ORDER BY w.term, t.term, t.meaning
-                                                        offset @Skip limit @Take";
+            public static readonly string GetPageNoSearch =
+                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+                    FROM (
+                        SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
+                        FROM words AS w
+                        ORDER BY w.term
+                    LIMIT @Take OFFSET @Skip
+                    ) AS t
+                    INNER JOIN topics AS t0 ON t.topic_id = t0.id
+                    LEFT JOIN translations AS t1 ON t.term = t1.term
+                    ORDER BY t.term, t0.id, t1.term, t1.meaning;";
 
             /// <summary>
             /// ignore topic, only term value
             /// </summary>
-            public static readonly string GetPageWithQuery = @"SELECT w.term, w.is_deleted, w.topic, t.term, t.meaning, t.is_deleted
-                                                        FROM words AS w
-                                                        LEFT JOIN translations AS t ON w.term = t.term
-                                                        WHERE w.term LIKE @SearchTerm
-                                                        ORDER BY w.term, t.term, t.meaning
-                                                        offset @Skip limit @Take";
+            public static readonly string GetPageWithQuery = 
+                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+                     FROM (
+                         SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
+                         FROM words AS w
+                         WHERE (strpos(w.term, @SearchTerm) > 0)
+                         ORDER BY w.term
+                         LIMIT @Take OFFSET @Skip
+                     ) AS t
+                     INNER JOIN topics AS t0 ON t.topic_id = t0.id
+                     LEFT JOIN translations AS t1 ON t.term = t1.term
+                     ORDER BY t.term, t0.id, t1.term, t1.meaning";
 
 
+            /// <summary>
+            /// using only topic
+            /// </summary>
+            public static readonly string GetPageWithTopic =
+                                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+                                    FROM words AS t
+                                    INNER JOIN topics AS t0 ON t.topic_id = t0.id
+	                                LEFT JOIN translations AS t1 ON t1.term = t.term
+                                    WHERE (strpos(t0.name, @Topic) > 0)
+                                    ORDER BY t.term, t0.id, t1.term, t1.meaning
+                                    LIMIT @Take OFFSET @Skip";
+
+
+            /// <summary>
+            /// using both term and topic
+            /// </summary>
+            public static readonly string GetPageWithTopicAndQuery =
+                                                @" SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted, t.name, t1.term, t1.meaning, t1.is_deleted
+                                                    FROM words AS w
+                                                    INNER JOIN topics AS t ON w.topic_id = t.id
+	                                                LEFT JOIN translations AS t1 ON t1.term = w.term
+                                                    WHERE (strpos(t.name, @Topic) > 0) AND (strpos(w.term, @SearchTerm) > 0)
+                                                    ORDER BY w.term
+                                                    LIMIT @Take OFFSET @Skip";
         }
 
         public DapperPgFacade(IConfiguration configuration)
@@ -97,25 +109,37 @@ namespace DictionaryBack.DAL.Dapper
 
         public async Task<IEnumerable<Word>> GetPage(WordsByTopicRequest request)
         {
+            var deduplicatedValues = new Dictionary<string, Word>();
+
             using var conn = new NpgsqlConnection(_configuration.GetConnectionString("WordsContext"));
-            // bad practice
-            var parameters = new DynamicParameters(new { request.Skip, request.Take, SearchTerm = $"%{request.SearchTerm}%", request.Topic });
+            var parameters = new DynamicParameters(new { request.Skip, request.Take, request.SearchTerm, request.Topic });
             var query = SelectQuery(request);
-            List<Word> words = (await conn.QueryAsync<Word, Translation, Word>(query,
-                (w, t) =>
+            List<Word> words = (await conn.QueryAsync<Word, Topic, Translation, Word>(query,
+                (word, topic, translation) =>
                 {
-                    if (w.Translations == null)
+                    if (deduplicatedValues.TryGetValue(word.Term, out var existing))
                     {
-                        w.Translations = new List<Translation>();
+                        existing.Translations.Add(translation);
+                        return existing;
                     }
-                    w.Translations.Add(t);
-                    return w;
+                    else
+                    {
+                        if (word.Translations == null)
+                        {
+                            word.Translations = new List<Translation>();
+                        }
+                        word.Translations.Add(translation);
+                        word.Topic = topic;
+                        word.TopicId = topic.Id;
+                        deduplicatedValues[word.Term] = word;
+                        return word;
+                    }
                 },
                 parameters,
-                splitOn: "term"))
+                splitOn: "id,term"))
                 .ToList();
 
-            return words;
+            return deduplicatedValues.Values;
         }
 
         private static string SelectQuery(WordsByTopicRequest request)
@@ -135,7 +159,7 @@ namespace DictionaryBack.DAL.Dapper
                 return PostgresqlText.GetPageWithTopic;
             }
 
-            return PostgresqlText.GetPageNoTextSearch;
+            return PostgresqlText.GetPageNoSearch;
         }
     }
 }

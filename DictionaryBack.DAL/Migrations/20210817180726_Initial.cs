@@ -8,13 +8,15 @@ namespace DictionaryBack.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("CREATE EXTENSION citext;");
+
             migrationBuilder.CreateTable(
                 name: "topics",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    name = table.Column<string>(type: "citext", maxLength: 200, nullable: true),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
@@ -26,7 +28,7 @@ namespace DictionaryBack.DAL.Migrations
                 name: "words",
                 columns: table => new
                 {
-                    term = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    term = table.Column<string>(type: "citext", nullable: false),
                     topic_id = table.Column<int>(type: "integer", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     status = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
@@ -48,7 +50,7 @@ namespace DictionaryBack.DAL.Migrations
                 columns: table => new
                 {
                     meaning = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    term = table.Column<string>(type: "character varying(200)", nullable: false),
+                    term = table.Column<string>(type: "citext", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },
                 constraints: table =>

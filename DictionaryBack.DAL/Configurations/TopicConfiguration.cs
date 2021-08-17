@@ -16,6 +16,8 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.Property(t => t.Name).HasMaxLength(200).HasColumnName("name");
 
+            builder.Property(c => c.Name).HasColumnType("citext");
+
             builder.Property(t => t.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
 
             // several users?

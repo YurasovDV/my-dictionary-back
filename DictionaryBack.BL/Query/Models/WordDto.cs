@@ -1,5 +1,8 @@
-﻿namespace DictionaryBack.BL.Query.Models
+﻿using System.Diagnostics;
+
+namespace DictionaryBack.BL.Query.Models
 {
+    [DebuggerDisplay("{Term}=[{Translations}]")]
     public class WordDto
     {
         public string Term { get; set; }

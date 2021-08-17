@@ -19,6 +19,8 @@ namespace DictionaryBack.DAL
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            // modelBuilder.HasCollation("ci_collation", locale: "en-u-ks-primary", provider: "icu", deterministic: false); 
+            //             migrationBuilder.Sql("CREATE UNIQUE INDEX \"IX_Word_Term_lower\" ON words (lower(term));");
         }
     }
 }

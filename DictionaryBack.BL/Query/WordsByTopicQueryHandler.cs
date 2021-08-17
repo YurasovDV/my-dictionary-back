@@ -11,7 +11,7 @@ namespace DictionaryBack.BL.Query
 {
     public interface IWordsByTopicQueryHandler
     {
-        Task<IEnumerable<WordDto>> GetWordsAsync(WordsByTopicRequest request);
+        Task<IEnumerable<WordDto>> GetPageTrackingAsync(WordsByTopicRequest request);
 
         Task<IEnumerable<WordDto>> GetPageNoTracking(WordsByTopicRequest request);
 
@@ -29,7 +29,7 @@ namespace DictionaryBack.BL.Query
             _dapperFacade = dapperFacade;
         }
 
-        public async Task<IEnumerable<WordDto>> GetWordsAsync(WordsByTopicRequest request)
+        public async Task<IEnumerable<WordDto>> GetPageTrackingAsync(WordsByTopicRequest request)
         {
             var query = _dictionaryContext.Words.AsQueryable();
 

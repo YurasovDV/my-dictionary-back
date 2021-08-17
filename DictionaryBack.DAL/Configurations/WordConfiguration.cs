@@ -12,7 +12,7 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.HasKey(w => w.Term);
 
-            builder.Property(w => w.Term).HasMaxLength(200).HasColumnName("term");
+            builder.Property(w => w.Term).HasColumnType("citext").HasColumnName("term");
 
             builder.Property(w => w.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
 
