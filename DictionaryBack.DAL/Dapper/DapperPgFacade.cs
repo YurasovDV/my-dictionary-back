@@ -44,7 +44,6 @@ namespace DictionaryBack.DAL.Dapper
         public async Task<IEnumerable<Word>> GetAll()
         {
             using var conn = new NpgsqlConnection(_configuration.GetConnectionString("WordsContext"));
-            await conn.OpenAsync();
             List<Word> words = (await conn.QueryAsync<Word, Translation, Word>(PostgresqlText.GetAll,
                 (w, t) =>
                 {
@@ -62,7 +61,6 @@ namespace DictionaryBack.DAL.Dapper
         public async Task<IEnumerable<Word>> GetPage(int take, int skip)
         {
             using var conn = new NpgsqlConnection(_configuration.GetConnectionString("WordsContext"));
-            await conn.OpenAsync();
             var parameters = new DynamicParameters(new { Skip = skip, Take = take });
 
             List<Word> words = (await conn.QueryAsync<Word, Translation, Word>(PostgresqlText.GetPage,

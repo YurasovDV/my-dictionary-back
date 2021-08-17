@@ -47,14 +47,6 @@ namespace DictionaryBack.API.Controllers
         }
 
 
-
-
-
-
-
-
-
-
         [HttpPost]
         [Route("GetPage", Name = "GetPage")]
         public async Task<IEnumerable<WordDto>> GetPage([FromBody] WordsByTopicRequest request)
