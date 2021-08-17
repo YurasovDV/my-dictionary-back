@@ -1,6 +1,7 @@
 ﻿using DictionaryBack.BL.Query.Models;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
+using DictionaryBack.Infrastructure.Requests;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace DictionaryBack.BL.Query
 {
     public interface IWordsByTopicQueryHandler
     {
-        Task<List<WordDto>> GetWordsAsync(WordsByTopicRequest request);
+        Task<IEnumerable<WordDto>> GetWordsAsync(WordsByTopicRequest request);
 
         Task<IEnumerable<WordDto>> GetPageNoTracking(WordsByTopicRequest request);
 
@@ -28,9 +29,14 @@ namespace DictionaryBack.BL.Query
             _dapperFacade = dapperFacade;
         }
 
-        public async Task<List<WordDto>> GetWordsAsync(WordsByTopicRequest request)
+        public async Task<IEnumerable<WordDto>> GetWordsAsync(WordsByTopicRequest request)
         {
             var query = _dictionaryContext.Words.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+            {
+                query = query.Where(w => w.Term.Contains(request.SearchTerm));
+            }
 
             if (!string.IsNullOrWhiteSpace(request.Topic))
             {
@@ -60,6 +66,11 @@ namespace DictionaryBack.BL.Query
                 .AsNoTracking()
                 .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+            {
+                query = query.Where(w => w.Term.Contains(request.SearchTerm));
+            }
+
             if (!string.IsNullOrWhiteSpace(request.Topic))
             {
                 query = query.Where(w => w.Topic.Contains(request.Topic));
@@ -84,7 +95,7 @@ namespace DictionaryBack.BL.Query
 
         public async Task<IEnumerable<WordDto>> GetPageDapper(WordsByTopicRequest request)
         {
-            return (await _dapperFacade.GetPage(request.Take.Value, request.Skip.Value))
+            return (await _dapperFacade.GetPage(request))
                 .Select(w => Mapper.Map(w))
                 .ToList();
         }

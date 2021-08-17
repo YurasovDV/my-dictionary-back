@@ -1,5 +1,6 @@
 ﻿using DictionaryBack.BL.Query;
 using DictionaryBack.BL.Query.Models;
+using DictionaryBack.Infrastructure.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
