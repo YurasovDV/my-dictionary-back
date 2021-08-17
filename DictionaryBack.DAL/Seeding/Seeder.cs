@@ -63,6 +63,7 @@ namespace DictionaryBack.DAL
                         var word = partition.Current;
                         word.Translations = word.Translations.Distinct(comparer).ToList();
                         word.Topic = defaultTopic;
+                        word.Term = word.Term.Trim();
                         _context.Words.Add(word);
                     }
                     _context.SaveChanges();

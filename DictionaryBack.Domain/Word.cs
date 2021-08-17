@@ -7,15 +7,15 @@ namespace DictionaryBack.Domain
     {
         public string Term { get; set; }
 
+        public ICollection<Translation> Translations { get; set; }
+
         public Topic Topic { get; set; }
 
         public int TopicId { get; set; }
 
-        public ICollection<Translation> Translations { get; set; }
+        public WordStatus Status { get; set; }
 
         public bool IsDeleted { get; set; }
-
-        public WordStatus Status { get; set; }
 
         public DateTime? LastRepetition { get; set; }
     }

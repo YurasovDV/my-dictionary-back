@@ -63,26 +63,35 @@ namespace DictionaryBack.DAL.Dapper
             /// using only topic
             /// </summary>
             public static readonly string GetPageWithTopic =
-                                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
-                                    FROM words AS t
-                                    INNER JOIN topics AS t0 ON t.topic_id = t0.id
-	                                LEFT JOIN translations AS t1 ON t1.term = t.term
-                                    WHERE (strpos(t0.name, @Topic) > 0)
-                                    ORDER BY t.term, t0.id, t1.term, t1.meaning
-                                    LIMIT @Take OFFSET @Skip";
+                @"SELECT t0.term, t0.is_deleted, t0.last_repetition, t0.status, t0.topic_id, t0.id, t0.is_deleted0, t0.name, t1.term, t1.meaning, t1.is_deleted
+                    FROM (
+                        SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted AS is_deleted0, t.name
+                        FROM words AS w
+                        INNER JOIN topics AS t ON w.topic_id = t.id
+                        WHERE (strpos(t.name, @Topic::citext) > 0)
+                        ORDER BY w.term
+                        LIMIT @Take OFFSET @Skip
+                    ) AS t0
+                    LEFT JOIN translations AS t1 ON t0.term = t1.term
+                    ORDER BY t0.term, t0.id, t1.term, t1.meaning";
 
 
             /// <summary>
             /// using both term and topic
             /// </summary>
             public static readonly string GetPageWithTopicAndQuery =
-                                                @" SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted, t.name, t1.term, t1.meaning, t1.is_deleted
-                                                    FROM words AS w
-                                                    INNER JOIN topics AS t ON w.topic_id = t.id
-	                                                LEFT JOIN translations AS t1 ON t1.term = w.term
-                                                    WHERE (strpos(t.name, @Topic) > 0) AND (strpos(w.term, @SearchTerm) > 0)
-                                                    ORDER BY w.term
-                                                    LIMIT @Take OFFSET @Skip";
+
+                @"SELECT t0.term, t0.is_deleted, t0.last_repetition, t0.status, t0.topic_id, t0.id, t0.is_deleted0, t0.name, t1.term, t1.meaning, t1.is_deleted
+                        FROM (
+                            SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted AS is_deleted0, t.name
+                            FROM words AS w
+                            INNER JOIN topics AS t ON w.topic_id = t.id
+                            WHERE (strpos(t.name, @Topic::citext) > 0) AND (strpos(w.term, @SearchTerm) > 0)
+                            ORDER BY w.term
+                            LIMIT @Take OFFSET @Skip
+                        ) AS t0
+                        LEFT JOIN translations AS t1 ON t0.term = t1.term
+                        ORDER BY t0.term, t0.id, t1.term, t1.meaning";
         }
 
         public DapperPgFacade(IConfiguration configuration)
@@ -112,7 +121,7 @@ namespace DictionaryBack.DAL.Dapper
             var deduplicatedValues = new Dictionary<string, Word>();
 
             using var conn = new NpgsqlConnection(_configuration.GetConnectionString("WordsContext"));
-            var parameters = new DynamicParameters(new { request.Skip, request.Take, request.SearchTerm, request.Topic });
+            var parameters = new { request.Skip, request.Take, request.Topic, request.SearchTerm };
             var query = SelectQuery(request);
             List<Word> words = (await conn.QueryAsync<Word, Topic, Translation, Word>(query,
                 (word, topic, translation) =>
