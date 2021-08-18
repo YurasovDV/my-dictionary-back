@@ -9,5 +9,13 @@
         public int? Skip { get; set; }
 
         public int? Take { get; set; }
+
+        /// <summary>
+        /// for benchmarks
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{Skip}-{Skip + Take},T={Topic},Q={SearchTerm}";
+        }
     }
 }

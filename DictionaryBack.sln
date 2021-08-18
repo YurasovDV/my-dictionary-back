@@ -19,12 +19,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Tests", "Dic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Infrastructure", "DictionaryBack.Infrastructure\DictionaryBack.Infrastructure.csproj", "{431FBD97-CE0D-4036-9AB4-7653F203FFE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBack.CompositionRoot", "DictionaryBack.CompositionRoot\DictionaryBack.CompositionRoot.csproj", "{D3D6819D-0925-41A1-9738-7D63114C7FB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.CompositionRoot", "DictionaryBack.CompositionRoot\DictionaryBack.CompositionRoot.csproj", "{D3D6819D-0925-41A1-9738-7D63114C7FB8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9842E70E-2445-4E65-ACD6-FC71B28E41AB}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBack.PerfTest", "DictionaryBack.PerfTest\DictionaryBack.PerfTest.csproj", "{1A175133-C99C-4315-BE73-DD0882C35990}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,12 +66,17 @@ Global
 		{D3D6819D-0925-41A1-9738-7D63114C7FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3D6819D-0925-41A1-9738-7D63114C7FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3D6819D-0925-41A1-9738-7D63114C7FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A175133-C99C-4315-BE73-DD0882C35990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A175133-C99C-4315-BE73-DD0882C35990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A175133-C99C-4315-BE73-DD0882C35990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A175133-C99C-4315-BE73-DD0882C35990}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9B0438E1-F467-4BDF-A9B9-E5FBB0229552} = {A30D57C3-6757-48CA-9803-394C06B964A3}
+		{1A175133-C99C-4315-BE73-DD0882C35990} = {A30D57C3-6757-48CA-9803-394C06B964A3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AA3A31AD-9406-4979-827A-4C56585F4915}
