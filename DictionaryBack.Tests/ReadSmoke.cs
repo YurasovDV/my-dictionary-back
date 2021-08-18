@@ -1,5 +1,6 @@
 ﻿using DictionaryBack.API;
 using DictionaryBack.BL.Query.Models;
+using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.Requests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -125,8 +126,8 @@ namespace DictionaryBack.Tests
             var response = await client.PostAsync(url, new StringContent(requestContent, Encoding.UTF8, MediaTypeNames.Application.Json));
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            var words = JsonSerializer.Deserialize<List<WordDto>>(content, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-            return words;
+            var words = JsonSerializer.Deserialize<OperationResult<List<WordDto>>>(content, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            return words.Data;
         }
     }
 }

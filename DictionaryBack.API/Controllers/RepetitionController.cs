@@ -27,7 +27,7 @@ namespace DictionaryBack.API.Controllers
         [HttpPost]
         [Route("", Name = "CreateRepetitionSet")]
         [SwaggerResponse(200, type: typeof(OperationResult<WordDto>))]
-        public async Task<OperationResult<WordDto[]>> AddWord()
+        public async Task<OperationResult<WordDto[]>> CreateRepetitionSet()
         {
             return await _repetitionHandler.CreateSet();
         }

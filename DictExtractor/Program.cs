@@ -26,10 +26,12 @@ namespace DictionaryBack.DictExtractor
                     .SelectSingleNode("//table/tbody")
                     .Elements("tr");
 
+                var translationsComparer = new TranslationsComparer();
+
                 foreach (var tr in htmlRows)
                 {
                     var tds = tr.Elements("td").ToArray();
-                    var term = tds[1].Element("b").InnerText;
+                    var term = tds[1].Element("b").InnerText.Trim();
                     var translations = tds[3].InnerText
                         .Split(';', StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.Trim())
@@ -47,12 +49,18 @@ namespace DictionaryBack.DictExtractor
                             })
                         .ToArray()
                     };
+                    word.Translations = word.Translations.Distinct(translationsComparer).ToArray();
                     rows.Add(word);
                 }
             }
             if (rows.Any())
             {
-                var serialized = JsonSerializer.Serialize(rows,
+                var grouped = rows.GroupBy(w => w.Term).ToList();
+
+                List<Word> distinctRows = grouped.Select(g => g.First()).ToList();
+
+
+                var serialized = JsonSerializer.Serialize(distinctRows,
                     new JsonSerializerOptions()
                     {
                         WriteIndented = true,

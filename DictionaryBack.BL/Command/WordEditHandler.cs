@@ -4,6 +4,8 @@ using DictionaryBack.DAL;
 using DictionaryBack.Domain;
 using DictionaryBack.Infrastructure;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DictionaryBack.BL.Command
@@ -28,10 +30,13 @@ namespace DictionaryBack.BL.Command
                 {
                     // for plain properties: DictionaryContext.Entry(existingWord).CurrentValues.SetValues(request);
 
-                    EditInternal(existingWord, request);
-
-                    await DictionaryContext.SaveChangesAsync();
-                    return OperationResultExt.Success(Mapper.Map(existingWord));
+                    var editResult = EditInternal(existingWord, request);
+                    if (editResult.IsSuccessful())
+                    {
+                        await DictionaryContext.SaveChangesAsync();
+                        return OperationResultExt.Success(Mapper.Map(existingWord));
+                    }
+                    return editResult;
                 }
                 return OperationResultExt.Fail<WordDto>(CommandStatus.WordNotFound, "Word does not exist");
             }
@@ -41,11 +46,16 @@ namespace DictionaryBack.BL.Command
             }
         }
 
-        private void EditInternal(Word existingWord, WordEditModel request)
+        private OperationResult<WordDto> EditInternal(Word existingWord, WordEditModel request)
         {
             if (request.Topic != existingWord?.Topic.Name)
             {
-                existingWord.Topic = FindTopic(request);
+                var found = FindTopic(request);
+                if (!found.IsSuccessful())
+                {
+                    return OperationResultExt.Fail<WordDto>(found.StatusCode, found.ErrorText);
+                }
+                existingWord.Topic = found.Data;
             }
 
             if (existingWord.Status != request.Status)
@@ -53,17 +63,45 @@ namespace DictionaryBack.BL.Command
                 existingWord.Status = request.Status;
             }
 
+            existingWord.Translations = GetUpdatedTranslationsList(existingWord, request);
 
-            var translationsAdded = [];
-            var translationsRemoved = [];
-
-            existingWord.Translations.Remove(translationsRemoved)
-            existingWord.Translations.Add(translationsAdded)
+            return OperationResultExt.Success(Mapper.Map(existingWord));
         }
 
-        private Topic FindTopic(WordEditModel request)
+        private static Translation[] GetUpdatedTranslationsList(Word existingWord, WordEditModel request)
         {
-            
+            Dictionary<string, Translation> result = existingWord.Translations.ToDictionary(t => t.Meaning);
+
+            // maybe plain array is good enough
+            var existingTranslations = result.Keys.ToHashSet();
+
+            var translationsAdded = request.Translations.Except(existingTranslations).ToArray();
+            var translationsRemoved = existingTranslations.Except(request.Translations).ToArray();
+
+            foreach (var added in translationsAdded)
+            {
+                result[added] = new Translation()
+                {
+                    Meaning = added,
+                };
+            }
+
+            foreach (var removed in translationsRemoved)
+            {
+                result.Remove(removed);
+            }
+
+            return result.Values.ToArray();
+        }
+
+        private OperationResult<Topic> FindTopic(WordEditModel request)
+        {
+            var existing = DictionaryContext.Topics.FirstOrDefault(t => t.Name.Equals(request.Topic));
+            if (existing == null)
+            {
+                return OperationResultExt.Fail<Topic>(CommandStatus.TopicNotFound, "Topic not found");
+            }
+            return OperationResultExt.Success(existing);
         }
     }
 }

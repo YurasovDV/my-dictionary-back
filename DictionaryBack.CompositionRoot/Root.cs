@@ -9,7 +9,7 @@ using System;
 
 namespace DictionaryBack.CompositionRoot
 {
-    public static class CompositionRoot
+    public static class Root
     {
         public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopment)
         {
@@ -30,7 +30,7 @@ namespace DictionaryBack.CompositionRoot
                             .UseNpgsql(configuration.GetConnectionString("WordsContext"));
             }
 
-            services.AddDbContextPool<DictionaryContext>(action);
+            services.AddDbContext<DictionaryContext>(action);
 
             services.AddScoped<IDapperFacade, DapperPgFacade>();
             services.AddScoped<Seeder>();

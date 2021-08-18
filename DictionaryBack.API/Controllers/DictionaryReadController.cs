@@ -1,8 +1,10 @@
 ﻿using DictionaryBack.BL.Query;
 using DictionaryBack.BL.Query.Models;
+using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,33 +26,32 @@ namespace DictionaryBack.API.Controllers
             _logger = logger;
         }
 
-        // debug version
-        [HttpGet]
-        [Route("", Name = "GetWordsAsync")]
-        public async Task<IEnumerable<WordDto>> Get()
-        {
-            return await _allWordsQueryHandler.GetWordsAsync();
-        }
-
-        // debug version
         [HttpGet]
         [Route("GetNoTracking", Name = "GetNoTracking")]
-        public async Task<IEnumerable<WordDto>> GetNoTracking()
+        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetNoTracking()
         {
             return await _allWordsQueryHandler.GetWordsNoTrackingAsync();
         }
 
         [HttpGet]
         [Route("GetWithDapper", Name = "GetWithDapper")]
-        public async Task<IEnumerable<WordDto>> GetWithDapper()
+        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetWithDapper()
         {
             return await _allWordsQueryHandler.GetWithDapper();
         }
 
 
+        /// <summary>
+        /// Only for perfomance comparison
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("GetPage", Name = "GetPage")]
-        public async Task<IEnumerable<WordDto>> GetPage([FromBody] WordsByTopicRequest request)
+        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetPage([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageTrackingAsync(request);
         }
@@ -58,14 +59,16 @@ namespace DictionaryBack.API.Controllers
 
         [HttpPost]
         [Route("GetPageNoTracking", Name = "GetPageNoTracking")]
-        public async Task<IEnumerable<WordDto>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
+        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageNoTracking(request);
         }
 
         [HttpPost]
         [Route("GetPageDapper", Name = "GetPageDapper")]
-        public async Task<IEnumerable<WordDto>> GetPageDapper([FromBody] WordsByTopicRequest request)
+        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageDapper([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageDapper(request);
         }

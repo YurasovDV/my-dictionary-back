@@ -8,7 +8,8 @@ namespace DictionaryBack.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("CREATE EXTENSION citext;");
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:citext", ",,");
 
             migrationBuilder.CreateTable(
                 name: "topics",
@@ -30,8 +31,8 @@ namespace DictionaryBack.DAL.Migrations
                 {
                     term = table.Column<string>(type: "citext", nullable: false),
                     topic_id = table.Column<int>(type: "integer", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     status = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     last_repetition = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>

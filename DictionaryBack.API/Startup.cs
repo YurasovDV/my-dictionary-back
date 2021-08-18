@@ -1,3 +1,4 @@
+using DictionaryBack.CompositionRoot;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace DictionaryBack.API
 
             AddSwagger(services);
 
-            CompositionRoot.CompositionRoot.ConfigureServices(services, Configuration, _env.IsDevelopment());
+            Root.ConfigureServices(services, Configuration, _env.IsDevelopment());
         }
 
         private static void AddSwagger(IServiceCollection services)

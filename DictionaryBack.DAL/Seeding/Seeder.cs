@@ -20,9 +20,16 @@ namespace DictionaryBack.DAL
             _context = context;
         }
 
-        public void MigrateAndSeed(string dictionaryJson)
+        public void Migrate()
         {
             _context.Database.Migrate();
+        }
+
+        public void Seed(string dictionaryJson)
+        {
+            _context.Database.OpenConnection();
+            ((Npgsql.NpgsqlConnection)_context.Database.GetDbConnection()).ReloadTypes();
+
 
             if (!_context.Words.Any())
             {
@@ -61,30 +68,19 @@ namespace DictionaryBack.DAL
                     while (partition.MoveNext())
                     {
                         var word = partition.Current;
-                        word.Translations = word.Translations.Distinct(comparer).ToList();
                         word.Topic = defaultTopic;
-                        word.Term = word.Term.Trim();
                         _context.Words.Add(word);
                     }
                     _context.SaveChanges();
                 }
             }
         }
-    }
 
-    internal class TranslationsComparer : IEqualityComparer<Translation>
-    {
-        public bool Equals(Translation x, Translation y)
+        public void DropDatabase()
         {
-            return
-                string.Equals(x.Term, y.Term, StringComparison.OrdinalIgnoreCase) &&
-                string.Equals(x.Meaning, y.Meaning, StringComparison.OrdinalIgnoreCase);
+            _context.Database.EnsureDeleted();
 
-        }
-
-        public int GetHashCode([DisallowNull] Translation obj)
-        {
-            return obj.Meaning.GetHashCode();
+            //_context.Database.EnsureCreated();
         }
     }
 }

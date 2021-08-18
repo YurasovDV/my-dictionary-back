@@ -6,7 +6,11 @@
 
         WordNotFound = 10,
 
-        InternalError = 20
+
+        TopicNotFound = 11,
+
+        InternalError = 100,
+
 
     }
 }

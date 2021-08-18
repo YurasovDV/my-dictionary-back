@@ -1,6 +1,7 @@
 ﻿using DictionaryBack.BL.Query.Models;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
+using DictionaryBack.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace DictionaryBack.BL.Query
 {
+    /// <summary>
+    /// Only for perf test
+    /// </summary>
     public interface IAllWordsQueryHandler
     {
-        Task<List<WordDto>> GetWordsAsync();
 
-        Task<IEnumerable<WordDto>> GetWordsNoTrackingAsync();
+        Task<OperationResult<IEnumerable<WordDto>>> GetWordsNoTrackingAsync();
 
-        Task<IEnumerable<WordDto>> GetWithDapper();
+        Task<OperationResult<IEnumerable<WordDto>>> GetWithDapper();
     }
 
 
@@ -29,19 +32,21 @@ namespace DictionaryBack.BL.Query
             _dapperFacade = dapperFacade;
         }
 
-        public async Task<List<WordDto>> GetWordsAsync()
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetWordsNoTrackingAsync()
         {
-            return await _dictionaryContext.Words.Select(w => Mapper.Map(w)).ToListAsync();
+            IEnumerable<WordDto> data = (await _dictionaryContext.Words.AsNoTracking().ToListAsync())
+                .Select(Mapper.Map)
+                .ToList();
+            return OperationResultExt.Success(data);
         }
 
-        public async Task<IEnumerable<WordDto>> GetWordsNoTrackingAsync()
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetWithDapper()
         {
-            return await _dictionaryContext.Words.AsNoTracking().Select(w => Mapper.Map(w)).ToListAsync();
-        }
+            IEnumerable<WordDto> data = (await _dapperFacade.GetAll())
+                .Select(Mapper.Map)
+                .ToList();
 
-        public async Task<IEnumerable<WordDto>> GetWithDapper()
-        {
-            return (await _dapperFacade.GetAll()).Select(w => Mapper.Map(w)).ToList();
+            return OperationResultExt.Success(data);
         }
     }
 }

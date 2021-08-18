@@ -20,7 +20,7 @@ namespace DictionaryBack.BL.Command
 
         public async Task<OperationResult<WordDto[]>> CreateSet()
         {
-            
+            return OperationResultExt.Fail<WordDto[]>(CommandStatus.InternalError, "Not implemented");
         }
     }
 

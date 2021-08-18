@@ -36,5 +36,7 @@ namespace DictionaryBack.Infrastructure
                 { InnerErrorText, innerErrorText }
             }
         };
+
+        public static bool IsSuccessful<T>(this OperationResult<T> res) => res.StatusCode == CommandStatus.Success;
     }
 }
