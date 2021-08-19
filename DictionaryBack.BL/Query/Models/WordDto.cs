@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using DictionaryBack.Domain;
+using System.Diagnostics;
 
 namespace DictionaryBack.BL.Query.Models
 {
@@ -10,5 +11,7 @@ namespace DictionaryBack.BL.Query.Models
         public string Topic { get; set; }
 
         public string[] Translations { get; set; }
+
+        public WordStatus Status { get; set; }
     }
 }

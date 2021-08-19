@@ -1,4 +1,5 @@
 ﻿using DictionaryBack.BL.Command.Models;
+using DictionaryBack.BL.Query.Models;
 using DictionaryBack.Domain;
 using DictionaryBack.Infrastructure.Requests;
 using System;
@@ -56,6 +57,7 @@ namespace DictionaryBack.Tests.TestsInfrastructure
                 };
             }
 
+            // todo
             internal static WordCreationModel AddWordRequestInvalid(string term = null, string firstTranslation = null, string topic = null)
             {
                 return new WordCreationModel()
@@ -75,6 +77,23 @@ namespace DictionaryBack.Tests.TestsInfrastructure
                     Topic = Constants.DefaultTopic
                 };
             }
+
+            internal class Edit
+            {
+                internal static WordEditModel CopyOf(WordDto wordDto)
+                {
+                    return new WordEditModel()
+                    {
+                        Term = wordDto.Term,
+                        Status = wordDto.Status,
+                        Topic = wordDto.Topic,
+                        Translations = wordDto.Translations,
+                    };
+                }
+            }
+
+
+
         }
 
         internal static class Repetition

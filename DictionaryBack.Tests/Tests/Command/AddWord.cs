@@ -56,7 +56,7 @@ namespace DictionaryBack.Tests
             var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, Urls.Command.AddWord);
 
             Assert.IsFalse(resp.IsSuccessful());
-            Console.WriteLine(resp.ErrorText);
+            Console.WriteLine($"error message: {resp.ErrorText}");
         }
     }
 }
