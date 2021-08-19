@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace DictionaryBack.BL.Command
 {
+    // todo separate entity with own lifecycle
     public interface IRepetitionHandler
     {
         Task<OperationResult<WordDto[]>> CreateSet();
+
+        Task<BoolOperationResult> CompleteRepetition(WordDto[] words);
     }
 
     public class RepetitionHandler : BaseCommand, IRepetitionHandler
@@ -22,7 +25,10 @@ namespace DictionaryBack.BL.Command
         {
             return OperationResultExt.Fail<WordDto[]>(CommandStatus.InternalError, TranslationService.GetTranslation("Not implemented"));
         }
+
+        public async Task<BoolOperationResult> CompleteRepetition(WordDto[] words)
+        {
+            return OperationResultExt.BoolFail(CommandStatus.InternalError, TranslationService.GetTranslation("Not implemented"));
+        }
     }
-
-
 }

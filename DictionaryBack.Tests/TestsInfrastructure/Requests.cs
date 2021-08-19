@@ -48,7 +48,7 @@ namespace DictionaryBack.Tests.TestsInfrastructure
         {
             internal static WordCreationModel AddWordRequest(string term = null)
             {
-                var actualTerm = term == null ? Guid.NewGuid().ToString() : term;
+                var actualTerm = term ?? Guid.NewGuid().ToString();
                 return new WordCreationModel()
                 {
                     Term = actualTerm,
@@ -62,7 +62,7 @@ namespace DictionaryBack.Tests.TestsInfrastructure
             {
                 return new WordCreationModel()
                 {
-                    Term = null,
+                    Term = term,
                     Translations = new[] { firstTranslation },
                     Topic = topic
                 };

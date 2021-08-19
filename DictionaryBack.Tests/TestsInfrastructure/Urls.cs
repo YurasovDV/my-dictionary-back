@@ -16,13 +16,13 @@
         {
             internal const string AddWord = "DictionaryCommand/";
             internal const string EditWord = "DictionaryCommand/";
-            internal const string DeleteWord = "DictionaryCommand/";
+            // internal const string DeleteWord = "DictionaryCommand/";
         }
 
         internal static class Repetition
         { 
-            internal const string CreateRepetitionSet = "";
-            internal const string CompleteRepetition = "";
+            internal const string CreateRepetitionSet = "Repetition/CreateRepetitionSet";
+            internal const string CompleteRepetition = "Repetition/CompleteRepetition";
         }
     }
 }

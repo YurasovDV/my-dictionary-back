@@ -25,11 +25,19 @@ namespace DictionaryBack.API.Controllers
         }
 
         [HttpPost]
-        [Route("", Name = "CreateRepetitionSet")]
+        [Route("CreateRepetitionSet", Name = "CreateRepetitionSet")]
         [SwaggerResponse(200, type: typeof(OperationResult<WordDto>))]
         public async Task<OperationResult<WordDto[]>> CreateRepetitionSet()
         {
             return await _repetitionHandler.CreateSet();
+        }
+
+        [HttpPost]
+        [Route("CompleteRepetition", Name = "CompleteRepetition")]
+        [SwaggerResponse(200, type: typeof(BoolOperationResult))]
+        public async Task<BoolOperationResult> CompleteRepetition(WordDto[] words)
+        {
+            return await _repetitionHandler.CompleteRepetition(words);
         }
     }
 }

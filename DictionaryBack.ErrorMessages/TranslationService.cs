@@ -10,7 +10,7 @@ namespace DictionaryBack.ErrorMessages
             return _translations[key];
         }
 
-        private Dictionary<string, string> _translations = new()
+        private readonly Dictionary<string, string> _translations = new()
         {
             { "Topic not found", "Topic not found" },
             { "No word provided", "No word provided" },

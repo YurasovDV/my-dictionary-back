@@ -61,7 +61,7 @@ namespace DictionaryBack.DAL
 
                 // entirely no reason to use Partitioner
                 var partitioner = Partitioner.Create(rows);
-                var partitions = partitioner.GetPartitions(rows.Count() / 200);
+                var partitions = partitioner.GetPartitions(rows.Length / 200);
 
                 foreach (var partition in partitions)
                 {
