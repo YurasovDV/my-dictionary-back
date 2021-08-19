@@ -12,7 +12,7 @@ namespace DictionaryBack.BL.Command
 
     public class WordDeletionHandler : BaseCommand, IWordDeletionHandler
     {
-        public WordDeletionHandler(DictionaryContext dictionaryContext) : base(dictionaryContext) { }
+        public WordDeletionHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService) { }
 
         public async Task<BoolOperationResult> Delete(string term)
         {

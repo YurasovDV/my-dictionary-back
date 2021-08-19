@@ -20,10 +20,10 @@ namespace DictionaryBack.Infrastructure
         {
             get
             {
-                if (!this.IsSuccessful())
-                {
-                    throw new InvalidOperationException($"Attempt to access '{nameof(Data)}' property of non-successful {nameof(OperationResult<T>)}");
-                }
+                // if (!this.IsSuccessful())
+                // {
+                //     throw new InvalidOperationException($"Attempt to access '{nameof(Data)}' property of non-successful {nameof(OperationResult<T>)}");
+                // }
                 return data;
             }
             set

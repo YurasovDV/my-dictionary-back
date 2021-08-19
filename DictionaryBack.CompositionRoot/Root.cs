@@ -2,6 +2,8 @@
 using DictionaryBack.BL.Query;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
+using DictionaryBack.ErrorMessages;
+using DictionaryBack.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,8 @@ namespace DictionaryBack.CompositionRoot
 
             services.AddScoped<IDapperFacade, DapperPgFacade>();
             services.AddScoped<Seeder>();
+
+            services.AddScoped<ITranslationService, TranslationService>();
 
             services.AddScoped<IAllWordsQueryHandler, AllWordsQueryHandler>();
             services.AddScoped<IWordsByTopicQueryHandler, WordsByTopicQueryHandler>();

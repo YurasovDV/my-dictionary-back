@@ -2,8 +2,10 @@
 using DictionaryBack.BL.Query;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
+using DictionaryBack.ErrorMessages;
 using DictionaryBack.Infrastructure.Requests;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -45,22 +47,24 @@ namespace DictionaryBack.PerfTest
         [ArgumentsSource(nameof(GetRequests))]
         public async Task TestEF(WordsByTopicRequest r)
         {
-            var ctx = ContextFactory.CreateDbContext(null);
-            var dapp = new DapperPgFacade(Configuration);
+            var dictionaryContext = ContextFactory.CreateDbContext(null);
+            var dapperFacade = new DapperPgFacade(Configuration);
 
-            var topicReadHandler = new WordsByTopicQueryHandler(ctx, dapp);
-            var a = await topicReadHandler.GetPageNoTrackingAsync(r);
+            var topicReadHandler = new WordsByTopicQueryHandler(dictionaryContext, dapperFacade, new TranslationService());
+            var page = await topicReadHandler.GetPageNoTrackingAsync(r);
+            Console.WriteLine(page.StatusCode);
         }
 
         [Benchmark]
         [ArgumentsSource(nameof(GetRequests))]
         public async Task TestDapper(WordsByTopicRequest r)
         {
-            var ctx = ContextFactory.CreateDbContext(null);
-            var dapp = new DapperPgFacade(Configuration);
+            var dictionaryContext = ContextFactory.CreateDbContext(null);
+            var dapperFacade = new DapperPgFacade(Configuration);
 
-            var topicReadHandler = new WordsByTopicQueryHandler(ctx, dapp);
-            var a = await topicReadHandler.GetPageDapperAsync(r);
+            var topicReadHandler = new WordsByTopicQueryHandler(dictionaryContext, dapperFacade, new TranslationService());
+            var page = await topicReadHandler.GetPageDapperAsync(r);
+            Console.WriteLine(page.StatusCode);
         }
     }
 }

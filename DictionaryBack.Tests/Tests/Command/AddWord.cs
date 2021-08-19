@@ -1,21 +1,18 @@
 ﻿using DictionaryBack.API;
 using DictionaryBack.BL.Query.Models;
 using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.Requests;
 using DictionaryBack.Tests.TestsInfrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Mime;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DictionaryBack.Tests
 {
+    [TestClass]
+    [TestCategory("Command")]
     public class AddWord
     {
         private static WebApplicationFactory<Startup> factory;
@@ -40,11 +37,15 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Command.AddWordRequest();
 
-            var resp = await RequestExecution.ExecuteRequest<OperationResult<WordDto>>(client, request, Urls.Command.AddWord);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<WordDto>>(client, request, Urls.Command.AddWord);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
             }
+
+            Assert.AreEqual(request.Term, resp.Data.Term, ignoreCase: true);
+            Assert.AreEqual(request.Translations.Length, resp.Data.Translations.Length);
+            Assert.AreEqual(request.Translations[0], resp.Data.Translations[0], ignoreCase: true);
         }
 
         [TestMethod]
@@ -52,11 +53,10 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Command.AddWordRequestDuplicated();
 
-            var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, Urls.Command.AddWord);
-            if (!resp.IsSuccessful())
-            {
-                Assert.Fail(resp.ErrorText);
-            }
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, Urls.Command.AddWord);
+
+            Assert.IsFalse(resp.IsSuccessful());
+            Console.WriteLine(resp.ErrorText);
         }
     }
 }

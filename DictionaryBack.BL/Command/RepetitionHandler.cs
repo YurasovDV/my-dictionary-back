@@ -14,13 +14,13 @@ namespace DictionaryBack.BL.Command
 
     public class RepetitionHandler : BaseCommand, IRepetitionHandler
     {
-        public RepetitionHandler(DictionaryContext dictionaryContext) : base(dictionaryContext)
+        public RepetitionHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService)
         {
         }
 
         public async Task<OperationResult<WordDto[]>> CreateSet()
         {
-            return OperationResultExt.Fail<WordDto[]>(CommandStatus.InternalError, "Not implemented");
+            return OperationResultExt.Fail<WordDto[]>(CommandStatus.InternalError, TranslationService.GetTranslation("Not implemented"));
         }
     }
 

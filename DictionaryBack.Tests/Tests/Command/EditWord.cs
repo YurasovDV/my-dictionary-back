@@ -17,6 +17,8 @@ using DictionaryBack.Tests.TestsInfrastructure;
 
 namespace DictionaryBack.Tests
 {
+    [TestClass]
+    [TestCategory("Command")]
     public class EditWord
     {
         private static WebApplicationFactory<Startup> factory;

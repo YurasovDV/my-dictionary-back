@@ -14,10 +14,22 @@ namespace DictionaryBack.Tests.TestsInfrastructure
         private static StringContent GetContent(object request) => 
             new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, MediaTypeNames.Application.Json);
 
-        public static async Task<TRes> ExecuteRequest<TRes>(HttpClient client, object request, string url)
+        public static async Task<TRes> ExecutePostRequest<TRes>(HttpClient client, object request, string url)
         {
             var requestContent = GetContent(request);
             var responseMsg = await client.PostAsync(url, requestContent);
+            return await HandleResponse<TRes>(responseMsg);
+        }
+
+        public static async Task<TRes> ExecutePutRequest<TRes>(HttpClient client, object request, string url)
+        {
+            var requestContent = GetContent(request);
+            var responseMsg = await client.PutAsync(url, requestContent);
+            return await HandleResponse<TRes>(responseMsg);
+        }
+
+        private static async Task<TRes> HandleResponse<TRes>(HttpResponseMessage responseMsg)
+        {
             responseMsg.EnsureSuccessStatusCode();
             var content = await responseMsg.Content.ReadAsStringAsync();
             var responseData = JsonSerializer.Deserialize<TRes>(content, defaultOptions);

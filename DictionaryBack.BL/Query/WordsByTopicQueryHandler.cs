@@ -25,11 +25,13 @@ namespace DictionaryBack.BL.Query
     {
         private readonly DictionaryContext _dictionaryContext;
         private readonly IDapperFacade _dapperFacade;
+        private readonly ITranslationService _translationService;
 
-        public WordsByTopicQueryHandler(DictionaryContext dictionaryContext, IDapperFacade dapperFacade)
+        public WordsByTopicQueryHandler(DictionaryContext dictionaryContext, IDapperFacade dapperFacade, ITranslationService translationService)
         {
             _dictionaryContext = dictionaryContext;
             _dapperFacade = dapperFacade;
+            _translationService = translationService;
         }
 
         public async Task<OperationResult<IEnumerable<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request)
@@ -84,7 +86,7 @@ namespace DictionaryBack.BL.Query
 
                     if (request.Take > Constants.MaxWordsInRequest)
                     {
-                        return OperationResultExt.Fail<IEnumerable<WordDto>>(CommandStatus.InvalidRequest, "Too many items requested");
+                        return OperationResultExt.Fail<IEnumerable<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation("Too many items requested"));
                     }
                 }
             }

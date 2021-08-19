@@ -15,7 +15,7 @@ namespace DictionaryBack.BL.Command
 
     public class WordCreationHandler : BaseCommand, IWordCreationHandler
     {
-        public WordCreationHandler(DictionaryContext dictionaryContext) : base(dictionaryContext) { }
+        public WordCreationHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService) { }
 
         public async Task<OperationResult<WordDto>> Create(WordCreationModel request)
         {
@@ -23,12 +23,12 @@ namespace DictionaryBack.BL.Command
             {
                 if (string.IsNullOrWhiteSpace(request.Term))
                 {
-                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, "No word provided");
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("No word provided"));
                 }
 
                 if (request.Translations == null || request.Translations.Length == 0 || request.Translations.Any(r => string.IsNullOrWhiteSpace(r)))
                 {
-                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, "Incorrect translations");
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("Incorrect translations"));
                 }
 
                 var word = Mapper.Map(request);
@@ -41,8 +41,16 @@ namespace DictionaryBack.BL.Command
                 }
                 else
                 {
-                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, "Incorrect topic name");
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("Incorrect topic name"));
                 }
+
+                var existingWord = DictionaryContext.Words.Find(word.Term);
+
+                if (existingWord != null)
+                {
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("Word already exists"));
+                }
+
 
                 DictionaryContext.Words.Add(word);
                 await DictionaryContext.SaveChangesAsync();
@@ -50,7 +58,7 @@ namespace DictionaryBack.BL.Command
             }
             catch (Exception)
             {
-                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, "Internal error");
+                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation("Internal error"));
             }
         }
     }

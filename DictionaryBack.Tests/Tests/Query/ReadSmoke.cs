@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace DictionaryBack.Tests
 {
     [TestClass]
+    [TestCategory("Query")]
     public class ReadSmoke
     {
         private static WebApplicationFactory<Startup> factory;
@@ -40,7 +41,7 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirstKWords();
 
-            var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
@@ -64,7 +65,7 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirstKWords(100);
 
-            var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
@@ -89,7 +90,7 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirst20WordsWith_For_Query();
 
-            var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
@@ -114,7 +115,7 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirst20WordsWith_Def_Topic();
 
-            var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
@@ -139,7 +140,7 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirst20WordsWith_For_Query_Def_Topic();
 
-            var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);

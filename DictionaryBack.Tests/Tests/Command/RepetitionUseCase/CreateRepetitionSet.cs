@@ -16,6 +16,8 @@ using DictionaryBack.Tests.TestsInfrastructure;
 
 namespace DictionaryBack.Tests
 {
+    [TestClass]
+    [TestCategory("Command")]
     public class CreateRepetitionSet
     {
         private static WebApplicationFactory<Startup> factory;

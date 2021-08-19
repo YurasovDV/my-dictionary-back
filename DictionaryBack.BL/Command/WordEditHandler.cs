@@ -17,7 +17,7 @@ namespace DictionaryBack.BL.Command
 
     public class WordEditHandler : BaseCommand, IWordEditHandler
     {
-        public WordEditHandler(DictionaryContext dictionaryContext) : base(dictionaryContext) { }
+        public WordEditHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService) { }
 
         public async Task<OperationResult<WordDto>> Edit(WordEditModel request)
         {
@@ -38,11 +38,11 @@ namespace DictionaryBack.BL.Command
                     }
                     return editResult;
                 }
-                return OperationResultExt.Fail<WordDto>(CommandStatus.WordNotFound, "Word does not exist");
+                return OperationResultExt.Fail<WordDto>(CommandStatus.WordNotFound, TranslationService.GetTranslation("Word does not exist"));
             }
             catch (Exception ex)
             {
-                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, "Internal error", ex.Message);
+                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation("Internal error"), ex.Message);
             }
         }
 
