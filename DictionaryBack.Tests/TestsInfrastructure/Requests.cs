@@ -1,6 +1,6 @@
 ﻿using DictionaryBack.Infrastructure.Requests;
 
-namespace DictionaryBack.Tests
+namespace DictionaryBack.Tests.TestsInfrastructure
 {
     internal static class Requests
     {
