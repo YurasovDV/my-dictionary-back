@@ -49,7 +49,7 @@ namespace DictionaryBack.PerfTest
             var dapp = new DapperPgFacade(Configuration);
 
             var topicReadHandler = new WordsByTopicQueryHandler(ctx, dapp);
-            var a = await topicReadHandler.GetPageNoTracking(r);
+            var a = await topicReadHandler.GetPageNoTrackingAsync(r);
         }
 
         [Benchmark]
@@ -60,7 +60,7 @@ namespace DictionaryBack.PerfTest
             var dapp = new DapperPgFacade(Configuration);
 
             var topicReadHandler = new WordsByTopicQueryHandler(ctx, dapp);
-            var a = await topicReadHandler.GetPageDapper(r);
+            var a = await topicReadHandler.GetPageDapperAsync(r);
         }
     }
 }

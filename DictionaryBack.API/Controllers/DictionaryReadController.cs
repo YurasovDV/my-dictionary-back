@@ -39,7 +39,7 @@ namespace DictionaryBack.API.Controllers
         [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
         public async Task<OperationResult<IEnumerable<WordDto>>> GetWithDapper()
         {
-            return await _allWordsQueryHandler.GetWithDapper();
+            return await _allWordsQueryHandler.GetWithDapperAsync();
         }
 
 
@@ -62,7 +62,7 @@ namespace DictionaryBack.API.Controllers
         [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
         public async Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
         {
-            return await _topicHandler.GetPageNoTracking(request);
+            return await _topicHandler.GetPageNoTrackingAsync(request);
         }
 
         [HttpPost]
@@ -70,7 +70,7 @@ namespace DictionaryBack.API.Controllers
         [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
         public async Task<OperationResult<IEnumerable<WordDto>>> GetPageDapper([FromBody] WordsByTopicRequest request)
         {
-            return await _topicHandler.GetPageDapper(request);
+            return await _topicHandler.GetPageDapperAsync(request);
         }
     }
 }

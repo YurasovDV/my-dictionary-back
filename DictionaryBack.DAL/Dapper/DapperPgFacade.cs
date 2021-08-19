@@ -99,7 +99,7 @@ namespace DictionaryBack.DAL.Dapper
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<Word>> GetAll()
+        public async Task<IEnumerable<Word>> GetAllAsync()
         {
             using var conn = new NpgsqlConnection(_configuration.GetConnectionString("WordsContext"));
             List<Word> words = (await conn.QueryAsync<Word, Translation, Word>(PostgresqlText.GetAll,

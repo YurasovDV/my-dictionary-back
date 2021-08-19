@@ -1,9 +1,5 @@
-﻿using DictionaryBack.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DictionaryBack.BL.Command.Common;
+using DictionaryBack.DAL;
 
 namespace DictionaryBack.BL.Command
 {
@@ -11,9 +7,12 @@ namespace DictionaryBack.BL.Command
     {
         protected readonly DictionaryContext DictionaryContext;
 
+        protected readonly TopicFinder TopicFinder;
+
         public BaseCommand(DictionaryContext dictionaryContext)
         {
             DictionaryContext = dictionaryContext;
+            TopicFinder = new TopicFinder(dictionaryContext);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace DictionaryBack.BL.Query
 
         Task<OperationResult<IEnumerable<WordDto>>> GetWordsNoTrackingAsync();
 
-        Task<OperationResult<IEnumerable<WordDto>>> GetWithDapper();
+        Task<OperationResult<IEnumerable<WordDto>>> GetWithDapperAsync();
     }
 
 
@@ -40,9 +40,9 @@ namespace DictionaryBack.BL.Query
             return OperationResultExt.Success(data);
         }
 
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetWithDapper()
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetWithDapperAsync()
         {
-            IEnumerable<WordDto> data = (await _dapperFacade.GetAll())
+            IEnumerable<WordDto> data = (await _dapperFacade.GetAllAsync())
                 .Select(Mapper.Map)
                 .ToList();
 

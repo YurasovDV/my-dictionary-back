@@ -16,9 +16,9 @@ namespace DictionaryBack.BL.Query
     {
         Task<OperationResult<IEnumerable<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request);
 
-        Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTracking(WordsByTopicRequest request);
+        Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTrackingAsync(WordsByTopicRequest request);
 
-        Task<OperationResult<IEnumerable<WordDto>>> GetPageDapper(WordsByTopicRequest request);
+        Task<OperationResult<IEnumerable<WordDto>>> GetPageDapperAsync(WordsByTopicRequest request);
     }
 
     public class WordsByTopicQueryHandler : IWordsByTopicQueryHandler
@@ -39,7 +39,7 @@ namespace DictionaryBack.BL.Query
             return await ExecuteInternal(query, request);
         }
 
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTracking(WordsByTopicRequest request)
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTrackingAsync(WordsByTopicRequest request)
         {
             var query = _dictionaryContext.Words
                 .AsNoTracking()
@@ -48,7 +48,7 @@ namespace DictionaryBack.BL.Query
             return await ExecuteInternal(query, request);
         }
 
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageDapper(WordsByTopicRequest request)
+        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageDapperAsync(WordsByTopicRequest request)
         {
             IEnumerable<WordDto> data = (await _dapperFacade.GetPage(request))
                 .Select(w => Mapper.Map(w))
@@ -81,6 +81,11 @@ namespace DictionaryBack.BL.Query
                 if (request.Take != null && request.Take > 0)
                 {
                     query = query.Take(request.Take.Value);
+
+                    if (request.Take > Constants.MaxWordsInRequest)
+                    {
+                        return OperationResultExt.Fail<IEnumerable<WordDto>>(CommandStatus.InvalidRequest, "Too many items requested");
+                    }
                 }
             }
 

@@ -50,7 +50,7 @@ namespace DictionaryBack.BL.Command
         {
             if (request.Topic != existingWord?.Topic.Name)
             {
-                var found = FindTopic(request);
+                var found = TopicFinder.FindTopic(request.Topic);
                 if (!found.IsSuccessful())
                 {
                     return OperationResultExt.Fail<WordDto>(found.StatusCode, found.ErrorText);
@@ -92,16 +92,6 @@ namespace DictionaryBack.BL.Command
             }
 
             return result.Values.ToArray();
-        }
-
-        private OperationResult<Topic> FindTopic(WordEditModel request)
-        {
-            var existing = DictionaryContext.Topics.FirstOrDefault(t => t.Name.Equals(request.Topic));
-            if (existing == null)
-            {
-                return OperationResultExt.Fail<Topic>(CommandStatus.TopicNotFound, "Topic not found");
-            }
-            return OperationResultExt.Success(existing);
         }
     }
 }

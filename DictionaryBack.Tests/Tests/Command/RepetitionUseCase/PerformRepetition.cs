@@ -12,6 +12,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DictionaryBack.Tests.TestsInfrastructure;
 
 namespace DictionaryBack.Tests
 {

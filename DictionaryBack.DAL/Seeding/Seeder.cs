@@ -43,7 +43,7 @@ namespace DictionaryBack.DAL
                 var defaultTopic = new Topic()
                 {
                     IsDeleted = false,
-                    Name = "Default",
+                    Name = Constants.DefaultTopic,
                 };
 
                 var existing = _context.Topics.FirstOrDefault(t => t.Name == defaultTopic.Name);

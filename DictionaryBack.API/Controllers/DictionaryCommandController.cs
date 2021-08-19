@@ -47,7 +47,7 @@ namespace DictionaryBack.API.Controllers
         }
 
         [HttpDelete]
-        [Route("", Name = "DeleteWord")]
+        [Route("{term}", Name = "DeleteWord")]
         [SwaggerResponse(200, type: typeof(BoolOperationResult))]
         public async Task<BoolOperationResult> DeleteWord(string term)
         {

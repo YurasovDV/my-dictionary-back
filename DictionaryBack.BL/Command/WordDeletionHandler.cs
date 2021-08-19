@@ -18,6 +18,11 @@ namespace DictionaryBack.BL.Command
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(term))
+                {
+                    return OperationResultExt.BoolFail(CommandStatus.InvalidRequest, "No word provided");
+                }
+
                 var wordExisting = await DictionaryContext.Words.FindAsync(term);
                 if (wordExisting != null)
                 {

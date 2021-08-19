@@ -33,12 +33,12 @@ namespace DictionaryBack.Tests
         }
 
         [DataTestMethod]
-        [DataRow("DictionaryRead/GetPage")]
-        [DataRow("DictionaryRead/GetPageNoTracking")]
-        [DataRow("DictionaryRead/GetPageDapper")]
+        [DataRow(Urls.Query.GetPage)]
+        [DataRow(Urls.Query.GetPageNoTracking)]
+        [DataRow(Urls.Query.GetPageDapper)]
         public async Task ReadPage20(string url)
         {
-            var request = Requests.GetRequestForFirstKWords();
+            var request = Requests.Query.GetRequestForFirstKWords();
 
             var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
@@ -57,12 +57,12 @@ namespace DictionaryBack.Tests
         }
 
         [DataTestMethod]
-        [DataRow("DictionaryRead/GetPage")]
-        [DataRow("DictionaryRead/GetPageNoTracking")]
-        [DataRow("DictionaryRead/GetPageDapper")]
+        [DataRow(Urls.Query.GetPage)]
+        [DataRow(Urls.Query.GetPageNoTracking)]
+        [DataRow(Urls.Query.GetPageDapper)]
         public async Task ReadPage100(string url)
         {
-            var request = Requests.GetRequestForFirstKWords(100);
+            var request = Requests.Query.GetRequestForFirstKWords(100);
 
             var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
@@ -82,12 +82,12 @@ namespace DictionaryBack.Tests
 
 
         [DataTestMethod]
-        [DataRow("DictionaryRead/GetPage")]
-        [DataRow("DictionaryRead/GetPageNoTracking")]
-        [DataRow("DictionaryRead/GetPageDapper")]
+        [DataRow(Urls.Query.GetPage)]
+        [DataRow(Urls.Query.GetPageNoTracking)]
+        [DataRow(Urls.Query.GetPageDapper)]
         public async Task ReadPageByTextSearch(string url)
         {
-            var request = Requests.GetRequestForFirst20WordsWith_For_Query();
+            var request = Requests.Query.GetRequestForFirst20WordsWith_For_Query();
 
             var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
@@ -107,12 +107,12 @@ namespace DictionaryBack.Tests
         }
 
         [DataTestMethod]
-        [DataRow("DictionaryRead/GetPage")]
-        [DataRow("DictionaryRead/GetPageNoTracking")]
-        [DataRow("DictionaryRead/GetPageDapper")]
+        [DataRow(Urls.Query.GetPage)]
+        [DataRow(Urls.Query.GetPageNoTracking)]
+        [DataRow(Urls.Query.GetPageDapper)]
         public async Task ReadPageByTopicSearch(string url)
         {
-            var request = Requests.GetRequestForFirst20WordsWith_Def_Topic();
+            var request = Requests.Query.GetRequestForFirst20WordsWith_Def_Topic();
 
             var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
@@ -132,12 +132,12 @@ namespace DictionaryBack.Tests
         }
 
         [DataTestMethod]
-        [DataRow("DictionaryRead/GetPage")]
-        [DataRow("DictionaryRead/GetPageNoTracking")]
-        [DataRow("DictionaryRead/GetPageDapper")]
+        [DataRow(Urls.Query.GetPage)]
+        [DataRow(Urls.Query.GetPageNoTracking)]
+        [DataRow(Urls.Query.GetPageDapper)]
         public async Task ReadPageByTopicAndTextSearch(string url)
         {
-            var request = Requests.GetRequestForFirst20WordsWith_For_Query_Def_Topic();
+            var request = Requests.Query.GetRequestForFirst20WordsWith_For_Query_Def_Topic();
 
             var resp = await RequestExecution.ExecuteRequest<OperationResult<List<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
