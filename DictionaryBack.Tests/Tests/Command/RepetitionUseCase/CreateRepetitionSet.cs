@@ -1,7 +1,5 @@
 ﻿using DictionaryBack.API;
-using DictionaryBack.BL.Query.Models;
 using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.Requests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

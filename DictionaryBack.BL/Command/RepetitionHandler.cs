@@ -1,7 +1,6 @@
-﻿using DictionaryBack.BL.Command.Models;
-using DictionaryBack.BL.Query.Models;
-using DictionaryBack.DAL;
+﻿using DictionaryBack.DAL;
 using DictionaryBack.Infrastructure;
+using DictionaryBack.Infrastructure.DTOs.Query;
 using System;
 using System.Threading.Tasks;
 

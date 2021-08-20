@@ -1,5 +1,5 @@
 ﻿using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure.Requests;
+using DictionaryBack.Infrastructure.DTOs.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

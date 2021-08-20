@@ -1,6 +1,6 @@
 ﻿using DictionaryBack.Domain;
 
-namespace DictionaryBack.BL.Command.Models
+namespace DictionaryBack.Infrastructure.DTOs.Command
 {
     public class WordEditModel
     {

@@ -1,7 +1,6 @@
-﻿using DictionaryBack.BL.Command.Models;
-using DictionaryBack.BL.Query.Models;
-using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure.Requests;
+﻿using DictionaryBack.Domain;
+using DictionaryBack.Infrastructure.DTOs.Command;
+using DictionaryBack.Infrastructure.DTOs.Query;
 using System;
 
 namespace DictionaryBack.Tests.TestsInfrastructure

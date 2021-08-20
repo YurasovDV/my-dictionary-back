@@ -1,4 +1,4 @@
-﻿namespace DictionaryBack.BL.Command.Models
+﻿namespace DictionaryBack.Infrastructure.DTOs.Command
 {
     public class WordCreationModel
     {

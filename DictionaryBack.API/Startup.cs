@@ -30,6 +30,8 @@ namespace DictionaryBack.API
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 });
 
+            services.AddApiVersioning();
+
             AddSwagger(services);
 
             Root.ConfigureServices(services, Configuration, _env.IsDevelopment());

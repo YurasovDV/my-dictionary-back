@@ -3,7 +3,7 @@ using DictionaryBack.BL.Query;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
 using DictionaryBack.ErrorMessages;
-using DictionaryBack.Infrastructure.Requests;
+using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

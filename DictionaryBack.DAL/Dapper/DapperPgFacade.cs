@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure.Requests;
+using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Collections.Generic;

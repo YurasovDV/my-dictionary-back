@@ -1,6 +1,6 @@
 ﻿using DictionaryBack.BL.Command;
-using DictionaryBack.BL.Query.Models;
 using DictionaryBack.Infrastructure;
+using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
@@ -10,7 +10,7 @@ namespace DictionaryBack.API.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class RepetitionController : ControllerBase
     {
 

@@ -1,11 +1,9 @@
-﻿using DictionaryBack.BL.Query.Models;
-using DictionaryBack.DAL;
+﻿using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
 using DictionaryBack.Domain;
 using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.Requests;
+using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
