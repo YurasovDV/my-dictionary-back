@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
@@ -18,6 +19,13 @@ namespace DictionaryBack.Tests.TestsInfrastructure
         {
             var requestContent = GetContent(request);
             var responseMsg = await client.PostAsync(url, requestContent);
+            return await HandleResponse<TRes>(responseMsg);
+        }
+
+        public static async Task<TRes> ExecutePostRequestWithoutBody<TRes>(HttpClient client, string url)
+        {
+            var @null = new ReadOnlyMemoryContent(ReadOnlyMemory<byte>.Empty);
+            var responseMsg = await client.PostAsync(url, @null);
             return await HandleResponse<TRes>(responseMsg);
         }
 

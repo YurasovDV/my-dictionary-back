@@ -47,6 +47,8 @@ namespace DictionaryBack.CompositionRoot
             services.AddScoped<IWordEditHandler, WordEditHandler>();
             services.AddScoped<IWordDeletionHandler, WordDeletionHandler>();
 
+            services.AddScoped<IRepetitionHandler, RepetitionHandler>();
+
         }
     }
 }

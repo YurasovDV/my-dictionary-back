@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -39,25 +37,7 @@ namespace DictionaryBack.DAL
                         Encoder = JavaScriptEncoder.Create(UnicodeRanges.Cyrillic, UnicodeRanges.BasicLatin),
                     });
 
-
-                var defaultTopic = new Topic()
-                {
-                    IsDeleted = false,
-                    Name = Constants.DefaultTopic,
-                };
-
-                var existing = _context.Topics.FirstOrDefault(t => t.Name == defaultTopic.Name);
-                if (existing == null)
-                {
-                    _context.Topics.Add(defaultTopic);
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    defaultTopic = existing;
-                }
-
-                var comparer = new TranslationsComparer();
+                Topic defaultTopic = UpsertDefaultTopic();
 
                 // entirely no reason to use Partitioner
                 var partitioner = Partitioner.Create(rows);
@@ -69,6 +49,9 @@ namespace DictionaryBack.DAL
                     {
                         var word = partition.Current;
                         word.Topic = defaultTopic;
+                        // since we are importing existing dictionary
+                        word.Status = WordStatus.Learned;
+                        word.RepetitionStatus = RepetitionStatus.Success;
                         _context.Words.Add(word);
                     }
                     _context.SaveChanges();
@@ -76,11 +59,31 @@ namespace DictionaryBack.DAL
             }
         }
 
+        private Topic UpsertDefaultTopic()
+        {
+            var defaultTopic = new Topic()
+            {
+                IsDeleted = false,
+                Name = Constants.DefaultTopic,
+            };
+
+            var existing = _context.Topics.FirstOrDefault(t => t.Name.Equals(defaultTopic.Name, StringComparison.OrdinalIgnoreCase));
+            if (existing == null)
+            {
+                _context.Topics.Add(defaultTopic);
+                _context.SaveChanges();
+            }
+            else
+            {
+                defaultTopic = existing;
+            }
+
+            return defaultTopic;
+        }
+
         public void DropDatabase()
         {
             _context.Database.EnsureDeleted();
-
-            //_context.Database.EnsureCreated();
         }
     }
 }
