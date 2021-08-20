@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using DictionaryBack.Infrastructure.DTOs.Command;
 
 namespace DictionaryBack.Tests
 {
@@ -61,10 +61,10 @@ namespace DictionaryBack.Tests
         }
 
 
-       // [TestMethod]
+        [TestMethod]
         public async Task PerformRepetition()
         {
-
+            // prepare
             var resp = await RequestExecution.ExecutePostRequestWithoutBody<OperationResult<WordDto[]>>(client, Urls.Repetition.CreateRepetitionSet);
             if (!resp.IsSuccessful())
             {
@@ -72,7 +72,46 @@ namespace DictionaryBack.Tests
             }
             Assert.AreEqual(Constants.RepetitionSetSize, resp.Data.Length);
 
+            // act
 
+            var trainingResult = resp.Data
+                .Select(w => 
+                    new WordRepetitionResult() 
+                    {  
+                        RepetitionStatus = RepetitionStatus.Success, 
+                        Term = w.Term 
+                    })
+                .ToArray();
+
+            var last = trainingResult.Last();
+            last.RepetitionStatus = RepetitionStatus.FailedMultipleTimes;
+
+            var completionResult = await RequestExecution.ExecutePostRequest<BoolOperationResult>(client, trainingResult, Urls.Repetition.CompleteRepetition);
+            if (!resp.IsSuccessful())
+            {
+                Assert.Fail(resp.ErrorText);
+            }
+
+
+            // assert
+            var getRequest = Requests.Query.GetRequestForFirstKWords(Constants.MaxWordsInRequest);
+            getRequest.Topic = null;
+            getRequest.SearchTerm = last.Term;
+            var wordsFound = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, getRequest, Urls.Query.GetPageNoTracking);
+
+            if (!wordsFound.IsSuccessful())
+            {
+                Assert.Fail(wordsFound.ErrorText);
+            }
+
+            // todo may be flaky
+            var read = wordsFound.Data.FirstOrDefault(w => w.Term.Equals(last.Term, StringComparison.OrdinalIgnoreCase));
+            if (read == null)
+            {
+                Assert.Fail("no word found");
+            }
+
+            Assert.AreEqual(last.RepetitionStatus, read.RepetitionStatus);
 
         }
 

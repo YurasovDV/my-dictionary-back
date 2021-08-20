@@ -1,4 +1,5 @@
 ﻿using DictionaryBack.Domain;
+using System;
 using System.Linq;
 
 namespace DictionaryBack.Infrastructure.DTOs.Query
@@ -15,6 +16,8 @@ namespace DictionaryBack.Infrastructure.DTOs.Query
 
         public WordStatus Status { get; set; }
 
+        public RepetitionStatus RepetitionStatus { get; set; }
+        public DateTime? LastRepetition { get; set; }
 
         private string DebuggerDisplay
         {

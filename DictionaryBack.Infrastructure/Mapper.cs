@@ -4,14 +4,14 @@ using DictionaryBack.Infrastructure.DTOs.Query;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DictionaryBack.BL
+namespace DictionaryBack.Infrastructure
 {
-    internal static class Mapper
+    public static class Mapper
     {
         public static Word Map(WordCreationModel model)
         {
-            return new Word 
-            { 
+            return new Word
+            {
                 Term = model.Term,
                 Topic = Map(model.Topic),
                 Translations = Map(model.Term, model.Translations),
@@ -19,25 +19,16 @@ namespace DictionaryBack.BL
             };
         }
 
-        /*public static Word Map(WordEditModel model)
-        {
-            return new Word
-            {
-                Term = model.Term,
-                Topic = Map(model.Topic),
-                Translations = Map(model.Term, model.Translations),
-                Status = model.Status,
-            };
-        }*/
-
         public static WordDto Map(Word model)
         {
-            return new WordDto() 
-            { 
-                Term = model.Term, 
-                Topic = model.Topic?.Name, 
+            return new WordDto()
+            {
+                Term = model.Term,
+                Topic = model.Topic?.Name,
                 Translations = Map(model.Translations),
                 Status = model.Status,
+                LastRepetition = model.LastRepetition,
+                RepetitionStatus = model.RepetitionStatus,
             };
         }
 
