@@ -23,7 +23,7 @@ namespace DictionaryBack.BL.Command
             var existing = DictionaryContext.Topics.FirstOrDefault(t => t.Name.Equals(topicName));
             if (existing == null)
             {
-                return OperationResultExt.Fail<Topic>(CommandStatus.TopicNotFound, _translationService.GetTranslation("Topic not found"));
+                return OperationResultExt.Fail<Topic>(CommandStatus.TopicNotFound, _translationService.GetTranslation(ErrorKey.TopicNotFound));
             }
             return OperationResultExt.Success(existing);
         }

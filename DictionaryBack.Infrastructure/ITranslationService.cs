@@ -2,6 +2,6 @@
 {
     public interface ITranslationService
     {
-        string GetTranslation(string key);
+        string GetTranslation(ErrorKey key);
     }
 }

@@ -23,12 +23,12 @@ namespace DictionaryBack.BL.Command
             {
                 if (string.IsNullOrWhiteSpace(request.Term))
                 {
-                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("No word provided"));
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation(ErrorKey.NoWordProvided));
                 }
 
                 if (request.Translations == null || request.Translations.Length == 0 || request.Translations.Any(r => string.IsNullOrWhiteSpace(r)))
                 {
-                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("Incorrect translations"));
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation(ErrorKey.InvalidTranslations));
                 }
 
                 var word = Mapper.Map(request);
@@ -41,14 +41,14 @@ namespace DictionaryBack.BL.Command
                 }
                 else
                 {
-                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("Incorrect topic name"));
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation(ErrorKey.TopicNotFound));
                 }
 
                 var existingWord = DictionaryContext.Words.Find(word.Term);
 
                 if (existingWord != null)
                 {
-                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation("Word already exists"));
+                    return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation(ErrorKey.WordAlreadyExists));
                 }
 
 
@@ -58,7 +58,7 @@ namespace DictionaryBack.BL.Command
             }
             catch (Exception)
             {
-                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation("Internal error"));
+                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError));
             }
         }
     }

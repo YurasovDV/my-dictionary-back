@@ -5,23 +5,23 @@ namespace DictionaryBack.ErrorMessages
 {
     public class TranslationService : ITranslationService
     {
-        public string GetTranslation(string key)
+        private readonly Dictionary<ErrorKey, string> _translations2 = new()
         {
-            return _translations[key];
-        }
-
-        private readonly Dictionary<string, string> _translations = new()
-        {
-            { "Topic not found", "Topic not found" },
-            { "No word provided", "No word provided" },
-            { "Incorrect translations", "Incorrect translations" },
-            { "Incorrect topic name", "Incorrect topic name" },
-            { "Word already exists", "Word already exists" },
-            { "Internal error", "Internal error" },
-            { "Word does not exist", "Word does not exist" },
-            { "Not implemented", "Not implemented" },
-            { "Too many items requested", "Too many items requested" },
-            { "No words for repetion", "No words for repetion" },
+            { ErrorKey.TopicNotFound, "Topic not found" },
+            { ErrorKey.NoWordProvided, "No word provided" },
+            { ErrorKey.InvalidTranslations, "Incorrect translations" },
+            { ErrorKey.InvalidTopicName, "Incorrect topic name" },
+            { ErrorKey.WordAlreadyExists, "Word already exists" },
+            { ErrorKey.InternalError, "Internal error" },
+            { ErrorKey.WordDoesNotExist, "Word does not exist" },
+            { ErrorKey.NotImplemented, "Functionality is not implemented" },
+            { ErrorKey.TooManyItemsRequested, "Too many items requested" },
+            { ErrorKey.NoWordsForRepetion, "No words for repetion" },
         };
+
+        public string GetTranslation(ErrorKey key)
+        {
+            return _translations2[key];
+        }
     }
 }

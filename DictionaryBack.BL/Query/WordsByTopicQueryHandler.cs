@@ -84,7 +84,7 @@ namespace DictionaryBack.BL.Query
 
                     if (request.Take > Constants.MaxWordsInRequest)
                     {
-                        return OperationResultExt.Fail<IEnumerable<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation("Too many items requested"));
+                        return OperationResultExt.Fail<IEnumerable<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation(ErrorKey.TooManyItemsRequested));
                     }
                 }
             }

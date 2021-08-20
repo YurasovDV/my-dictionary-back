@@ -38,11 +38,11 @@ namespace DictionaryBack.BL.Command
                     }
                     return editResult;
                 }
-                return OperationResultExt.Fail<WordDto>(CommandStatus.WordNotFound, TranslationService.GetTranslation("Word does not exist"));
+                return OperationResultExt.Fail<WordDto>(CommandStatus.WordNotFound, TranslationService.GetTranslation(ErrorKey.WordDoesNotExist));
             }
             catch (Exception ex)
             {
-                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation("Internal error"), ex.Message);
+                return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError), ex.Message);
             }
         }
 
