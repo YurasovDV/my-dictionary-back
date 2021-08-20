@@ -85,6 +85,12 @@ namespace DictionaryBack.DAL.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("last_repetition");
 
+                    b.Property<int>("RepetitionStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("repetition_status");
+
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")

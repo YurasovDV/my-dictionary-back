@@ -1,7 +1,10 @@
 ﻿using DictionaryBack.DAL;
+using DictionaryBack.Domain;
 using DictionaryBack.Infrastructure;
+using DictionaryBack.Infrastructure.DTOs.Command;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DictionaryBack.BL.Command
@@ -11,7 +14,7 @@ namespace DictionaryBack.BL.Command
     {
         Task<OperationResult<WordDto[]>> CreateSet();
 
-        Task<BoolOperationResult> CompleteRepetition(WordDto[] words);
+        Task<BoolOperationResult> CompleteRepetition(WordRepetitionResult[] words);
     }
 
     public class RepetitionHandler : BaseCommand, IRepetitionHandler
@@ -22,10 +25,22 @@ namespace DictionaryBack.BL.Command
 
         public async Task<OperationResult<WordDto[]>> CreateSet()
         {
-            return OperationResultExt.Fail<WordDto[]>(CommandStatus.InternalError, TranslationService.GetTranslation("Not implemented"));
+            var set = DictionaryContext.Words
+                .Where(w => w.Status == WordStatus.Learned)
+                .OrderBy(w => w.LastRepetition)
+                .Take(30)
+                .Select(w => Mapper.Map(w))
+                .ToArray();
+
+            if (set.Any())
+            {
+                return OperationResultExt.Success(set);
+            }
+
+            return OperationResultExt.Fail<WordDto[]>(CommandStatus.InternalError, TranslationService.GetTranslation("No words for repetion"));
         }
 
-        public async Task<BoolOperationResult> CompleteRepetition(WordDto[] words)
+        public async Task<BoolOperationResult> CompleteRepetition(WordRepetitionResult[] words)
         {
             return OperationResultExt.BoolFail(CommandStatus.InternalError, TranslationService.GetTranslation("Not implemented"));
         }

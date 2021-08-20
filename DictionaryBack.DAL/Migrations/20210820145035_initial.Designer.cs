@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DictionaryBack.DAL.Migrations
 {
     [DbContext(typeof(DictionaryContext))]
-    [Migration("20210818101612_Initial")]
-    partial class Initial
+    [Migration("20210820145035_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,12 @@ namespace DictionaryBack.DAL.Migrations
                     b.Property<DateTime?>("LastRepetition")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("last_repetition");
+
+                    b.Property<int>("RepetitionStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("repetition_status");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()

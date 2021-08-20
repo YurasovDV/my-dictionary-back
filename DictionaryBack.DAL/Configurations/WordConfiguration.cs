@@ -16,9 +16,17 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.Property(w => w.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
 
-            builder.Property(w => w.Status).HasColumnName("status").HasConversion<int>().HasDefaultValue(WordStatus.Added);
+            builder.Property(w => w.Status)
+                .HasColumnName("status")
+                .HasConversion<int>()
+                .HasDefaultValue(WordStatus.Added);
 
             builder.Property(w => w.LastRepetition).IsRequired(false).HasColumnName("last_repetition");
+
+            builder.Property(w => w.RepetitionStatus)
+                .HasColumnName("repetition_status")
+                .HasConversion<int>()
+                .HasDefaultValue(RepetitionStatus.Success);
 
             builder.Property(w => w.TopicId).HasColumnName("topic_id");
 

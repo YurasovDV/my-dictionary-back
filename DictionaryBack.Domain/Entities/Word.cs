@@ -18,5 +18,7 @@ namespace DictionaryBack.Domain
         public bool IsDeleted { get; set; }
 
         public DateTime? LastRepetition { get; set; }
+
+        public RepetitionStatus RepetitionStatus { get; set; }
     }
 }

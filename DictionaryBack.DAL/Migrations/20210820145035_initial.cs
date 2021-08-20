@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DictionaryBack.DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,8 @@ namespace DictionaryBack.DAL.Migrations
                     topic_id = table.Column<int>(type: "integer", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    last_repetition = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    last_repetition = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    repetition_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {

@@ -1,5 +1,6 @@
 ﻿using DictionaryBack.BL.Command;
 using DictionaryBack.Infrastructure;
+using DictionaryBack.Infrastructure.DTOs.Command;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace DictionaryBack.API.Controllers
         [HttpPost]
         [Route("CompleteRepetition", Name = "CompleteRepetition")]
         [SwaggerResponse(200, type: typeof(BoolOperationResult))]
-        public async Task<BoolOperationResult> CompleteRepetition(WordDto[] words)
+        public async Task<BoolOperationResult> CompleteRepetition(WordRepetitionResult[] words)
         {
             return await _repetitionHandler.CompleteRepetition(words);
         }

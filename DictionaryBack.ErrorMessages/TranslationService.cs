@@ -20,7 +20,8 @@ namespace DictionaryBack.ErrorMessages
             { "Internal error", "Internal error" },
             { "Word does not exist", "Word does not exist" },
             { "Not implemented", "Not implemented" },
-            { "Too many items requested" , "Too many items requested" },
+            { "Too many items requested", "Too many items requested" },
+            { "No words for repetion", "No words for repetion" },
         };
     }
 }
