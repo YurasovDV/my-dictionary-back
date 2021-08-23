@@ -11,4 +11,4 @@ deploy-job:
   stage: deploy
   script:
     - dotnet restore
-    - dotnet publish --configuration Release --no-restore -a linux-x64 --nologo -o /var/www/dict-back
+    - dotnet publish --configuration Release --no-restore --a linux-x64 --nologo -o /var/www/dict-back
