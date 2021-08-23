@@ -16,7 +16,7 @@ deploy-job:
   stage: deploy
   script:
     - dotnet restore
-    - dotnet publish --configuration Release --no-restore --nologo -o $DEPLOYMENT_FOLDER
+    - dotnet publish DictionaryBack.API/DictionaryBack.API.csproj --configuration Release --no-restore --nologo -o $DEPLOYMENT_FOLDER
     - chmod 777 $DEPLOYMENT_FOLDER/DictionaryBack.API.dll
 
 start-app-job:
