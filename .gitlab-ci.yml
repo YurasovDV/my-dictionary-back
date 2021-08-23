@@ -5,7 +5,7 @@ stages:
 check_folder:
   stage: env_check
   script: # variable?
-    - mkdir /var/www/dict-back
+    - mkdir -p /var/www/dict-back
 
 deploy-job:      
   stage: deploy
