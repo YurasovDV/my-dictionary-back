@@ -1,14 +1,27 @@
-stages:
-  - env_check
-  - deploy
+variables: 
+  DEPLOYMENT_FOLDER: '/var/www/dict-back'
 
-check_folder:
-  stage: env_check
-  script: # variable?
-    - mkdir -p /var/www/dict-back
+
+stages:
+  - env-check
+  - deploy
+  - start-app
+
+check-folder-job:
+  stage: env-check
+  script:
+    - mkdir -p $DEPLOYMENT_FOLDER
 
 deploy-job:      
   stage: deploy
   script:
     - dotnet restore
-    - dotnet publish --configuration Release --no-restore --a linux-x64 --nologo -o /var/www/dict-back
+    - dotnet publish --configuration Release --no-restore --nologo -o $DEPLOYMENT_FOLDER
+    - chmod 777 $DEPLOYMENT_FOLDER/DictionaryBack.API.dll
+
+start-app-job:
+  stage: start-app
+  script:
+    dotnet $DEPLOYMENT_FOLDER/DictionaryBack.API.dll --urls "http://localhost:61987"
+
+
