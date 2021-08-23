@@ -1,20 +1,14 @@
-stages:          
-  - build
-  - test
+stages:
+  - env_check
   - deploy
 
-build-job:       
-  stage: build
+check_folder:
+  stage: env_check
+  script: # variable?
+    - mkdir /var/www/dict-back
+
+deploy-job:      
+  stage: deploy
   script:
     - dotnet restore
-    - dotnet build --configuration Release --no-restore
-
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  script:
-    - echo "Deploying application..."
+    - dotnet publish --configuration Release --no-restore -a linux-x64 --nologo -o /var/www/dict-back
