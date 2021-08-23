@@ -24,11 +24,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9842E70E-2445-4E65-ACD6-FC71B28E41AB}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitlab-ci.yml = .gitlab-ci.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBack.PerfTest", "DictionaryBack.PerfTest\DictionaryBack.PerfTest.csproj", "{1A175133-C99C-4315-BE73-DD0882C35990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.PerfTest", "DictionaryBack.PerfTest\DictionaryBack.PerfTest.csproj", "{1A175133-C99C-4315-BE73-DD0882C35990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBack.ErrorMessages", "DictionaryBack.ErrorMessages\DictionaryBack.ErrorMessages.csproj", "{6B2C45C9-EA4C-4664-9AD2-637E0CACA8FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.ErrorMessages", "DictionaryBack.ErrorMessages\DictionaryBack.ErrorMessages.csproj", "{6B2C45C9-EA4C-4664-9AD2-637E0CACA8FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
