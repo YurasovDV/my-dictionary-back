@@ -22,6 +22,7 @@ deploy-job:
 start-app-job:
   stage: start-app
   script:
-    dotnet $DEPLOYMENT_FOLDER/DictionaryBack.API.dll --urls "http://localhost:61987"
+    - cd $DEPLOYMENT_FOLDER
+    - dotnet DictionaryBack.API.dll --urls "http://localhost:61987"
 
 
