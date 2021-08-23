@@ -31,9 +31,10 @@ namespace DictionaryBack.API
             using (var scope = host.Services.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetService<Seeder>();
+                seeder.Migrate();
+
                 var serializedDict = File.ReadAllText($"Static{Path.DirectorySeparatorChar}serializeddict.json");
                 seeder.Seed(serializedDict);
-                seeder.Migrate();
             }
         }
 
