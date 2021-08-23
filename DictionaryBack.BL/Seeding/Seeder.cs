@@ -68,7 +68,7 @@ namespace DictionaryBack.BL.Seeding
                 Name = Constants.DefaultTopic,
             };
 
-            var existing = _context.Topics.FirstOrDefault(t => t.Name.Equals(defaultTopic.Name, StringComparison.OrdinalIgnoreCase));
+            var existing = _context.Topics.FirstOrDefault(t => t.Name == defaultTopic.Name);
             if (existing == null)
             {
                 _context.Topics.Add(defaultTopic);
