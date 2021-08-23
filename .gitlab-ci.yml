@@ -23,5 +23,5 @@ start-app-job:
   stage: start-app
   script:
     - cd $DEPLOYMENT_FOLDER
-    - systemctl restart dictback.service
+    - sudo systemctl restart dictback.service
     # todo polkit rule
