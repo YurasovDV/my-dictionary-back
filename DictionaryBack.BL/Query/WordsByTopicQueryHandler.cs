@@ -4,6 +4,7 @@ using DictionaryBack.Domain;
 using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,12 +25,17 @@ namespace DictionaryBack.BL.Query
         private readonly DictionaryContext _dictionaryContext;
         private readonly IDapperFacade _dapperFacade;
         private readonly ITranslationService _translationService;
+        private readonly DictionaryApiSettings _settings;
 
-        public WordsByTopicQueryHandler(DictionaryContext dictionaryContext, IDapperFacade dapperFacade, ITranslationService translationService)
+        public WordsByTopicQueryHandler(DictionaryContext dictionaryContext, 
+            IDapperFacade dapperFacade, 
+            ITranslationService translationService,
+            IOptions<DictionaryApiSettings> options)
         {
             _dictionaryContext = dictionaryContext;
             _dapperFacade = dapperFacade;
             _translationService = translationService;
+            _settings = options.Value;
         }
 
         public async Task<OperationResult<IEnumerable<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request)
@@ -82,7 +88,7 @@ namespace DictionaryBack.BL.Query
                 {
                     query = query.Take(request.Take.Value);
 
-                    if (request.Take > Constants.MaxWordsInRequest)
+                    if (request.Take > _settings.MaxWordsInRequest)
                     {
                         return OperationResultExt.Fail<IEnumerable<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation(ErrorKey.TooManyItemsRequested));
                     }

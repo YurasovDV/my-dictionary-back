@@ -1,4 +1,5 @@
-﻿using DictionaryBack.Domain;
+﻿using DictionaryBack.DAL;
+using DictionaryBack.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
@@ -7,7 +8,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 
-namespace DictionaryBack.DAL
+namespace DictionaryBack.BL.Seeding
 {
     public class Seeder
     {

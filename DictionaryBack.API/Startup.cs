@@ -1,4 +1,5 @@
 using DictionaryBack.CompositionRoot;
+using DictionaryBack.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,8 @@ namespace DictionaryBack.API
 
             AddSwagger(services);
 
+            services.AddOptions<DictionaryApiSettings>().BindConfiguration("DictionaryApiSettings");
+
             Root.ConfigureServices(services, Configuration, _env.IsDevelopment());
         }
 
@@ -42,6 +45,7 @@ namespace DictionaryBack.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DictionaryBack", Version = "v1" });
+                c.SchemaFilter<EnumSchemaFilter>();
             });
         }
 

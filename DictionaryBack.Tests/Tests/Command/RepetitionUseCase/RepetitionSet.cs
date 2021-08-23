@@ -6,23 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Mime;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using DictionaryBack.Tests.TestsInfrastructure;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using DictionaryBack.Domain;
-using DictionaryBack.API;
-using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.DTOs.Query;
-using DictionaryBack.Tests.TestsInfrastructure;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using DictionaryBack.Infrastructure.DTOs.Command;
 
 namespace DictionaryBack.Tests
@@ -57,7 +44,7 @@ namespace DictionaryBack.Tests
                 Assert.Fail(resp.ErrorText);
             }
 
-            Assert.AreEqual(Constants.RepetitionSetSize, resp.Data.Length);
+            Assert.AreEqual(30, resp.Data.Length);
         }
 
 
@@ -70,7 +57,7 @@ namespace DictionaryBack.Tests
             {
                 Assert.Fail(resp.ErrorText);
             }
-            Assert.AreEqual(Constants.RepetitionSetSize, resp.Data.Length);
+            Assert.AreEqual(30, resp.Data.Length);
 
             // act
 
@@ -94,7 +81,7 @@ namespace DictionaryBack.Tests
 
 
             // assert
-            var getRequest = Requests.Query.GetRequestForFirstKWords(Constants.MaxWordsInRequest);
+            var getRequest = Requests.Query.GetRequestForFirstKWords(1000);
             getRequest.Topic = null;
             getRequest.SearchTerm = last.Term;
             var wordsFound = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, getRequest, Urls.Query.GetPageNoTracking);

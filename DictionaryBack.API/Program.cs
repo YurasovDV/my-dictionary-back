@@ -1,3 +1,4 @@
+using DictionaryBack.BL.Seeding;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,7 +17,28 @@ namespace DictionaryBack.API
             host.Run();
         }
 
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+        }
+
         private static void MigrateAndSeed(IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetService<Seeder>();
+                var serializedDict = File.ReadAllText($"Static{Path.DirectorySeparatorChar}serializeddict.json");
+                seeder.Seed(serializedDict);
+                seeder.Migrate();
+            }
+        }
+
+        // in case if full db recreation is needed
+        private static void MigrateAndSeedFromScratch(IHost host)
         {
             // https://github.com/npgsql/npgsql/issues/2366
 
@@ -24,7 +46,7 @@ namespace DictionaryBack.API
 
             using (var scope = host.Services.CreateScope())
             {
-                var seeder = scope.ServiceProvider.GetService<DAL.Seeder>();
+                var seeder = scope.ServiceProvider.GetService<Seeder>();
                 var hostEnvironment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
                 isDevelopment = hostEnvironment.IsDevelopment();
                 if (isDevelopment)
@@ -46,7 +68,7 @@ namespace DictionaryBack.API
             {
                 using (var scope = host.Services.CreateScope())
                 {
-                    var seeder = scope.ServiceProvider.GetService<DAL.Seeder>();
+                    var seeder = scope.ServiceProvider.GetService<Seeder>();
                     seeder.Migrate();
                 }
             }
@@ -54,18 +76,10 @@ namespace DictionaryBack.API
             // step 3: seed data after types are reloaded
             using (var scope = host.Services.CreateScope())
             {
-                var seeder = scope.ServiceProvider.GetService<DAL.Seeder>();
+                var seeder = scope.ServiceProvider.GetService<Seeder>();
                 var serializedDict = File.ReadAllText($"Static{Path.DirectorySeparatorChar}serializeddict.json");
                 seeder.Seed(serializedDict);
             }
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                    //.UseUrls("http://localhost:61598");
-                });
     }
 }

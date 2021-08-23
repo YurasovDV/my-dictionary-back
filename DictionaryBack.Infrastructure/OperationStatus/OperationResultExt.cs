@@ -13,6 +13,17 @@ namespace DictionaryBack.Infrastructure
         public static BoolOperationResult BoolFail(CommandStatus status, string errorText)
         {
             return new BoolOperationResult(status, errorText);
+        }        
+        
+        public static BoolOperationResult BoolFail(CommandStatus status, string errorText, string innerErrorText)
+        {
+            return new BoolOperationResult(status, errorText)
+            {
+                AdditionalData = new System.Collections.Generic.Dictionary<string, object>()
+                {
+                    { InnerErrorText, innerErrorText }
+                }
+            };
         }
 
         public static OperationResult<T> Success<T>(T data) => new OperationResult<T>()

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DictionaryBack.Infrastructure
 {
+    // TODO: use separate model for tests or generated client
     public class OperationResult<T>
     {
-        // TODO: use separate model for tests or generated client
-        // internal OperationResult()
-        // {
-        // 
-        // }
 
 
         private T data;
@@ -20,10 +15,6 @@ namespace DictionaryBack.Infrastructure
         {
             get
             {
-                // if (!this.IsSuccessful())
-                // {
-                //     throw new InvalidOperationException($"Attempt to access '{nameof(Data)}' property of non-successful {nameof(OperationResult<T>)}");
-                // }
                 return data;
             }
             set

@@ -3,8 +3,10 @@ using DictionaryBack.BL.Query;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
 using DictionaryBack.ErrorMessages;
+using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -49,8 +51,9 @@ namespace DictionaryBack.PerfTest
         {
             var dictionaryContext = ContextFactory.CreateDbContext(null);
             var dapperFacade = new DapperPgFacade(Configuration);
+            var opts = Options.Create(new DictionaryApiSettings() { MaxWordsInRequest = 1000, RepetitionSetSize = 30 });
 
-            var topicReadHandler = new WordsByTopicQueryHandler(dictionaryContext, dapperFacade, new TranslationService());
+            var topicReadHandler = new WordsByTopicQueryHandler(dictionaryContext, dapperFacade, new TranslationService(), opts);
             var page = await topicReadHandler.GetPageNoTrackingAsync(r);
             Console.WriteLine(page.StatusCode);
         }
@@ -61,8 +64,9 @@ namespace DictionaryBack.PerfTest
         {
             var dictionaryContext = ContextFactory.CreateDbContext(null);
             var dapperFacade = new DapperPgFacade(Configuration);
+            var opts = Options.Create(new DictionaryApiSettings() { MaxWordsInRequest = 1000, RepetitionSetSize = 30 });
 
-            var topicReadHandler = new WordsByTopicQueryHandler(dictionaryContext, dapperFacade, new TranslationService());
+            var topicReadHandler = new WordsByTopicQueryHandler(dictionaryContext, dapperFacade, new TranslationService(), opts);
             var page = await topicReadHandler.GetPageDapperAsync(r);
             Console.WriteLine(page.StatusCode);
         }

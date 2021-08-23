@@ -4,6 +4,7 @@ using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.DTOs.Command;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,8 +21,13 @@ namespace DictionaryBack.BL.Command
 
     public class RepetitionHandler : BaseCommand, IRepetitionHandler
     {
-        public RepetitionHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService)
+        private readonly DictionaryApiSettings _settings;
+
+        public RepetitionHandler(DictionaryContext dictionaryContext, 
+            ITranslationService translationService,
+            IOptions<DictionaryApiSettings> options) : base(dictionaryContext, translationService)
         {
+            _settings = options.Value;
         }
 
         public async Task<OperationResult<WordDto[]>> CreateSet()
@@ -29,7 +35,7 @@ namespace DictionaryBack.BL.Command
             var set = await DictionaryContext.Words
                 .Where(w => w.Status == WordStatus.Learned)
                 .OrderBy(w => w.LastRepetition)
-                .Take(Constants.RepetitionSetSize)
+                .Take(_settings.RepetitionSetSize)
                 .Select(w => Mapper.Map(w))
                 .ToArrayAsync();
 
@@ -77,7 +83,7 @@ namespace DictionaryBack.BL.Command
             }
             catch (Exception ex)
             {
-                return OperationResultExt.BoolFail(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError));
+                return OperationResultExt.BoolFail(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError), ex.Message);
             }
         }
     }

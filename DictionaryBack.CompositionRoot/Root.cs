@@ -1,5 +1,6 @@
 ﻿using DictionaryBack.BL.Command;
 using DictionaryBack.BL.Query;
+using DictionaryBack.BL.Seeding;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
 using DictionaryBack.ErrorMessages;
@@ -14,6 +15,12 @@ namespace DictionaryBack.CompositionRoot
     public static class Root
     {
         public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopment)
+        {
+            DAL(services, configuration, isDevelopment);
+            BL(services);
+        }
+
+        private static void DAL(IServiceCollection services, IConfiguration configuration, bool isDevelopment)
         {
             Action<DbContextOptionsBuilder> action;
 
@@ -35,9 +42,11 @@ namespace DictionaryBack.CompositionRoot
             services.AddDbContext<DictionaryContext>(action);
 
             services.AddScoped<IDapperFacade, DapperPgFacade>();
-            services.AddScoped<Seeder>();
+        }
 
-            services.AddScoped<ITranslationService, TranslationService>();
+        private static void BL(IServiceCollection services)
+        {
+            services.AddScoped<Seeder>();
 
             services.AddScoped<IAllWordsQueryHandler, AllWordsQueryHandler>();
             services.AddScoped<IWordsByTopicQueryHandler, WordsByTopicQueryHandler>();
@@ -49,6 +58,8 @@ namespace DictionaryBack.CompositionRoot
 
             services.AddScoped<IRepetitionHandler, RepetitionHandler>();
 
+
+            services.AddScoped<ITranslationService, TranslationService>();
         }
     }
 }
