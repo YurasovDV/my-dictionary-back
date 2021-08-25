@@ -39,7 +39,8 @@ namespace DictionaryBack.API
                     {
                         builder
                         .AllowAnyOrigin()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                     });
             });
 
