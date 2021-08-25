@@ -32,6 +32,18 @@ namespace DictionaryBack.API
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 });
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod();
+                    });
+            });
+
+
             services.AddApiVersioning();
 
             AddSwagger(services);
@@ -67,6 +79,8 @@ namespace DictionaryBack.API
 
 
             app.UseRouting();
+
+            app.UseCors();
 
             // app.UseAuthorization();
 
