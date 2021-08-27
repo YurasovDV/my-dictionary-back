@@ -16,7 +16,7 @@
         {
             internal const string AddWord = "api/v1/DictionaryCommand/";
             internal const string EditWord = "api/v1/DictionaryCommand/";
-            // internal const string DeleteWord = "api/v1/DictionaryCommand/";
+            internal const string DeleteWord = "api/v1/DictionaryCommand/";
         }
 
         internal static class Repetition

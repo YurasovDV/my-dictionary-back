@@ -22,6 +22,8 @@ namespace DictionaryBack.DAL.Configurations
 
             // several users?
             builder.HasIndex(t => t.Name).IsUnique();
+
+            builder.HasQueryFilter(w => !w.IsDeleted);
         }
     }
 }

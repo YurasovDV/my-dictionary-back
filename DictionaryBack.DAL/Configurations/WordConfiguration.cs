@@ -38,6 +38,8 @@ namespace DictionaryBack.DAL.Configurations
 
             builder.Navigation(w => w.Topic).AutoInclude();
 
+            builder.HasQueryFilter(w => !w.IsDeleted);
+
             // big thank you dapper
 
             // builder.Property(w => w.Translations)

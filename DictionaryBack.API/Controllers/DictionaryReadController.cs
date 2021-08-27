@@ -67,6 +67,8 @@ namespace DictionaryBack.API.Controllers
         [HttpPost]
         [Route("GetPageDapper", Name = "GetPageDapper")]
         [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        // TODO: use SoftDeleted column in dapper queries
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<OperationResult<IEnumerable<WordDto>>> GetPageDapper([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageDapperAsync(request);

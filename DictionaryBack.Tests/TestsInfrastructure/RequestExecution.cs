@@ -36,7 +36,7 @@ namespace DictionaryBack.Tests.TestsInfrastructure
             return await HandleResponse<TRes>(responseMsg);
         }
 
-        private static async Task<TRes> HandleResponse<TRes>(HttpResponseMessage responseMsg)
+        public static async Task<TRes> HandleResponse<TRes>(HttpResponseMessage responseMsg)
         {
             responseMsg.EnsureSuccessStatusCode();
             var content = await responseMsg.Content.ReadAsStringAsync();

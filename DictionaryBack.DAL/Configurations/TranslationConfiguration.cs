@@ -17,6 +17,8 @@ namespace DictionaryBack.DAL.Configurations
             builder.Property(w => w.Term).HasColumnName("term");
 
             builder.Property(w => w.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
+
+            builder.HasQueryFilter(w => !w.IsDeleted);
         }
     }
 }
