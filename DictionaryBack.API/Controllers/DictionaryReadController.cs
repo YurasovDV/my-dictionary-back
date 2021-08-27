@@ -28,6 +28,7 @@ namespace DictionaryBack.API.Controllers
         [HttpGet]
         [Route("GetNoTracking", Name = "GetNoTracking")]
         [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<OperationResult<IEnumerable<WordDto>>> GetNoTracking()
         {
             return await _allWordsQueryHandler.GetWordsNoTrackingAsync();
@@ -36,6 +37,7 @@ namespace DictionaryBack.API.Controllers
         [HttpGet]
         [Route("GetWithDapper", Name = "GetWithDapper")]
         [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<OperationResult<IEnumerable<WordDto>>> GetWithDapper()
         {
             return await _allWordsQueryHandler.GetWithDapperAsync();
@@ -50,6 +52,7 @@ namespace DictionaryBack.API.Controllers
         [HttpPost]
         [Route("GetPage", Name = "GetPage")]
         [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<OperationResult<IEnumerable<WordDto>>> GetPage([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageTrackingAsync(request);
