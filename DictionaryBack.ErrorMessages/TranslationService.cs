@@ -5,7 +5,7 @@ namespace DictionaryBack.ErrorMessages
 {
     public class TranslationService : ITranslationService
     {
-        private readonly Dictionary<ErrorKey, string> _translations2 = new()
+        private readonly Dictionary<ErrorKey, string> _translations = new()
         {
             { ErrorKey.TopicNotFound, "Topic not found" },
             { ErrorKey.NoWordProvided, "No word provided" },
@@ -21,7 +21,7 @@ namespace DictionaryBack.ErrorMessages
 
         public string GetTranslation(ErrorKey key)
         {
-            return _translations2[key];
+            return _translations[key];
         }
     }
 }
