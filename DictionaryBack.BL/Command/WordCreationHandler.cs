@@ -2,6 +2,7 @@
 using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.DTOs.Command;
 using DictionaryBack.Infrastructure.DTOs.Query;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,13 +45,12 @@ namespace DictionaryBack.BL.Command
                     return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation(ErrorKey.TopicNotFound));
                 }
 
-                var existingWord = DictionaryContext.Words.Find(word.Term);
+                var existingWord = DictionaryContext.Words.IgnoreQueryFilters().FirstOrDefault(row => row.Term == word.Term);
 
                 if (existingWord != null)
                 {
                     return OperationResultExt.Fail<WordDto>(CommandStatus.InvalidRequest, TranslationService.GetTranslation(ErrorKey.WordAlreadyExists));
                 }
-
 
                 DictionaryContext.Words.Add(word);
                 await DictionaryContext.SaveChangesAsync();

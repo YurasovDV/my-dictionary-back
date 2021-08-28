@@ -11,7 +11,7 @@ namespace DictionaryBack.ErrorMessages
             { ErrorKey.NoWordProvided, "No word provided" },
             { ErrorKey.InvalidTranslations, "Incorrect translations" },
             { ErrorKey.InvalidTopicName, "Incorrect topic name" },
-            { ErrorKey.WordAlreadyExists, "Word already exists" },
+            { ErrorKey.WordAlreadyExists, "Word already exists in database(was it deleted?)" },
             { ErrorKey.InternalError, "Internal error" },
             { ErrorKey.WordDoesNotExist, "Word does not exist" },
             { ErrorKey.NotImplemented, "Functionality is not implemented" },
