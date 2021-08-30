@@ -49,7 +49,7 @@ namespace DictionaryBack.CompositionRoot
             services.AddScoped<Seeder>();
 
             services.AddScoped<IAllWordsQueryHandler, AllWordsQueryHandler>();
-            services.AddScoped<IWordsByTopicQueryHandler, WordsByTopicQueryHandler>();
+            services.AddScoped<IWordsPagedQueryHandler, WordsPagedQueryHandler>();
 
 
             services.AddScoped<IWordCreationHandler, WordCreationHandler>();

@@ -14,13 +14,13 @@ namespace DictionaryBack.API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class DictionaryReadController : ControllerBase
     {
-        private readonly IWordsByTopicQueryHandler _topicHandler;
+        private readonly IWordsPagedQueryHandler _pagedHandler;
         private readonly IAllWordsQueryHandler _allWordsQueryHandler;
         private readonly ILogger<DictionaryReadController> _logger;
 
-        public DictionaryReadController(IWordsByTopicQueryHandler topicHandler, IAllWordsQueryHandler allWordsQueryHandler, ILogger<DictionaryReadController> logger)
+        public DictionaryReadController(IWordsPagedQueryHandler pagedHandler, IAllWordsQueryHandler allWordsQueryHandler, ILogger<DictionaryReadController> logger)
         {
-            _topicHandler = topicHandler;
+            _pagedHandler = pagedHandler;
             _allWordsQueryHandler = allWordsQueryHandler;
             _logger = logger;
         }
@@ -55,7 +55,7 @@ namespace DictionaryBack.API.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<OperationResult<PageData<WordDto>>> GetPage([FromBody] WordsByTopicRequest request)
         {
-            return await _topicHandler.GetPageTrackingAsync(request);
+            return await _pagedHandler.GetPageTrackingAsync(request);
         }
 
 
@@ -64,7 +64,7 @@ namespace DictionaryBack.API.Controllers
         [SwaggerResponse(200, type: typeof(OperationResult<PageData<WordDto>>))]
         public async Task<OperationResult<PageData<WordDto>>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
         {
-            return await _topicHandler.GetPageNoTrackingAsync(request);
+            return await _pagedHandler.GetPageNoTrackingAsync(request);
         }
 
         [HttpPost]
@@ -73,7 +73,7 @@ namespace DictionaryBack.API.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<OperationResult<PageData<WordDto>>> GetPageDapper([FromBody] WordsByTopicRequest request)
         {
-            return await _topicHandler.GetPageDapperAsync(request);
+            return await _pagedHandler.GetPageDapperAsync(request);
         }
     }
 }

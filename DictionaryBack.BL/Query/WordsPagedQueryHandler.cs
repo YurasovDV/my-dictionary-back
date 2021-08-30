@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DictionaryBack.BL.Query
 {
-    public interface IWordsByTopicQueryHandler
+    public interface IWordsPagedQueryHandler
     {
         Task<OperationResult<PageData<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request);
 
@@ -21,14 +21,14 @@ namespace DictionaryBack.BL.Query
         Task<OperationResult<PageData<WordDto>>> GetPageDapperAsync(WordsByTopicRequest request);
     }
 
-    public class WordsByTopicQueryHandler : IWordsByTopicQueryHandler
+    public class WordsPagedQueryHandler : IWordsPagedQueryHandler
     {
         private readonly DictionaryContext _dictionaryContext;
         private readonly IDapperFacade _dapperFacade;
         private readonly ITranslationService _translationService;
         private readonly DictionaryApiSettings _settings;
 
-        public WordsByTopicQueryHandler(DictionaryContext dictionaryContext, 
+        public WordsPagedQueryHandler(DictionaryContext dictionaryContext, 
             IDapperFacade dapperFacade, 
             ITranslationService translationService,
             IOptions<DictionaryApiSettings> options)
