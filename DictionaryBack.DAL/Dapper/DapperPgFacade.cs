@@ -16,6 +16,8 @@ namespace DictionaryBack.DAL.Dapper
 
         private static class PostgresqlText
         {
+            public const string SkipTakePart = " LIMIT @Take OFFSET @Skip ";
+
             public static readonly string GetAll =
                 @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
                    FROM (
@@ -34,14 +36,14 @@ namespace DictionaryBack.DAL.Dapper
             /// only limit offset are applied
             /// </summary>
             public static readonly string GetPageNoSearch =
-                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term as term0, t1.meaning, t1.is_deleted
                     FROM (
                         SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
                         FROM words AS w
                         WHERE w.is_deleted = False
-                        ORDER BY w.term
-                    LIMIT @Take OFFSET @Skip
-                    ) AS t
+                        ORDER BY w.term"
+                    + SkipTakePart +
+                    @") AS t
                     INNER JOIN topics AS t0 ON t.topic_id = t0.id
                     LEFT JOIN translations AS t1 ON t.term = t1.term
                     WHERE t0.is_deleted = False AND t1.is_deleted = False
@@ -51,14 +53,14 @@ namespace DictionaryBack.DAL.Dapper
             /// ignore topic, only term value
             /// </summary>
             public static readonly string GetPageWithQuery =
-                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
+                @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term as term0, t1.meaning, t1.is_deleted
                      FROM (
                          SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
                          FROM words AS w
                          WHERE (strpos(w.term, @SearchTerm) > 0) AND w.is_deleted = False
-                         ORDER BY w.term
-                         LIMIT @Take OFFSET @Skip
-                     ) AS t
+                         ORDER BY w.term"
+                            + SkipTakePart +
+                     @") AS t
                      INNER JOIN topics AS t0 ON t.topic_id = t0.id
                      LEFT JOIN translations AS t1 ON t.term = t1.term
                      WHERE t0.is_deleted = False AND t1.is_deleted = False
@@ -69,15 +71,15 @@ namespace DictionaryBack.DAL.Dapper
             /// using only topic
             /// </summary>
             public static readonly string GetPageWithTopic =
-                @"SELECT t0.term, t0.is_deleted, t0.last_repetition, t0.status, t0.topic_id, t0.id, t0.is_deleted0, t0.name, t1.term, t1.meaning, t1.is_deleted
+                @"SELECT t0.term, t0.is_deleted, t0.last_repetition, t0.status, t0.topic_id, t0.id, t0.is_deleted0, t0.name, t1.term as term0, t1.meaning, t1.is_deleted
                     FROM (
                         SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted AS is_deleted0, t.name
                         FROM words AS w
                         INNER JOIN topics AS t ON w.topic_id = t.id
                         WHERE (strpos(t.name, @Topic::citext) > 0) AND t.is_deleted = False AND w.is_deleted = False
-                        ORDER BY w.term
-                        LIMIT @Take OFFSET @Skip
-                    ) AS t0
+                        ORDER BY w.term"
+                        + SkipTakePart +
+                    @") AS t0
                     LEFT JOIN translations AS t1 ON t0.term = t1.term
                     WHERE t1.is_deleted = False
                     ORDER BY t0.term, t0.id, t1.term, t1.meaning";
@@ -88,15 +90,15 @@ namespace DictionaryBack.DAL.Dapper
             /// </summary>
             public static readonly string GetPageWithTopicAndQuery =
 
-                @"SELECT t0.term, t0.is_deleted, t0.last_repetition, t0.status, t0.topic_id, t0.id, t0.is_deleted0, t0.name, t1.term, t1.meaning, t1.is_deleted
+                @"SELECT t0.term, t0.is_deleted, t0.last_repetition, t0.status, t0.topic_id, t0.id, t0.is_deleted0, t0.name, t1.term as term0, t1.meaning, t1.is_deleted
                         FROM (
                             SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted AS is_deleted0, t.name
                             FROM words AS w
                             INNER JOIN topics AS t ON w.topic_id = t.id
                             WHERE (strpos(t.name, @Topic::citext) > 0) AND (strpos(w.term, @SearchTerm) > 0) AND t.is_deleted = False AND w.is_deleted = False
-                            ORDER BY w.term
-                            LIMIT @Take OFFSET @Skip
-                        ) AS t0
+                            ORDER BY w.term"
+                               + SkipTakePart +
+                        @") AS t0
                         LEFT JOIN translations AS t1 ON t0.term = t1.term 
                         WHERE t1.is_deleted = False
                         ORDER BY t0.term, t0.id, t1.term, t1.meaning";
@@ -153,16 +155,23 @@ namespace DictionaryBack.DAL.Dapper
                     }
                 },
                 parameters,
-                splitOn: "id,term"))
+                splitOn: "id,term0"))
                 .ToList();
+            int total = await GetTotal(conn, query, parameters);
 
             var pageData = new PageData<Word>()
             {
-                Total = 0,
+                Total = total,
                 Page = deduplicatedValues.Values.ToArray(),
             };
 
             return pageData;
+        }
+
+        private async Task<int> GetTotal(NpgsqlConnection conn, string query, object parameters)
+        {
+            var countQuery = $"SELECT COUNT(DISTINCT dict.term) FROM( {query.Replace(PostgresqlText.SkipTakePart, "")}) as dict"; 
+            return await conn.ExecuteScalarAsync<int>(countQuery, parameters);
         }
 
         private static string SelectQuery(WordsByTopicRequest request)

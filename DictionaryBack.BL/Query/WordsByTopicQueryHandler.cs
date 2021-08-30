@@ -82,28 +82,37 @@ namespace DictionaryBack.BL.Query
                 query = query.Where(w => w.Topic.Name.Contains(request.Topic));
             }
 
-            if (request.Skip != null || request.Take != null)
+            if(request.Take != null)
             {
-                query = query.OrderBy(w => w.Term);
-                if (request.Skip != null)
+                if (request.Take > _settings.MaxWordsInRequest)
                 {
-                    query = query.Skip(request.Skip.Value);
-                }
-
-                if (request.Take != null && request.Take > 0)
-                {
-                    query = query.Take(request.Take.Value);
-
-                    if (request.Take > _settings.MaxWordsInRequest)
-                    {
-                        return OperationResultExt.Fail<PageData<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation(ErrorKey.TooManyItemsRequested));
-                    }
+                    return OperationResultExt.Fail<PageData<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation(ErrorKey.TooManyItemsRequested));
                 }
             }
 
-            IEnumerable<WordDto> data = await query.Select(w => Mapper.Map(w)).ToListAsync();
+            var count = await query.CountAsync();
+            IEnumerable<WordDto> data = Array.Empty<WordDto>();
 
-            return OperationResultExt.Success(new PageData<WordDto>() { Total = 0, Page = data.ToArray() });
+            if (count > 0)
+            {
+                if (request.Skip != null || request.Take != null)
+                {
+                    query = query.OrderBy(w => w.Term);
+                    if (request.Skip != null)
+                    {
+                        query = query.Skip(request.Skip.Value);
+                    }
+
+                    if (request.Take != null && request.Take > 0)
+                    {
+                        query = query.Take(request.Take.Value);
+                    }
+                }
+
+                data = await query.Select(w => Mapper.Map(w)).ToListAsync();
+            }
+
+            return OperationResultExt.Success(new PageData<WordDto>() { Total = count, Page = data.ToArray() });
         }
     }
 }

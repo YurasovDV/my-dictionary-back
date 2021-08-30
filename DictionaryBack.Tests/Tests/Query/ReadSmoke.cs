@@ -48,6 +48,9 @@ namespace DictionaryBack.Tests
             }
             WordDto[] words = resp.Data.Page;
 
+            Console.WriteLine($"{nameof(ReadPage20)} +   {url}: {resp.Data.Total}");
+            Assert.IsTrue(resp.Data.Total > 0);
+
             Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Translations.Length >= 1));
@@ -71,6 +74,8 @@ namespace DictionaryBack.Tests
                 Assert.Fail(resp.ErrorText);
             }
             WordDto[] words = resp.Data.Page;
+            Console.WriteLine($"{nameof(ReadPage100)} +   {url}: {resp.Data.Total}");
+            Assert.IsTrue(resp.Data.Total > 0);
 
             Assert.AreEqual(100, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
@@ -97,6 +102,9 @@ namespace DictionaryBack.Tests
             }
             WordDto[] words = resp.Data.Page;
 
+            Console.WriteLine($"{nameof(ReadPageByTextSearch)} +   {url}: {resp.Data.Total}");
+            Assert.IsTrue(resp.Data.Total > 0);
+
             Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Term.IndexOf("for", StringComparison.OrdinalIgnoreCase) != -1));
@@ -122,6 +130,9 @@ namespace DictionaryBack.Tests
             }
             WordDto[] words = resp.Data.Page;
 
+            Console.WriteLine($"{nameof(ReadPageByTopicSearch)} +   {url}: {resp.Data.Total}");
+            Assert.IsTrue(resp.Data.Total > 0);
+
             Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Topic.IndexOf("def", StringComparison.OrdinalIgnoreCase) != -1));
@@ -146,6 +157,9 @@ namespace DictionaryBack.Tests
                 Assert.Fail(resp.ErrorText);
             }
             WordDto[] words = resp.Data.Page;
+
+            Console.WriteLine($"{nameof(ReadPageByTopicAndTextSearch)} +   {url}: {resp.Data.Total}");
+            Assert.IsTrue(resp.Data.Total > 0);
 
             Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
