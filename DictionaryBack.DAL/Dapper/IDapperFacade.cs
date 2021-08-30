@@ -1,4 +1,5 @@
 ﻿using DictionaryBack.Domain;
+using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +10,6 @@ namespace DictionaryBack.DAL.Dapper
     {
         Task<IEnumerable<Word>> GetAllAsync();
 
-        Task<IEnumerable<Word>> GetPage(WordsByTopicRequest request);
+        Task<PageData<Word>> GetPage(WordsByTopicRequest request);
     }
 }

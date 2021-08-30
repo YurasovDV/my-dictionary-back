@@ -5,6 +5,7 @@ using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,11 +14,11 @@ namespace DictionaryBack.BL.Query
 {
     public interface IWordsByTopicQueryHandler
     {
-        Task<OperationResult<IEnumerable<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request);
+        Task<OperationResult<PageData<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request);
 
-        Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTrackingAsync(WordsByTopicRequest request);
+        Task<OperationResult<PageData<WordDto>>> GetPageNoTrackingAsync(WordsByTopicRequest request);
 
-        Task<OperationResult<IEnumerable<WordDto>>> GetPageDapperAsync(WordsByTopicRequest request);
+        Task<OperationResult<PageData<WordDto>>> GetPageDapperAsync(WordsByTopicRequest request);
     }
 
     public class WordsByTopicQueryHandler : IWordsByTopicQueryHandler
@@ -38,14 +39,14 @@ namespace DictionaryBack.BL.Query
             _settings = options.Value;
         }
 
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request)
+        public async Task<OperationResult<PageData<WordDto>>> GetPageTrackingAsync(WordsByTopicRequest request)
         {
             var query = _dictionaryContext.Words.AsQueryable();
 
             return await ExecuteInternal(query, request);
         }
 
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTrackingAsync(WordsByTopicRequest request)
+        public async Task<OperationResult<PageData<WordDto>>> GetPageNoTrackingAsync(WordsByTopicRequest request)
         {
             var query = _dictionaryContext.Words
                 .AsNoTracking()
@@ -54,17 +55,22 @@ namespace DictionaryBack.BL.Query
             return await ExecuteInternal(query, request);
         }
 
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageDapperAsync(WordsByTopicRequest request)
+        public async Task<OperationResult<PageData<WordDto>>> GetPageDapperAsync(WordsByTopicRequest request)
         {
-            IEnumerable<WordDto> data = (await _dapperFacade.GetPage(request))
-                .Select(w => Mapper.Map(w))
-                .ToList();
-
-            return OperationResultExt.Success(data);
+            try
+            {
+                var wordsPage = await _dapperFacade.GetPage(request);
+                PageData<WordDto> result = PageDataExt.From(wordsPage, w => Mapper.Map(w));
+                return OperationResultExt.Success(result);
+            }
+            catch (Exception ex)
+            {
+                return OperationResultExt.Fail<PageData<WordDto>>(CommandStatus.InternalError, ex.Message);
+            }
         }
 
 
-        private async Task<OperationResult<IEnumerable<WordDto>>> ExecuteInternal(IQueryable<Word> query, WordsByTopicRequest request)
+        private async Task<OperationResult<PageData<WordDto>>> ExecuteInternal(IQueryable<Word> query, WordsByTopicRequest request)
         {
             if (!string.IsNullOrWhiteSpace(request.SearchTerm))
             {
@@ -90,13 +96,14 @@ namespace DictionaryBack.BL.Query
 
                     if (request.Take > _settings.MaxWordsInRequest)
                     {
-                        return OperationResultExt.Fail<IEnumerable<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation(ErrorKey.TooManyItemsRequested));
+                        return OperationResultExt.Fail<PageData<WordDto>>(CommandStatus.InvalidRequest, _translationService.GetTranslation(ErrorKey.TooManyItemsRequested));
                     }
                 }
             }
 
             IEnumerable<WordDto> data = await query.Select(w => Mapper.Map(w)).ToListAsync();
-            return OperationResultExt.Success(data);
+
+            return OperationResultExt.Success(new PageData<WordDto>() { Total = 0, Page = data.ToArray() });
         }
     }
 }

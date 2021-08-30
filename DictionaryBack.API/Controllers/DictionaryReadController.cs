@@ -51,9 +51,9 @@ namespace DictionaryBack.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("GetPage", Name = "GetPage")]
-        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
+        [SwaggerResponse(200, type: typeof(OperationResult<PageData<WordDto>>))]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPage([FromBody] WordsByTopicRequest request)
+        public async Task<OperationResult<PageData<WordDto>>> GetPage([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageTrackingAsync(request);
         }
@@ -61,18 +61,17 @@ namespace DictionaryBack.API.Controllers
 
         [HttpPost]
         [Route("GetPageNoTracking", Name = "GetPageNoTracking")]
-        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
+        [SwaggerResponse(200, type: typeof(OperationResult<PageData<WordDto>>))]
+        public async Task<OperationResult<PageData<WordDto>>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageNoTrackingAsync(request);
         }
 
         [HttpPost]
         [Route("GetPageDapper", Name = "GetPageDapper")]
-        [SwaggerResponse(200, type: typeof(OperationResult<IEnumerable<WordDto>>))]
-        // TODO: use SoftDeleted column in dapper queries
+        [SwaggerResponse(200, type: typeof(OperationResult<PageData<WordDto>>))]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<OperationResult<IEnumerable<WordDto>>> GetPageDapper([FromBody] WordsByTopicRequest request)
+        public async Task<OperationResult<PageData<WordDto>>> GetPageDapper([FromBody] WordsByTopicRequest request)
         {
             return await _topicHandler.GetPageDapperAsync(request);
         }

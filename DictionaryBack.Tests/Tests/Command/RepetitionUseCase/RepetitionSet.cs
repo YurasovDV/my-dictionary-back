@@ -84,7 +84,7 @@ namespace DictionaryBack.Tests
             var getRequest = Requests.Query.GetRequestForFirstKWords(1000);
             getRequest.Topic = null;
             getRequest.SearchTerm = last.Term;
-            var wordsFound = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, getRequest, Urls.Query.GetPageNoTracking);
+            var wordsFound = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, getRequest, Urls.Query.GetPageNoTracking);
 
             if (!wordsFound.IsSuccessful())
             {
@@ -92,7 +92,7 @@ namespace DictionaryBack.Tests
             }
 
             // todo may be flaky
-            var read = wordsFound.Data.FirstOrDefault(w => w.Term.Equals(last.Term, StringComparison.OrdinalIgnoreCase));
+            var read = wordsFound.Data.Page.FirstOrDefault(w => w.Term.Equals(last.Term, StringComparison.OrdinalIgnoreCase));
             if (read == null)
             {
                 Assert.Fail("no word found");

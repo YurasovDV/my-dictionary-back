@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using DictionaryBack.Domain;
+using DictionaryBack.Infrastructure;
 using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
@@ -15,15 +16,17 @@ namespace DictionaryBack.DAL.Dapper
 
         private static class PostgresqlText
         {
-            public static readonly string GetAll = 
+            public static readonly string GetAll =
                 @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
                    FROM (
                        SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
                        FROM words AS w
+					   WHERE w.is_deleted = False
                        ORDER BY w.term
                    ) AS t
                    INNER JOIN topics AS t0 ON t.topic_id = t0.id
                    LEFT JOIN translations AS t1 ON t.term = t1.term
+				   WHERE t0.is_deleted = False AND t1.is_deleted = False
                    ORDER BY t.term, t0.id, t1.term, t1.meaning";
 
 
@@ -35,27 +38,30 @@ namespace DictionaryBack.DAL.Dapper
                     FROM (
                         SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
                         FROM words AS w
+                        WHERE w.is_deleted = False
                         ORDER BY w.term
                     LIMIT @Take OFFSET @Skip
                     ) AS t
                     INNER JOIN topics AS t0 ON t.topic_id = t0.id
                     LEFT JOIN translations AS t1 ON t.term = t1.term
-                    ORDER BY t.term, t0.id, t1.term, t1.meaning;";
+                    WHERE t0.is_deleted = False AND t1.is_deleted = False
+                    ORDER BY t.term, t0.id, t1.term, t1.meaning";
 
             /// <summary>
             /// ignore topic, only term value
             /// </summary>
-            public static readonly string GetPageWithQuery = 
+            public static readonly string GetPageWithQuery =
                 @"SELECT t.term, t.is_deleted, t.last_repetition, t.status, t.topic_id, t0.id, t0.is_deleted, t0.name, t1.term, t1.meaning, t1.is_deleted
                      FROM (
                          SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
                          FROM words AS w
-                         WHERE (strpos(w.term, @SearchTerm) > 0)
+                         WHERE (strpos(w.term, @SearchTerm) > 0) AND w.is_deleted = False
                          ORDER BY w.term
                          LIMIT @Take OFFSET @Skip
                      ) AS t
                      INNER JOIN topics AS t0 ON t.topic_id = t0.id
                      LEFT JOIN translations AS t1 ON t.term = t1.term
+                     WHERE t0.is_deleted = False AND t1.is_deleted = False
                      ORDER BY t.term, t0.id, t1.term, t1.meaning";
 
 
@@ -68,11 +74,12 @@ namespace DictionaryBack.DAL.Dapper
                         SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted AS is_deleted0, t.name
                         FROM words AS w
                         INNER JOIN topics AS t ON w.topic_id = t.id
-                        WHERE (strpos(t.name, @Topic::citext) > 0)
+                        WHERE (strpos(t.name, @Topic::citext) > 0) AND t.is_deleted = False AND w.is_deleted = False
                         ORDER BY w.term
                         LIMIT @Take OFFSET @Skip
                     ) AS t0
                     LEFT JOIN translations AS t1 ON t0.term = t1.term
+                    WHERE t1.is_deleted = False
                     ORDER BY t0.term, t0.id, t1.term, t1.meaning";
 
 
@@ -86,11 +93,12 @@ namespace DictionaryBack.DAL.Dapper
                             SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted AS is_deleted0, t.name
                             FROM words AS w
                             INNER JOIN topics AS t ON w.topic_id = t.id
-                            WHERE (strpos(t.name, @Topic::citext) > 0) AND (strpos(w.term, @SearchTerm) > 0)
+                            WHERE (strpos(t.name, @Topic::citext) > 0) AND (strpos(w.term, @SearchTerm) > 0) AND t.is_deleted = False AND w.is_deleted = False
                             ORDER BY w.term
                             LIMIT @Take OFFSET @Skip
                         ) AS t0
-                        LEFT JOIN translations AS t1 ON t0.term = t1.term
+                        LEFT JOIN translations AS t1 ON t0.term = t1.term 
+                        WHERE t1.is_deleted = False
                         ORDER BY t0.term, t0.id, t1.term, t1.meaning";
         }
 
@@ -116,7 +124,7 @@ namespace DictionaryBack.DAL.Dapper
             return words;
         }
 
-        public async Task<IEnumerable<Word>> GetPage(WordsByTopicRequest request)
+        public async Task<PageData<Word>> GetPage(WordsByTopicRequest request)
         {
             var deduplicatedValues = new Dictionary<string, Word>();
 
@@ -148,7 +156,13 @@ namespace DictionaryBack.DAL.Dapper
                 splitOn: "id,term"))
                 .ToList();
 
-            return deduplicatedValues.Values;
+            var pageData = new PageData<Word>()
+            {
+                Total = 0,
+                Page = deduplicatedValues.Values.ToArray(),
+            };
+
+            return pageData;
         }
 
         private static string SelectQuery(WordsByTopicRequest request)

@@ -41,14 +41,14 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirstKWords();
 
-            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
             }
-            List<WordDto> words = resp.Data;
+            WordDto[] words = resp.Data.Page;
 
-            Assert.AreEqual(20, words.Count);
+            Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Translations.Length >= 1));
             foreach (var word in words)
@@ -65,14 +65,14 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirstKWords(100);
 
-            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
             }
-            List<WordDto> words = resp.Data;
+            WordDto[] words = resp.Data.Page;
 
-            Assert.AreEqual(100, words.Count);
+            Assert.AreEqual(100, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Translations.Length >= 1));
             foreach (var word in words)
@@ -90,14 +90,14 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirst20WordsWith_For_Query();
 
-            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
             }
-            List<WordDto> words = resp.Data;
+            WordDto[] words = resp.Data.Page;
 
-            Assert.AreEqual(20, words.Count);
+            Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Term.IndexOf("for", StringComparison.OrdinalIgnoreCase) != -1));
             Assert.IsTrue(words.All(w => w.Translations.Length >= 1));
@@ -115,14 +115,14 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirst20WordsWith_Def_Topic();
 
-            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
             }
-            List<WordDto> words = resp.Data;
+            WordDto[] words = resp.Data.Page;
 
-            Assert.AreEqual(20, words.Count);
+            Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Topic.IndexOf("def", StringComparison.OrdinalIgnoreCase) != -1));
             Assert.IsTrue(words.All(w => w.Translations.Length >= 1));
@@ -140,14 +140,14 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirst20WordsWith_For_Query_Def_Topic();
 
-            var resp = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, url);
+            var resp = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, request, url);
             if (!resp.IsSuccessful())
             {
                 Assert.Fail(resp.ErrorText);
             }
-            List<WordDto> words = resp.Data;
+            WordDto[] words = resp.Data.Page;
 
-            Assert.AreEqual(20, words.Count);
+            Assert.AreEqual(20, words.Length);
             Assert.IsTrue(words.All(w => !string.IsNullOrEmpty(w.Term)));
             Assert.IsTrue(words.All(w => w.Term.IndexOf("for", StringComparison.OrdinalIgnoreCase) != -1));
             Assert.IsTrue(words.All(w => w.Translations.Length >= 1));

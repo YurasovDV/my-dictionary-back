@@ -3,7 +3,6 @@ using DictionaryBack.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -38,14 +37,14 @@ namespace DictionaryBack.Tests
         {
             var request = Requests.Query.GetRequestForFirst20WordsWith_Def_Topic();
             request.SearchTerm = "for";
-            var getPageResponse = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, Urls.Query.GetPageNoTracking);
+            var getPageResponse = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, request, Urls.Query.GetPageNoTracking);
             if (!getPageResponse.IsSuccessful())
             {
                 Assert.Fail(getPageResponse.ErrorText);
             }
-            List<WordDto> words = getPageResponse.Data;
+            WordDto[] words = getPageResponse.Data.Page;
 
-            Assert.AreEqual(20, words.Count);
+            Assert.AreEqual(20, words.Length);
 
             var prey = words.First();
 
@@ -59,13 +58,13 @@ namespace DictionaryBack.Tests
                 Assert.Fail(deleteStatus.ErrorText);
             }
 
-            var getPageResponse2 = await RequestExecution.ExecutePostRequest<OperationResult<List<WordDto>>>(client, request, Urls.Query.GetPageNoTracking);
+            var getPageResponse2 = await RequestExecution.ExecutePostRequest<OperationResult<PageData<WordDto>>>(client, request, Urls.Query.GetPageNoTracking);
             if (!getPageResponse2.IsSuccessful())
             {
                 Assert.Fail(getPageResponse.ErrorText);
             }
 
-            Assert.IsFalse(getPageResponse2.Data.Any(w => w.Term.Equals(prey.Term, StringComparison.OrdinalIgnoreCase)));
+            Assert.IsFalse(getPageResponse2.Data.Page.Any(w => w.Term.Equals(prey.Term, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

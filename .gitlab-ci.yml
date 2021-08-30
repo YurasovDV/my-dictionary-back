@@ -12,11 +12,16 @@ check-folder-job:
   script:
     - mkdir -p $DEPLOYMENT_FOLDER
 
-deploy-job:      
+
+stop-app-job:
+  stage: deploy
+  script:     
+    - sudo systemctl stop dictback.service
+
+publish-job:      
   stage: deploy
   script:
     - dotnet restore
-    - sudo systemctl stop dictback.service
     - dotnet publish DictionaryBack.API/DictionaryBack.API.csproj --configuration Release --no-restore --nologo -o $DEPLOYMENT_FOLDER
     - chmod 777 $DEPLOYMENT_FOLDER/DictionaryBack.API.dll
 
