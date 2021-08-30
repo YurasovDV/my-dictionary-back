@@ -57,7 +57,7 @@ namespace DictionaryBack.DAL.Dapper
                      FROM (
                          SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id
                          FROM words AS w
-                         WHERE (strpos(w.term, @SearchTerm) > 0) AND w.is_deleted = False
+                         WHERE (strpos(w.term, @SearchTerm::citext) > 0) AND w.is_deleted = False
                          ORDER BY w.term"
                             + SkipTakePart +
                      @") AS t
@@ -95,7 +95,7 @@ namespace DictionaryBack.DAL.Dapper
                             SELECT w.term, w.is_deleted, w.last_repetition, w.status, w.topic_id, t.id, t.is_deleted AS is_deleted0, t.name
                             FROM words AS w
                             INNER JOIN topics AS t ON w.topic_id = t.id
-                            WHERE (strpos(t.name, @Topic::citext) > 0) AND (strpos(w.term, @SearchTerm) > 0) AND t.is_deleted = False AND w.is_deleted = False
+                            WHERE (strpos(t.name, @Topic::citext) > 0) AND (strpos(w.term, @SearchTerm::citext) > 0) AND t.is_deleted = False AND w.is_deleted = False
                             ORDER BY w.term"
                                + SkipTakePart +
                         @") AS t0
