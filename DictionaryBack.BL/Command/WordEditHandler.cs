@@ -42,6 +42,7 @@ namespace DictionaryBack.BL.Command
             }
             catch (Exception ex)
             {
+                // TODO log
                 return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError), ex.Message);
             }
         }

@@ -7,5 +7,10 @@ namespace DictionaryBack.Infrastructure.DTOs.Command
         public string Term { get; set; }
 
         public RepetitionStatus RepetitionStatus { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Term} - {RepetitionStatus}";
+        }
     }
 }

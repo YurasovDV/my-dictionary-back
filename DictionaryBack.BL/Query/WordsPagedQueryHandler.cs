@@ -65,6 +65,7 @@ namespace DictionaryBack.BL.Query
             }
             catch (Exception ex)
             {
+                // TODO log
                 return OperationResultExt.Fail<PageData<WordDto>>(CommandStatus.InternalError, ex.Message);
             }
         }

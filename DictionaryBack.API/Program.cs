@@ -1,7 +1,9 @@
 using DictionaryBack.BL.Seeding;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System.IO;
 
 namespace DictionaryBack.API
@@ -10,16 +12,36 @@ namespace DictionaryBack.API
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
 
-            MigrateAndSeed(host);
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-            host.Run();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(config)
+                .CreateLogger();
+
+            try
+            {
+                Log.Information("Application Starting.");
+                var host = CreateHostBuilder(args).Build();
+                MigrateAndSeed(host);
+                host.Run();
+            }
+            catch (System.Exception ex)
+            {
+                Log.Fatal(ex, "fatal error");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -64,7 +64,17 @@ namespace DictionaryBack.API.Controllers
         [SwaggerResponse(200, type: typeof(OperationResult<PageData<WordDto>>))]
         public async Task<OperationResult<PageData<WordDto>>> GetPageNoTracking([FromBody] WordsByTopicRequest request)
         {
-            return await _pagedHandler.GetPageNoTrackingAsync(request);
+            _logger.LogInformation("{operationName} | Getting page | @{request}", nameof(GetPageNoTracking), request);
+            var pageResult = await _pagedHandler.GetPageNoTrackingAsync(request);
+            if (pageResult.IsSuccessful())
+            {
+                _logger.LogInformation("{operationName} | Got page | @{request} , {Total} , {PageItemsCount}", nameof(GetPageNoTracking), request, pageResult.Data.Total, pageResult.Data.Page.Length);
+            }
+            else
+            {
+                _logger.LogWarning("{operationName} | Could not get page | {Status} , {error}", nameof(GetPageNoTracking), pageResult.StatusCode, pageResult.ErrorText);
+            }
+            return pageResult;
         }
 
         [HttpPost]
@@ -73,7 +83,13 @@ namespace DictionaryBack.API.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<OperationResult<PageData<WordDto>>> GetPageDapper([FromBody] WordsByTopicRequest request)
         {
-            return await _pagedHandler.GetPageDapperAsync(request);
+            _logger.LogInformation("{operationName} | Getting page | @{request}", nameof(GetPageDapper), request);
+            var pageResult = await _pagedHandler.GetPageDapperAsync(request);
+            if (pageResult.IsSuccessful())
+            {
+                _logger.LogInformation("{operationName} | Got page | {Total} {PageItemsCount}", nameof(GetPageDapper), request, pageResult.Data.Total, pageResult.Data.Page.Length);
+            }
+            return pageResult;
         }
     }
 }

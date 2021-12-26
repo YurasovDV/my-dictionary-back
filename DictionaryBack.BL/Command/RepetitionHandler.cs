@@ -83,6 +83,7 @@ namespace DictionaryBack.BL.Command
             }
             catch (Exception ex)
             {
+                // TODO log
                 return OperationResultExt.BoolFail(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError), ex.Message);
             }
         }
