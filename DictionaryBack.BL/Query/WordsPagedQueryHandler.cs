@@ -108,6 +108,10 @@ namespace DictionaryBack.BL.Query
                     {
                         query = query.Take(request.Take.Value);
                     }
+                    else
+                    {
+                        query = query.Take(_settings.MaxWordsInRequest);
+                    }
                 }
 
                 data = await query.Select(w => Mapper.Map(w)).ToListAsync();

@@ -24,6 +24,9 @@ publish-job:
     - dotnet restore
     - dotnet publish DictionaryBack.API/DictionaryBack.API.csproj --configuration Release --no-restore --nologo -o $DEPLOYMENT_FOLDER
     - chmod 777 $DEPLOYMENT_FOLDER/DictionaryBack.API.dll
+  environment:
+    name: dev
+    url: http://192.168.0.6:82
 
 start-app-job:
   stage: start-app
