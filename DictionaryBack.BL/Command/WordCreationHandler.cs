@@ -2,8 +2,10 @@
 using DictionaryBack.Common.DTOs.Command;
 using DictionaryBack.Common.DTOs.Query;
 using DictionaryBack.Common.Localization;
+using DictionaryBack.Common.Queue;
 using DictionaryBack.DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +19,12 @@ namespace DictionaryBack.BL.Command
 
     public class WordCreationHandler : BaseCommand, IWordCreationHandler
     {
-        public WordCreationHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService) { }
+        private readonly ILogger<WordCreationHandler> _logger;
+
+        public WordCreationHandler(DictionaryContext dictionaryContext, ITranslationService translationService, ILogger<WordCreationHandler> logger, IWordsPublisher wordsPublisher) : base(dictionaryContext, translationService, wordsPublisher)
+        {
+            _logger = logger;
+        }
 
         public async Task<OperationResult<WordDto>> Create(WordCreationModel request)
         {
@@ -55,11 +62,12 @@ namespace DictionaryBack.BL.Command
 
                 DictionaryContext.Words.Add(word);
                 await DictionaryContext.SaveChangesAsync();
+                await WordsPublisher.PublishChangedWord(word);
                 return OperationResultExt.Success(Mapper.Map(word));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO log
+                _logger.LogError(ex.Message);
                 return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError));
             }
         }

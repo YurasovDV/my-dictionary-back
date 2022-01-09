@@ -3,7 +3,9 @@ using DictionaryBack.Common.DTOs.Command;
 using DictionaryBack.Common.DTOs.Query;
 using DictionaryBack.Common.Entities;
 using DictionaryBack.Common.Localization;
+using DictionaryBack.Common.Queue;
 using DictionaryBack.DAL;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,12 @@ namespace DictionaryBack.BL.Command
 
     public class WordEditHandler : BaseCommand, IWordEditHandler
     {
-        public WordEditHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService) { }
+        private readonly ILogger<WordEditHandler> _logger;
+
+        public WordEditHandler(DictionaryContext dictionaryContext, ITranslationService translationService, ILogger<WordEditHandler> logger, IWordsPublisher wordsPublisher) : base(dictionaryContext, translationService, wordsPublisher)
+        {
+            this._logger = logger;
+        }
 
         public async Task<OperationResult<WordDto>> Edit(WordEditModel request)
         {
@@ -35,6 +42,7 @@ namespace DictionaryBack.BL.Command
                     if (editResult.IsSuccessful())
                     {
                         await DictionaryContext.SaveChangesAsync();
+                        await WordsPublisher.PublishChangedWord(existingWord);
                         return OperationResultExt.Success(Mapper.Map(existingWord));
                     }
                     return editResult;
@@ -43,7 +51,7 @@ namespace DictionaryBack.BL.Command
             }
             catch (Exception ex)
             {
-                // TODO log
+                _logger.LogError(ex.Message);
                 return OperationResultExt.Fail<WordDto>(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError), ex.Message);
             }
         }

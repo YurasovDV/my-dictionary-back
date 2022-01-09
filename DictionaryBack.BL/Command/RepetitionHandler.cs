@@ -6,6 +6,7 @@ using DictionaryBack.Common.Localization;
 using DictionaryBack.Common.Queue;
 using DictionaryBack.DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
@@ -25,14 +26,17 @@ namespace DictionaryBack.BL.Command
     {
         private readonly DictionaryApiSettings _settings;
         private readonly IRepetitionResultsPublisher _repetitionResultsPublisher;
+        private readonly ILogger<RepetitionHandler> _logger;
 
         public RepetitionHandler(DictionaryContext dictionaryContext, 
             ITranslationService translationService,
             IRepetitionResultsPublisher repetitionResultsPublisher,
-            IOptions<DictionaryApiSettings> options) : base(dictionaryContext, translationService)
+            IOptions<DictionaryApiSettings> options,
+            ILogger<RepetitionHandler> logger) : base(dictionaryContext, translationService, null /* TODO: fix hierarchy */)
         {
             _settings = options.Value;
             _repetitionResultsPublisher = repetitionResultsPublisher;
+            _logger = logger;
         }
 
         public async Task<OperationResult<WordDto[]>> CreateSet()
@@ -84,13 +88,13 @@ namespace DictionaryBack.BL.Command
 
                 await DictionaryContext.SaveChangesAsync();
 
-                // _repetitionResultsPublisher.
+                await _repetitionResultsPublisher.PublishResult(wordsRepetitionResults);
 
                 return OperationResultExt.BoolSuccess();
             }
             catch (Exception ex)
             {
-                // TODO log
+                _logger.LogError(ex.Message);
                 return OperationResultExt.BoolFail(CommandStatus.InternalError, TranslationService.GetTranslation(ErrorKey.InternalError), ex.Message);
             }
         }

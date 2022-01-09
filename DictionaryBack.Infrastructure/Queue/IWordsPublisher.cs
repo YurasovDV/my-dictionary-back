@@ -1,10 +1,10 @@
-﻿using DictionaryBack.Common.DTOs.Query;
+﻿using DictionaryBack.Common.Entities;
 using System.Threading.Tasks;
 
 namespace DictionaryBack.Common.Queue
 {
     public interface IWordsPublisher
     {
-        Task PublishChangedWord(WordDto wordDto);
+        Task PublishChangedWord(Word word);
     }
 }

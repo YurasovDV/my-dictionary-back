@@ -1,5 +1,8 @@
 ﻿using DictionaryBack.Common.DTOs.Query;
+using DictionaryBack.Common.Entities;
 using DictionaryBack.Common.Queue;
+using DictionaryBack.Messages;
+using DictionaryBack.Queue.Implementation.Messages;
 using MassTransit;
 using System;
 using System.Collections.Generic;
@@ -18,9 +21,13 @@ namespace DictionaryBack.Queue.Implementation
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task PublishChangedWord(WordDto wordDto)
+        public async Task PublishChangedWord(Word word)
         {
-            await _publishEndpoint.Publish(wordDto);
+            await _publishEndpoint.Publish<WordMessage>(new WordMessageImpl()
+            { 
+                IsDeleted = word.IsDeleted,
+                Term = word.Term
+            });
         }
     }
 }

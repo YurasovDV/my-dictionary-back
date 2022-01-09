@@ -1,4 +1,4 @@
-﻿namespace DictionaryBack.Contracts
+﻿namespace DictionaryBack.Messages
 {
     public interface WordMessage
     {

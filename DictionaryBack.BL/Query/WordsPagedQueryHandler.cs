@@ -5,6 +5,7 @@ using DictionaryBack.Common.Localization;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -27,16 +28,19 @@ namespace DictionaryBack.BL.Query
         private readonly DictionaryContext _dictionaryContext;
         private readonly IDapperFacade _dapperFacade;
         private readonly ITranslationService _translationService;
+        private readonly ILogger<WordsPagedQueryHandler> _logger;
         private readonly DictionaryApiSettings _settings;
 
         public WordsPagedQueryHandler(DictionaryContext dictionaryContext, 
             IDapperFacade dapperFacade, 
             ITranslationService translationService,
-            IOptions<DictionaryApiSettings> options)
+            IOptions<DictionaryApiSettings> options,
+            ILogger<WordsPagedQueryHandler> logger)
         {
             _dictionaryContext = dictionaryContext;
             _dapperFacade = dapperFacade;
             _translationService = translationService;
+            _logger = logger;
             _settings = options.Value;
         }
 
@@ -66,7 +70,7 @@ namespace DictionaryBack.BL.Query
             }
             catch (Exception ex)
             {
-                // TODO log
+                _logger.LogError(ex.Message);
                 return OperationResultExt.Fail<PageData<WordDto>>(CommandStatus.InternalError, ex.Message);
             }
         }

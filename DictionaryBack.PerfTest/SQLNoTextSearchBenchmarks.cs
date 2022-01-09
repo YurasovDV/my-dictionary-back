@@ -51,7 +51,7 @@ namespace DictionaryBack.PerfTest
             var dapperFacade = new DapperPgFacade(Configuration);
             var opts = Options.Create(new DictionaryApiSettings() { MaxWordsInRequest = 1000, RepetitionSetSize = 30 });
 
-            var topicReadHandler = new WordsPagedQueryHandler(dictionaryContext, dapperFacade, new TranslationService(), opts);
+            var topicReadHandler = new WordsPagedQueryHandler(dictionaryContext, dapperFacade, new TranslationService(), opts, null);
             var page = await topicReadHandler.GetPageNoTrackingAsync(r);
             Console.WriteLine(page.StatusCode);
         }
@@ -65,7 +65,7 @@ namespace DictionaryBack.PerfTest
 
             var opts = Options.Create(new DictionaryApiSettings() { MaxWordsInRequest = 1000, RepetitionSetSize = 30 });
 
-            var topicReadHandler = new WordsPagedQueryHandler(dictionaryContext, dapperFacade, new TranslationService(), opts);
+            var topicReadHandler = new WordsPagedQueryHandler(dictionaryContext, dapperFacade, new TranslationService(), opts, null);
             var page = await topicReadHandler.GetPageDapperAsync(r);
             Console.WriteLine(page.StatusCode);
         }

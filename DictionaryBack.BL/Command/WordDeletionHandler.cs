@@ -1,5 +1,6 @@
 ﻿using DictionaryBack.Common;
 using DictionaryBack.Common.Localization;
+using DictionaryBack.Common.Queue;
 using DictionaryBack.DAL;
 using System;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace DictionaryBack.BL.Command
 
     public class WordDeletionHandler : BaseCommand, IWordDeletionHandler
     {
-        public WordDeletionHandler(DictionaryContext dictionaryContext, ITranslationService translationService) : base(dictionaryContext, translationService) { }
+        public WordDeletionHandler(DictionaryContext dictionaryContext, ITranslationService translationService, IWordsPublisher wordsPublisher) : base(dictionaryContext, translationService, wordsPublisher) { }
 
         public async Task<BoolOperationResult> Delete(string term)
         {
@@ -29,6 +30,7 @@ namespace DictionaryBack.BL.Command
                 {
                     wordExisting.IsDeleted = true;
                     DictionaryContext.SaveChanges();
+                    await WordsPublisher.PublishChangedWord(wordExisting);
                     return OperationResultExt.BoolSuccess();
                 }
 

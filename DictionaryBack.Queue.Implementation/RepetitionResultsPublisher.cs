@@ -1,10 +1,8 @@
 ﻿using DictionaryBack.Common.DTOs.Command;
 using DictionaryBack.Common.Queue;
+using DictionaryBack.Messages;
+using DictionaryBack.Queue.Implementation.Messages;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DictionaryBack.Queue.Implementation
@@ -20,7 +18,10 @@ namespace DictionaryBack.Queue.Implementation
 
         public async Task PublishResult(WordRepetitionResult[] wordsRepetitionResults)
         {
-            throw new NotImplementedException();
+            await _publishEndpoint.Publish<RepetitionEndedMessage>(new RepetitionEndedMessageImpl()
+            { 
+                WordsRepetitionResults = wordsRepetitionResults,
+            });
         }
     }
 }
