@@ -7,7 +7,8 @@ using System.Text.Json;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using HtmlAgilityPack;
-using DictionaryBack.Domain;
+using DictionaryBack.Common.Entities;
+using DictionaryBack.Common;
 
 namespace DictionaryBack.DictExtractor
 {

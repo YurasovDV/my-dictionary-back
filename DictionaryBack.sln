@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Extractor", "DictExtractor\DictionaryBack.Extractor.csproj", "{9F7FD7FD-ECDC-41AE-8895-2BE36397D594}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Domain", "DictionaryBack.Domain\DictionaryBack.Domain.csproj", "{1F7AD3AF-8CB2-415C-AA4D-AD537DC24F21}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.API", "DictionaryBack.API\DictionaryBack.API.csproj", "{6DEECEA0-4C3C-4FDE-A514-BEED6636F7CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.DAL", "DictionaryBack.DAL\DictionaryBack.DAL.csproj", "{C4D857A9-E8BB-4D13-BD48-9EFE9BB13971}"
@@ -17,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A30D57C3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Tests", "DictionaryBack.Tests\DictionaryBack.Tests.csproj", "{9B0438E1-F467-4BDF-A9B9-E5FBB0229552}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Infrastructure", "DictionaryBack.Infrastructure\DictionaryBack.Infrastructure.csproj", "{431FBD97-CE0D-4036-9AB4-7653F203FFE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.Common", "DictionaryBack.Infrastructure\DictionaryBack.Common.csproj", "{431FBD97-CE0D-4036-9AB4-7653F203FFE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.CompositionRoot", "DictionaryBack.CompositionRoot\DictionaryBack.CompositionRoot.csproj", "{D3D6819D-0925-41A1-9738-7D63114C7FB8}"
 EndProject
@@ -31,6 +29,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.PerfTest", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DictionaryBack.ErrorMessages", "DictionaryBack.ErrorMessages\DictionaryBack.ErrorMessages.csproj", "{6B2C45C9-EA4C-4664-9AD2-637E0CACA8FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBack.Queue.Implementation", "DictionaryBack.Queue.Implementation\DictionaryBack.Queue.Implementation.csproj", "{2021A9C8-944F-4190-9F19-D164B84EFC73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBack.Contracts", "DictionaryBack.Contracts\DictionaryBack.Contracts.csproj", "{94CBF773-C995-45F3-B607-9F81BA306072}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +43,6 @@ Global
 		{9F7FD7FD-ECDC-41AE-8895-2BE36397D594}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F7FD7FD-ECDC-41AE-8895-2BE36397D594}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F7FD7FD-ECDC-41AE-8895-2BE36397D594}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F7AD3AF-8CB2-415C-AA4D-AD537DC24F21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F7AD3AF-8CB2-415C-AA4D-AD537DC24F21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F7AD3AF-8CB2-415C-AA4D-AD537DC24F21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F7AD3AF-8CB2-415C-AA4D-AD537DC24F21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DEECEA0-4C3C-4FDE-A514-BEED6636F7CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DEECEA0-4C3C-4FDE-A514-BEED6636F7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DEECEA0-4C3C-4FDE-A514-BEED6636F7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,6 +75,14 @@ Global
 		{6B2C45C9-EA4C-4664-9AD2-637E0CACA8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B2C45C9-EA4C-4664-9AD2-637E0CACA8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B2C45C9-EA4C-4664-9AD2-637E0CACA8FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2021A9C8-944F-4190-9F19-D164B84EFC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2021A9C8-944F-4190-9F19-D164B84EFC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2021A9C8-944F-4190-9F19-D164B84EFC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2021A9C8-944F-4190-9F19-D164B84EFC73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94CBF773-C995-45F3-B607-9F81BA306072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94CBF773-C995-45F3-B607-9F81BA306072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94CBF773-C995-45F3-B607-9F81BA306072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94CBF773-C995-45F3-B607-9F81BA306072}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

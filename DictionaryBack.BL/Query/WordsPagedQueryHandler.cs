@@ -1,8 +1,9 @@
-﻿using DictionaryBack.DAL;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Query;
+using DictionaryBack.Common.Entities;
+using DictionaryBack.Common.Localization;
+using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
-using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.DTOs.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;

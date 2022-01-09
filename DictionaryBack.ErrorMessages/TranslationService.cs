@@ -1,4 +1,4 @@
-﻿using DictionaryBack.Infrastructure;
+﻿using DictionaryBack.Common.Localization;
 using System.Collections.Generic;
 
 namespace DictionaryBack.ErrorMessages

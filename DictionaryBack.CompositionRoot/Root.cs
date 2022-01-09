@@ -1,10 +1,11 @@
 ﻿using DictionaryBack.BL.Command;
 using DictionaryBack.BL.Query;
 using DictionaryBack.BL.Seeding;
+using DictionaryBack.Common.Localization;
 using DictionaryBack.DAL;
 using DictionaryBack.DAL.Dapper;
 using DictionaryBack.ErrorMessages;
-using DictionaryBack.Infrastructure;
+using DictionaryBack.Queue;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +15,9 @@ namespace DictionaryBack.CompositionRoot
 {
     public static class Root
     {
-        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopment)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopment, Common.RabbitSettings opts)
         {
+            QueueDependencyInjectionModule.Init(services, configuration, opts);
             DAL(services, configuration, isDevelopment);
             BL(services);
         }

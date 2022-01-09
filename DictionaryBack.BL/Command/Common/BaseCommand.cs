@@ -1,5 +1,5 @@
-﻿using DictionaryBack.DAL;
-using DictionaryBack.Infrastructure;
+﻿using DictionaryBack.Common.Localization;
+using DictionaryBack.DAL;
 
 namespace DictionaryBack.BL.Command
 {

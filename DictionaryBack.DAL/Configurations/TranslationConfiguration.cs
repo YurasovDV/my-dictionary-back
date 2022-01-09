@@ -1,4 +1,4 @@
-﻿using DictionaryBack.Domain;
+﻿using DictionaryBack.Common.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

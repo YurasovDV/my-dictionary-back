@@ -1,10 +1,11 @@
-﻿using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure.DTOs.Command;
-using DictionaryBack.Infrastructure.DTOs.Query;
+﻿using DictionaryBack.Common.DTOs.Command;
+using DictionaryBack.Common.DTOs.Query;
+using DictionaryBack.Common.Entities;
+using DictionaryBack.Common.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DictionaryBack.Infrastructure
+namespace DictionaryBack.Common
 {
     public static class Mapper
     {

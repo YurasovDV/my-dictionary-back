@@ -1,4 +1,4 @@
-﻿namespace DictionaryBack.Infrastructure.DTOs.Query
+﻿namespace DictionaryBack.Common.DTOs.Query
 {
     public class WordsByTopicRequest
     {

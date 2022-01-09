@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DictionaryBack.Infrastructure
+namespace DictionaryBack.Common
 {
     // TODO: use separate model for tests or generated client
     public class OperationResult<T>

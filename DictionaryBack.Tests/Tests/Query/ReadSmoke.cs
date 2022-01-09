@@ -1,6 +1,6 @@
 ﻿using DictionaryBack.API;
-using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.DTOs.Query;
+using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Query;
 using DictionaryBack.Tests.TestsInfrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

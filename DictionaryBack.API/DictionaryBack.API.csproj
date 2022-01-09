@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DictionaryBack.BL\DictionaryBack.BL.csproj" />
     <ProjectReference Include="..\DictionaryBack.CompositionRoot\DictionaryBack.CompositionRoot.csproj" />
-    <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
   </ItemGroup>
 
 </Project>

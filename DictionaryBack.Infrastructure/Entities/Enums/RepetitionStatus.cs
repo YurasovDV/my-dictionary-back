@@ -1,4 +1,4 @@
-﻿namespace DictionaryBack.Domain
+﻿namespace DictionaryBack.Common.Enums
 {
     public enum RepetitionStatus
     {

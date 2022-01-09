@@ -1,5 +1,4 @@
 ﻿using DictionaryBack.API;
-using DictionaryBack.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -8,9 +7,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using DictionaryBack.Tests.TestsInfrastructure;
-using DictionaryBack.Infrastructure.DTOs.Query;
-using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure.DTOs.Command;
+using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Query;
+using DictionaryBack.Common.DTOs.Command;
+using DictionaryBack.Common.Enums;
 
 namespace DictionaryBack.Tests
 {

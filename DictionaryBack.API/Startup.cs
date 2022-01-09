@@ -1,11 +1,12 @@
+using DictionaryBack.Common;
 using DictionaryBack.CompositionRoot;
-using DictionaryBack.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Text.Json;
 
@@ -50,8 +51,14 @@ namespace DictionaryBack.API
             AddSwagger(services);
 
             services.AddOptions<DictionaryApiSettings>().BindConfiguration("DictionaryApiSettings");
+            services.AddOptions<RabbitSettings>().BindConfiguration("RabbitSettings");
 
-            Root.ConfigureServices(services, Configuration, _env.IsDevelopment());
+
+            var serviceProvider = services.BuildServiceProvider();
+            var opts = serviceProvider.GetRequiredService<IOptions<RabbitSettings>>().Value;
+            serviceProvider.Dispose();
+
+            Root.ConfigureServices(services, Configuration, _env.IsDevelopment(), opts);
         }
 
         private static void AddSwagger(IServiceCollection services)

@@ -1,5 +1,6 @@
-﻿using DictionaryBack.DAL;
-using DictionaryBack.Infrastructure;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.Localization;
+using DictionaryBack.DAL;
 using System;
 using System.Threading.Tasks;
 

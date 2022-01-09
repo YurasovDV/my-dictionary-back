@@ -1,5 +1,7 @@
-﻿using DictionaryBack.DAL;
-using DictionaryBack.Domain;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.Entities;
+using DictionaryBack.Common.Enums;
+using DictionaryBack.DAL;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;

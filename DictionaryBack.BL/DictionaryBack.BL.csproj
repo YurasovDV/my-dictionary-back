@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DictionaryBack.DAL\DictionaryBack.DAL.csproj" />
-    <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿
-namespace DictionaryBack.Infrastructure
+﻿namespace DictionaryBack.Common
 {
     public static class OperationResultExt
     {

@@ -1,8 +1,8 @@
-﻿using DictionaryBack.Domain;
+﻿using DictionaryBack.Common.Enums;
 using System;
 using System.Linq;
 
-namespace DictionaryBack.Infrastructure.DTOs.Query
+namespace DictionaryBack.Common.DTOs.Query
 {
     // nq = no quotes
     [System.Diagnostics.DebuggerDisplay("DebuggerDisplay,nq")]
@@ -17,6 +17,7 @@ namespace DictionaryBack.Infrastructure.DTOs.Query
         public WordStatus Status { get; set; }
 
         public RepetitionStatus RepetitionStatus { get; set; }
+
         public DateTime? LastRepetition { get; set; }
 
         private string DebuggerDisplay

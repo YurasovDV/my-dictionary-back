@@ -1,4 +1,4 @@
-﻿namespace DictionaryBack.Domain
+﻿namespace DictionaryBack.Common.Entities
 {
     public class Translation
     {

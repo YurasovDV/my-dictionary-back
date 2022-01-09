@@ -1,6 +1,6 @@
-﻿using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure.DTOs.Command;
-using DictionaryBack.Infrastructure.DTOs.Query;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Command;
+using DictionaryBack.Common.DTOs.Query;
 using System;
 
 namespace DictionaryBack.Tests.TestsInfrastructure

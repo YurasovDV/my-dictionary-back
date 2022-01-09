@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace DictionaryBack.Infrastructure
+namespace DictionaryBack.Common
 {
     public static class PageDataExt
     {

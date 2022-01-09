@@ -1,4 +1,4 @@
-﻿namespace DictionaryBack.Infrastructure
+﻿namespace DictionaryBack.Common
 {
     public enum CommandStatus
     {

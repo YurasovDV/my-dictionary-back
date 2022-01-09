@@ -1,6 +1,6 @@
 ﻿using DictionaryBack.BL.Query;
-using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.DTOs.Query;
+using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;

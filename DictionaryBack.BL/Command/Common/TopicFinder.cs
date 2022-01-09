@@ -1,6 +1,7 @@
-﻿using DictionaryBack.DAL;
-using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.Entities;
+using DictionaryBack.Common.Localization;
+using DictionaryBack.DAL;
 using System;
 using System.Linq;
 

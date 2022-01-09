@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using DictionaryBack.Common.Entities;
 
-namespace DictionaryBack.Domain
+namespace DictionaryBack.Common
 {
     public class TranslationsComparer : IEqualityComparer<Translation>
     {

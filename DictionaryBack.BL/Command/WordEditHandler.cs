@@ -1,8 +1,9 @@
-﻿using DictionaryBack.DAL;
-using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.DTOs.Command;
-using DictionaryBack.Infrastructure.DTOs.Query;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Command;
+using DictionaryBack.Common.DTOs.Query;
+using DictionaryBack.Common.Entities;
+using DictionaryBack.Common.Localization;
+using DictionaryBack.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;

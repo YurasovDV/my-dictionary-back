@@ -11,9 +11,9 @@
   <ItemGroup>
     <ProjectReference Include="..\DictionaryBack.BL\DictionaryBack.BL.csproj" />
     <ProjectReference Include="..\DictionaryBack.DAL\DictionaryBack.DAL.csproj" />
-    <ProjectReference Include="..\DictionaryBack.Domain\DictionaryBack.Domain.csproj" />
     <ProjectReference Include="..\DictionaryBack.ErrorMessages\DictionaryBack.ErrorMessages.csproj" />
-    <ProjectReference Include="..\DictionaryBack.Infrastructure\DictionaryBack.Infrastructure.csproj" />
+    <ProjectReference Include="..\DictionaryBack.Infrastructure\DictionaryBack.Common.csproj" />
+    <ProjectReference Include="..\DictionaryBack.Queue.Implementation\DictionaryBack.Queue.Implementation.csproj" />
   </ItemGroup>
 
 </Project>

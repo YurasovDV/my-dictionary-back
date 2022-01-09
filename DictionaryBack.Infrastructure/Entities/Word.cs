@@ -1,7 +1,8 @@
-﻿using System;
+﻿using DictionaryBack.Common.Enums;
+using System;
 using System.Collections.Generic;
 
-namespace DictionaryBack.Domain
+namespace DictionaryBack.Common.Entities
 {
     public class Word
     {

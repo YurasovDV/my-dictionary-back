@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DictionaryBack.Infrastructure\DictionaryBack.Infrastructure.csproj" />
+    <ProjectReference Include="..\DictionaryBack.Infrastructure\DictionaryBack.Common.csproj" />
   </ItemGroup>
 
 </Project>

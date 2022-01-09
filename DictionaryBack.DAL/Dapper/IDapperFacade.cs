@@ -1,6 +1,6 @@
-﻿using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.DTOs.Query;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Query;
+using DictionaryBack.Common.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

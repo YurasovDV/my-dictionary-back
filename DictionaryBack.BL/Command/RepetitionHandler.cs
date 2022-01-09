@@ -1,8 +1,10 @@
-﻿using DictionaryBack.DAL;
-using DictionaryBack.Domain;
-using DictionaryBack.Infrastructure;
-using DictionaryBack.Infrastructure.DTOs.Command;
-using DictionaryBack.Infrastructure.DTOs.Query;
+﻿using DictionaryBack.Common;
+using DictionaryBack.Common.DTOs.Command;
+using DictionaryBack.Common.DTOs.Query;
+using DictionaryBack.Common.Enums;
+using DictionaryBack.Common.Localization;
+using DictionaryBack.Common.Queue;
+using DictionaryBack.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -22,12 +24,15 @@ namespace DictionaryBack.BL.Command
     public class RepetitionHandler : BaseCommand, IRepetitionHandler
     {
         private readonly DictionaryApiSettings _settings;
+        private readonly IRepetitionResultsPublisher _repetitionResultsPublisher;
 
         public RepetitionHandler(DictionaryContext dictionaryContext, 
             ITranslationService translationService,
+            IRepetitionResultsPublisher repetitionResultsPublisher,
             IOptions<DictionaryApiSettings> options) : base(dictionaryContext, translationService)
         {
             _settings = options.Value;
+            _repetitionResultsPublisher = repetitionResultsPublisher;
         }
 
         public async Task<OperationResult<WordDto[]>> CreateSet()
@@ -78,6 +83,8 @@ namespace DictionaryBack.BL.Command
                 }
 
                 await DictionaryContext.SaveChangesAsync();
+
+                // _repetitionResultsPublisher.
 
                 return OperationResultExt.BoolSuccess();
             }

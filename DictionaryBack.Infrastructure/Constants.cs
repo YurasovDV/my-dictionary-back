@@ -1,4 +1,4 @@
-﻿namespace DictionaryBack.Domain
+﻿namespace DictionaryBack.Common
 {
     public static class Constants
     {
