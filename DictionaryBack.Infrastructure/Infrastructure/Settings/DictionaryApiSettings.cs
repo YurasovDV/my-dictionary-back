@@ -11,5 +11,7 @@
         /// Words count in one repetition set
         /// </summary>
         public int RepetitionSetSize { get; set; }
+
+        public static readonly string SectionName = "DictionaryApiSettings";
     }
 }

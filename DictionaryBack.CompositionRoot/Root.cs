@@ -15,9 +15,9 @@ namespace DictionaryBack.CompositionRoot
 {
     public static class Root
     {
-        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopment, Common.RabbitSettings opts)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, bool isDevelopment)
         {
-            QueueDependencyInjectionModule.Init(services, configuration, opts);
+            QueueDependencyInjectionModule.Init(services, configuration);
             DAL(services, configuration, isDevelopment);
             BL(services);
         }

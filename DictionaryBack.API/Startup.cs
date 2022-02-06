@@ -50,15 +50,10 @@ namespace DictionaryBack.API
 
             AddSwagger(services);
 
-            services.AddOptions<DictionaryApiSettings>().BindConfiguration("DictionaryApiSettings");
-            services.AddOptions<RabbitSettings>().BindConfiguration("RabbitSettings");
+            services.AddOptions<DictionaryApiSettings>().BindConfiguration(DictionaryApiSettings.SectionName);
+            services.AddOptions<RabbitSettings>().BindConfiguration(RabbitSettings.SectionName);
 
-
-            var serviceProvider = services.BuildServiceProvider();
-            var opts = serviceProvider.GetRequiredService<IOptions<RabbitSettings>>().Value;
-            serviceProvider.Dispose();
-
-            Root.ConfigureServices(services, Configuration, _env.IsDevelopment(), opts);
+            Root.ConfigureServices(services, Configuration, _env.IsDevelopment());
         }
 
         private static void AddSwagger(IServiceCollection services)
